@@ -1,3 +1,10 @@
+.DS_Store
+dist
+lib
+es
+.idea/
+.rts2*
+
 # Logs
 logs
 *.log

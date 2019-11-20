@@ -1,0 +1,64 @@
+{
+  "name": "@ambroseus/dck-store",
+  "version": "1.0.0",
+  "description": "Redux-based framework to get rid of CRUD-related boilerplate",
+  "repository": "https://github.com/ambroseus/dck-store",
+  "keywords": [
+    "redux",
+    "react",
+    "toolkit",
+    "immer",
+    "dck"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "module": "dist/dck-store.esm.js",
+  "types": "dist/index.d.ts",
+  "author": "Eugene Samonenko <esamonenko@agilevision.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.1",
+    "@types/redux-immutable-state-invariant": "^2.1.1",
+    "eslint-config-react-app": "^5.0.2",
+    "prettier": "^1.19.1",
+    "react": "^16.12.0",
+    "rollup-plugin-strip-code": "^0.2.7",
+    "tsdx": "^0.11.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.2",
+    "typings-tester": "^0.3.2"
+  },
+  "scripts": {
+    "build": "tsdx build --format cjs,esm --name dck-store",
+    "dev": "tsdx watch  --format cjs,esm",
+    "format": "prettier --write \"src/*.ts\" \"**/*.md\"",
+    "format:check": "prettier --list-different \"src/*.ts\" \"**/*.md\"",
+    "lint": "tsdx lint src",
+    "prepare": "npm run lint && npm run format:check && npm test && npm run build",
+    "test": "tsdx test"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.js.map",
+    "dist/index.d.ts",
+    "src"
+  ],
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.0.4"
+  },
+  "sideEffects": false,
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "ignoreCodes": [
+            6133
+          ]
+        }
+      }
+    }
+  }
+}
