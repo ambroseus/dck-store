@@ -31,7 +31,7 @@ export function updateItemById(state: State, action: Action): State {
   if (!Array.isArray(item.items)) return state
 
   const items = [...item.items]
-  const itemIndex = items.findIndex(el => el.id === id)
+  const itemIndex = items.findIndex(el => String(el.id) === String(id))
   if (itemIndex === -1) return state
 
   items[itemIndex] = data
