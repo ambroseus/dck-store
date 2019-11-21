@@ -14,8 +14,3 @@ export interface Action {
     field: string
   }
 }
-
-export interface SelectorProps {
-  itemId: string
-  itemType: string
-}
