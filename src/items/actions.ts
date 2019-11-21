@@ -17,3 +17,7 @@ export function setItemData(
 ): Action {
   return composeAction(ActionTypes.setItemData)({ itemType, field, data })
 }
+
+export function makeActiveItem(itemType: string, id: string): Action {
+  return composeAction(ActionTypes.makeActiveItem)({ itemType, id })
+}
