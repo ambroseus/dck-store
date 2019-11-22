@@ -1,0 +1,85 @@
+import { State } from '../types'
+import {
+  getItems,
+  getItem,
+  getItemData,
+  getActiveItemId,
+  getActiveItem
+} from './selectors'
+
+const state: State = {
+  dck: {
+    items: {
+      testItem: {
+        testField: 'testData',
+        items: [
+          { id: '2', data: 'testData2' },
+          { id: '1', data: 'testData1' }
+        ],
+        itemIndex: { '2': 0, '1': 1 },
+        activeItemId: '1'
+      }
+    }
+  }
+}
+
+describe('items selectors', () => {
+  describe('selector [getItems]', () => {
+    it('should return data for given itemType', () => {
+      const result = getItems(state, 'testItem')
+      expect(result).toEqual([
+        { id: '2', data: 'testData2' },
+        { id: '1', data: 'testData1' }
+      ])
+    })
+    it('should return undefined for unknown itemType', () => {
+      const result = getItems(state, 'fakeItem')
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe('selector [getItem]', () => {
+    it('should return data for given itemType & id', () => {
+      const result = getItem(state, 'testItem', '1')
+      expect(result).toEqual({ id: '1', data: 'testData1' })
+    })
+    it('should return undefined for unknown itemType', () => {
+      const result = getItem(state, 'fakeItem', '1')
+      expect(result).toBeUndefined()
+    })
+    it('should return undefined for unknown item id', () => {
+      const result = getItem(state, 'testItem', '0')
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe('selector [getItemData]', () => {
+    it('should return data for given itemType & field', () => {
+      const result = getItemData(state, 'testItem', 'testField')
+      expect(result).toEqual('testData')
+    })
+    it('should return undefined for unknown itemType', () => {
+      const result = getItemData(state, 'fakeItem', 'testField')
+      expect(result).toBeUndefined()
+    })
+    it('should return undefined for unknown field', () => {
+      const result = getItemData(state, 'testItem', 'fakeField')
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe('selectors [getActiveItem, getActiveItemId]', () => {
+    it('should return active item/id for given itemType', () => {
+      const id = getActiveItemId(state, 'testItem')
+      expect(id).toEqual('1')
+      const result = getActiveItem(state, 'testItem')
+      expect(result).toEqual({ id: '1', data: 'testData1' })
+    })
+    it('should return undefined for unknown itemType', () => {
+      const id = getActiveItemId(state, 'fakeItem')
+      expect(id).toBeUndefined()
+      const result = getActiveItem(state, 'fakeItem')
+      expect(result).toBeUndefined()
+    })
+  })
+})
