@@ -7,15 +7,13 @@ export const dckReducer = createReducer(
   {
     //items
     [ActionTypes.setItems]: reducers.setItems,
-    [ActionTypes.updateItem]: reducers.updateItem,
-    [ActionTypes.addItem]: reducers.addItem,
-    [ActionTypes.deleteItem]: reducers.deleteItem,
+    [ActionTypes.setItem]: reducers.setItem,
+    [ActionTypes.removeItem]: reducers.removeItem,
     [ActionTypes.setItemData]: reducers.setItemData,
     [ActionTypes.setActiveItem]: reducers.setActiveItem,
     //filters
     [ActionTypes.setFilters]: reducers.setItems,
-    [ActionTypes.updateFilter]: reducers.updateItem,
-    [ActionTypes.addFilter]: reducers.addItem,
-    [ActionTypes.deleteFilter]: reducers.deleteItem
+    [ActionTypes.setFilter]: reducers.setItem,
+    [ActionTypes.removeFilter]: reducers.removeItem
   }
 )

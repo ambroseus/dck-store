@@ -1,12 +1,12 @@
 export enum ActionTypes {
+  // items
   setItems = 'dck:setItems',
-  updateItem = 'dck:updateItem',
-  addItem = 'dck:addItem',
-  deleteItem = 'dck:deleteItem',
+  setItem = 'dck:setItem',
+  removeItem = 'dck:removeItem',
   setItemData = 'dck:setItemData',
   setActiveItem = 'dck:setActiveItem',
+  // filters
   setFilters = 'dck:setFilters',
-  addFilter = 'dck:addFilter',
-  updateFilter = 'dck:updateFilter',
-  deleteFilter = 'dck:deleteFilter'
+  setFilter = 'dck:setFilter',
+  removeFilter = 'dck:removeFilter'
 }

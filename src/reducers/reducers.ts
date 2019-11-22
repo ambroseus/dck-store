@@ -16,7 +16,7 @@ export const reducers: any = {
     state = updateItemByField(state, action, 'itemIndex')
   },
 
-  updateItem: (state: State, action: Action) =>
+  setItem: (state: State, action: Action) =>
     (state = updateItemById(state, action)),
 
   setItemData: (state: State, action: Action) =>
@@ -30,10 +30,10 @@ function updateItemByField(state: State, action: Action, field: string): State {
   const { meta, payload } = action
   const { itemType } = meta
   const { data } = payload
-  const item = state[itemType] ? { ...state[itemType] } : {}
+  const itemState = state[itemType] ? { ...state[itemType] } : {}
 
-  item[field] = data
-  state[itemType] = item
+  itemState[field] = data
+  state[itemType] = itemState
   return state
 }
 
@@ -41,11 +41,24 @@ function updateItemById(state: State, action: Action): State {
   const { meta, payload } = action
   const { itemType } = meta
   const { id, data } = payload
-  const itemState = state[itemType] ? { ...state[itemType] } : {}
-  const { items, itemIndex } = itemState
-  if (!Array.isArray(items) || !itemIndex) return state
+  if (!id) return state
 
-  const index = itemIndex[String(id)]
-  if (index !== void 0) items[index] = data
+  const itemState = state[itemType] ? { ...state[itemType] } : {}
+  let { items, itemIndex } = itemState
+  const index = itemIndex ? itemIndex[String(id)] : void 0
+
+  if (index !== void 0 && Array.isArray(items)) {
+    // update existing item
+    items[index] = data
+  } else {
+    // append new item
+    if (!Array.isArray(items)) items = []
+    if (!itemIndex) itemIndex = {}
+    itemIndex[String(id)] = items.length
+    items.push(data)
+    itemState.items = items
+    itemState.itemIndex = itemIndex
+    state[itemType] = itemState
+  }
   return state
 }

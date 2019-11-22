@@ -4,27 +4,16 @@ import { composeAction } from './helpers'
 
 // core action creators for items
 
-export function setItems(itemType: string, data: any[]): Action {
+export function setItems(itemType: string, data?: any[]): Action {
   return composeAction(ActionTypes.setItems)({ itemType, data })
 }
 
-export function updateItem(itemType: string, id: string, data: any): Action {
-  return composeAction(ActionTypes.updateItem)({ itemType, id, data })
+export function setItem(itemType: string, id: string, data: any): Action {
+  return composeAction(ActionTypes.setItem)({ itemType, id, data })
 }
 
-export function addItem(itemType: string, id: string, data: any): Action {
-  return composeAction(ActionTypes.addItem)({
-    itemType,
-    id,
-    data
-  })
-}
-
-export function deleteItem(itemType: string, id: string): Action {
-  return composeAction(ActionTypes.deleteItem)({
-    itemType,
-    id
-  })
+export function removeItem(itemType: string, id: string, data: any): Action {
+  return composeAction(ActionTypes.removeItem)({ itemType, id, data })
 }
 
 export function setItemData(

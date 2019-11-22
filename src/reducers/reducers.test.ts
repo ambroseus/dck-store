@@ -1,10 +1,5 @@
 import { State } from '../types'
-import {
-  setItems,
-  setItemData,
-  updateItem,
-  setActiveItem
-} from '../actions/items'
+import { setItems, setItemData, setItem, setActiveItem } from '../actions/items'
 import { dckReducer } from './index'
 
 describe('items reducer', () => {
@@ -110,7 +105,7 @@ describe('items reducer', () => {
     })
   })
 
-  describe('for action [updateItem]', () => {
+  describe('for action [setItem]', () => {
     it('should immutable update state', () => {
       const stateBefore: State = {
         item: {},
@@ -137,7 +132,7 @@ describe('items reducer', () => {
 
       const state: State = dckReducer(
         stateBefore,
-        updateItem('testItem', '1', { id: '1', data: 'updated' })
+        setItem('testItem', '1', { id: '1', data: 'updated' })
       )
 
       expect(state).toEqual(stateAfter)
@@ -157,30 +152,37 @@ describe('items reducer', () => {
       expect(state.testItem.testField).toBe(stateBefore.testItem.testField)
     })
 
-    it('should not update state if item not found', () => {
+    it('should append item if item not found', () => {
       let stateBefore: State = {}
+      let stateAfter: State = {
+        testItem: {
+          items: [{ id: '1', data: 'testData1' }],
+          itemIndex: { '1': 0 }
+        }
+      }
       let state: State = dckReducer(
         stateBefore,
-        updateItem('testItem', '1', {})
+        setItem('testItem', '1', { id: '1', data: 'testData1' })
       )
-      expect(state).toEqual(stateBefore)
-      expect(state).toBe(stateBefore)
+      expect(state).toEqual(stateAfter)
+      expect(state).not.toBe(stateBefore)
 
-      stateBefore = {
+      stateBefore = stateAfter
+      stateAfter = {
         testItem: {
           items: [
             { id: '1', data: 'testData1' },
             { id: '2', data: 'testData2' }
-          ]
+          ],
+          itemIndex: { '1': 0, '2': 1 }
         }
       }
-      state = dckReducer(stateBefore, updateItem('testItem', '', void 0))
-      expect(state).toEqual(stateBefore)
-      expect(state).toBe(stateBefore)
-
-      state = dckReducer(stateBefore, updateItem('testItem', '0', {}))
-      expect(state).toEqual(stateBefore)
-      expect(state).toBe(stateBefore)
+      state = dckReducer(
+        stateBefore,
+        setItem('testItem', '2', { id: '2', data: 'testData2' })
+      )
+      expect(state).toEqual(stateAfter)
+      expect(state).not.toBe(stateBefore)
     })
   })
 })
