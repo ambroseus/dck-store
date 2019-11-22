@@ -6,7 +6,7 @@ based on <https://github.com/AgileVisionCompany/dck/tree/master/packages/dck-red
 
 toolset:
 
-- TypeScript 3.7 (using optional chaining)
+- [TypeScript 3.7 (using optional chaining)](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html)
 - <https://redux.js.org>
 - <https://redux-toolkit.js.org>
 - <https://immerjs.github.io/immer>
