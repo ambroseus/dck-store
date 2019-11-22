@@ -5,20 +5,18 @@ import {
   getItemData,
   getActiveItemId,
   getActiveItem
-} from './selectors'
+} from './items'
 
 const state: State = {
   dck: {
-    items: {
-      testItem: {
-        testField: 'testData',
-        items: [
-          { id: '2', data: 'testData2' },
-          { id: '1', data: 'testData1' }
-        ],
-        itemIndex: { '2': 0, '1': 1 },
-        activeItemId: '1'
-      }
+    testItem: {
+      testField: 'testData',
+      items: [
+        { id: '2', data: 'testData2' },
+        { id: '1', data: 'testData1' }
+      ],
+      itemIndex: { '2': 0, '1': 1 },
+      activeItemId: '1'
     }
   }
 }

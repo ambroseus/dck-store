@@ -1,3 +1,3 @@
-export * from './items/actions'
-export * from './items/reducer'
-export * from './items/selectors'
+export * from './actions/items'
+export * from './selectors/items'
+export * from './reducers'

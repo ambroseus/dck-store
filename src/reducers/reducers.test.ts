@@ -1,11 +1,16 @@
 import { State } from '../types'
-import { setItems, setItemData, updateItem, setActiveItem } from './actions'
-import { itemsReducer } from './reducer'
+import {
+  setItems,
+  setItemData,
+  updateItem,
+  setActiveItem
+} from '../actions/items'
+import { dckReducer } from './index'
 
 describe('items reducer', () => {
   it('should handle initial state', () => {
     const action = { type: '' }
-    expect(itemsReducer(void 0, action)).toEqual({})
+    expect(dckReducer(void 0, action)).toEqual({})
   })
 
   describe('for action [setItems]', () => {
@@ -23,7 +28,7 @@ describe('items reducer', () => {
         }
       }
 
-      const state: State = itemsReducer(
+      const state: State = dckReducer(
         stateBefore,
         setItems('testItem', [{ id: '1', data: 'testData' }])
       )
@@ -58,7 +63,7 @@ describe('items reducer', () => {
         }
       }
 
-      const state: State = itemsReducer(
+      const state: State = dckReducer(
         stateBefore,
         setItemData('testItem', 'testField', {})
       )
@@ -90,10 +95,7 @@ describe('items reducer', () => {
         }
       }
 
-      let state: State = itemsReducer(
-        stateBefore,
-        setActiveItem('testItem', '1')
-      )
+      let state: State = dckReducer(stateBefore, setActiveItem('testItem', '1'))
 
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
@@ -103,7 +105,7 @@ describe('items reducer', () => {
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).toBe(stateBefore.testItem.items)
 
-      state = itemsReducer(stateBefore, setActiveItem('testItem'))
+      state = dckReducer(stateBefore, setActiveItem('testItem'))
       expect(state.testItem.activeItemId).toEqual(void 0)
     })
   })
@@ -133,7 +135,7 @@ describe('items reducer', () => {
         }
       }
 
-      const state: State = itemsReducer(
+      const state: State = dckReducer(
         stateBefore,
         updateItem('testItem', '1', { id: '1', data: 'updated' })
       )
@@ -157,7 +159,7 @@ describe('items reducer', () => {
 
     it('should not update state if item not found', () => {
       let stateBefore: State = {}
-      let state: State = itemsReducer(
+      let state: State = dckReducer(
         stateBefore,
         updateItem('testItem', '1', {})
       )
@@ -172,11 +174,11 @@ describe('items reducer', () => {
           ]
         }
       }
-      state = itemsReducer(stateBefore, updateItem('testItem', '', void 0))
+      state = dckReducer(stateBefore, updateItem('testItem', '', void 0))
       expect(state).toEqual(stateBefore)
       expect(state).toBe(stateBefore)
 
-      state = itemsReducer(stateBefore, updateItem('testItem', '0', {}))
+      state = dckReducer(stateBefore, updateItem('testItem', '0', {}))
       expect(state).toEqual(stateBefore)
       expect(state).toBe(stateBefore)
     })
