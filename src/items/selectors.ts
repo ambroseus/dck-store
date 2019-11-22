@@ -3,7 +3,7 @@ import { State } from '../types'
 const emptyState: State = {}
 
 function _getItemState(state: State, itemType: string): any {
-  return (state.dck && state.dck[itemType]) || emptyState
+  return state?.dck?.items?.[itemType] ?? emptyState
 }
 
 function _getItem(itemState: State, id: string): any {
