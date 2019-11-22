@@ -3,13 +3,15 @@ import { ActionTypes } from '../actionTypes'
 import { setItemData } from './actions'
 import { State, Action } from '../types'
 
+// case reducers are implicitly wrapped with immer
+// so we have "mutative" immutable update logic
 export const itemsReducer = createReducer(
   {},
   {
     [ActionTypes.setItems]: (state: State, action: Action) => {
       state = updateItemByField(state, action, 'items')
       const items = action.payload.data
-      if (!Array.isArray(items)) return
+      if (!Array.isArray(items)) return void 0
 
       const itemIndex: any = {}
       items.forEach((el, index) => (itemIndex[String(el.id)] = index))
