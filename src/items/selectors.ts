@@ -8,9 +8,9 @@ function _getItemState(state: State, itemType: string): any {
 
 function _getItem(itemState: State, id: string): any {
   const { items, itemIndex } = itemState
-  if (!Array.isArray(items) || !itemIndex) return undefined
+  if (!Array.isArray(items) || !itemIndex) return void 0
   const index = itemIndex[String(id)]
-  return index === undefined ? undefined : items[index]
+  return index === void 0 ? void 0 : items[index]
 }
 
 export function getItems(state: State, itemType: string): any[] {

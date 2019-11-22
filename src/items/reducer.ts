@@ -48,6 +48,6 @@ function updateItemById(state: State, action: Action): State {
   if (!Array.isArray(items) || !itemIndex) return state
 
   const index = itemIndex[String(id)]
-  if (index !== undefined) items[index] = data
+  if (index !== void 0) items[index] = data
   return state
 }

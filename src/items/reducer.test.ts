@@ -5,7 +5,7 @@ import { State } from '../types'
 describe('items reducer', () => {
   it('should handle initial state', () => {
     const action = { type: '' }
-    expect(itemsReducer(undefined, action)).toEqual({})
+    expect(itemsReducer(void 0, action)).toEqual({})
   })
 
   it('should immutable update state for action [setItem]', () => {
@@ -127,7 +127,7 @@ describe('items reducer', () => {
         ]
       }
     }
-    state = itemsReducer(stateBefore, updateItem('testItem', '', undefined))
+    state = itemsReducer(stateBefore, updateItem('testItem', '', void 0))
     expect(state).toEqual(stateBefore)
     expect(state).toBe(stateBefore)
 
