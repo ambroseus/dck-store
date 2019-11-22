@@ -1,6 +1,6 @@
-import { itemsReducer } from './reducer'
-import { setItems, setItemData, updateItem } from './actions'
 import { State } from '../types'
+import { setItems, setItemData, updateItem, setActiveItem } from './actions'
+import { itemsReducer } from './reducer'
 
 describe('items reducer', () => {
   it('should handle initial state', () => {
@@ -22,8 +22,10 @@ describe('items reducer', () => {
       }
     }
 
-    const action = setItems('testItem', [{ id: '1', data: 'testData' }])
-    const state: State = itemsReducer(stateBefore, action)
+    const state: State = itemsReducer(
+      stateBefore,
+      setItems('testItem', [{ id: '1', data: 'testData' }])
+    )
 
     expect(state).toEqual(stateAfter)
     expect(state).not.toBe(stateBefore)
@@ -53,8 +55,10 @@ describe('items reducer', () => {
       }
     }
 
-    const action = setItemData('testItem', 'testField', {})
-    const state: State = itemsReducer(stateBefore, action)
+    const state: State = itemsReducer(
+      stateBefore,
+      setItemData('testItem', 'testField', {})
+    )
 
     expect(state).toEqual(stateAfter)
     expect(state).not.toBe(stateBefore)
@@ -64,6 +68,35 @@ describe('items reducer', () => {
     expect(state.testItem).not.toBe(stateBefore.testItem)
     expect(state.testItem.items).toBe(stateBefore.testItem.items)
     expect(state.testItem.testField).not.toBe(stateBefore.testItem.testField)
+  })
+
+  it('should immutable update state for action [setActiveItem]', () => {
+    const stateBefore: State = {
+      item: {},
+      testItem: {
+        items: [{ id: '1', data: 'testData' }]
+      }
+    }
+    const stateAfter: State = {
+      item: {},
+      testItem: {
+        activeItemId: '1',
+        items: [{ id: '1', data: 'testData' }]
+      }
+    }
+
+    let state: State = itemsReducer(stateBefore, setActiveItem('testItem', '1'))
+
+    expect(state).toEqual(stateAfter)
+    expect(state).not.toBe(stateBefore)
+
+    expect(state.testItem.activeItemId).toEqual('1')
+    expect(state.item).toBe(stateBefore.item)
+    expect(state.testItem).not.toBe(stateBefore.testItem)
+    expect(state.testItem.items).toBe(stateBefore.testItem.items)
+
+    state = itemsReducer(stateBefore, setActiveItem('testItem'))
+    expect(state.testItem.activeItemId).toEqual(void 0)
   })
 
   it('should immutable update state for action [updateItem]', () => {
@@ -90,8 +123,10 @@ describe('items reducer', () => {
       }
     }
 
-    const action = updateItem('testItem', '1', { id: '1', data: 'updated' })
-    const state: State = itemsReducer(stateBefore, action)
+    const state: State = itemsReducer(
+      stateBefore,
+      updateItem('testItem', '1', { id: '1', data: 'updated' })
+    )
 
     expect(state).toEqual(stateAfter)
     expect(state).not.toBe(stateBefore)

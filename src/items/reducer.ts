@@ -25,7 +25,7 @@ export const itemsReducer = createReducer(
     [ActionTypes.setItemData]: (state: State, action: Action) =>
       (state = updateItemByField(state, action, action.meta.field)),
 
-    [ActionTypes.makeActiveItem]: (state: State, action: Action) =>
+    [ActionTypes.setActiveItem]: (state: State, action: Action) =>
       (state = updateItemByField(state, action, 'activeItemId'))
   }
 )
