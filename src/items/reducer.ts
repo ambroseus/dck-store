@@ -2,7 +2,6 @@ import { createReducer } from '@reduxjs/toolkit'
 import { ActionTypes } from '../actionTypes'
 import { setItemData } from './actions'
 import { State, Action } from '../types'
-import { updateItemByField, updateItemById } from '../utils'
 
 export const itemsReducer = createReducer(
   {},
@@ -28,3 +27,27 @@ export const itemsReducer = createReducer(
       (state = updateItemByField(state, action, 'activeItemId'))
   }
 )
+
+function updateItemByField(state: State, action: Action, field: string): State {
+  const { meta, payload } = action
+  const { itemType } = meta
+  const { data } = payload
+  const item = state[itemType] ? { ...state[itemType] } : {}
+
+  item[field] = data
+  state[itemType] = item
+  return state
+}
+
+function updateItemById(state: State, action: Action): State {
+  const { meta, payload } = action
+  const { itemType } = meta
+  const { id, data } = payload
+  const itemState = state[itemType] ? { ...state[itemType] } : {}
+  const { items, itemIndex } = itemState
+  if (!Array.isArray(items) || !itemIndex) return state
+
+  const index = itemIndex[String(id)]
+  if (index !== undefined) items[index] = data
+  return state
+}

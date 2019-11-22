@@ -1,14 +1,14 @@
 import { State } from '../types'
 
-const emptyObject = {}
+const emptyState: State = {}
 
 function _getItemState(state: State, itemType: string): any {
-  return (state.dck && state.dck[itemType]) || emptyObject
+  return (state.dck && state.dck[itemType]) || emptyState
 }
 
 function _getItem(itemState: State, id: string): any {
   const { items, itemIndex } = itemState
-  if (!items || !itemIndex) return undefined
+  if (!Array.isArray(items) || !itemIndex) return undefined
   const index = itemIndex[String(id)]
   return index === undefined ? undefined : items[index]
 }
