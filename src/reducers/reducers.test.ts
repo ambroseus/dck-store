@@ -22,7 +22,8 @@ describe('items reducer', () => {
             { id: '1', data: 'testData' },
             { field: 'testField', data: 'testFieldData' }
           ],
-          itemIndex: { '1': 0, testField: 1 }
+          itemIndex: { '1': 0, testField: 1 },
+          selectedItems: {}
         }
       }
 

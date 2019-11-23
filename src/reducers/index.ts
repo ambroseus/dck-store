@@ -2,7 +2,14 @@ import { createReducer } from '@reduxjs/toolkit'
 import { ActionTypes } from '../actionTypes'
 import { reducers } from './reducers'
 
-const { setItems, setItem, removeItem, setItemData, setActiveItem } = reducers
+const {
+  setItems,
+  setItem,
+  removeItem,
+  setItemData,
+  setActiveItem,
+  selectItem
+} = reducers
 
 export const dckReducer = createReducer(
   {},
@@ -13,6 +20,7 @@ export const dckReducer = createReducer(
     [ActionTypes.removeItem]: removeItem,
     [ActionTypes.setItemData]: setItemData,
     [ActionTypes.setActiveItem]: setActiveItem,
+    [ActionTypes.selectItem]: selectItem,
     // filters
     [ActionTypes.setFilters]: setItems,
     [ActionTypes.setFilter]: setItem,
