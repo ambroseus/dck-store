@@ -12,3 +12,7 @@ toolset:
 - <https://immerjs.github.io/immer>
 - <https://redux-saga.js.org>
 - <https://github.com/jaredpalmer/tsdx>
+
+ci:
+
+- github actions
