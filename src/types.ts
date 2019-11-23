@@ -5,12 +5,12 @@ export interface State {
 export interface Action {
   type: string
   payload: {
-    id: string
     data: any
     [propName: string]: any
   }
   meta: {
     itemType: string
+    id: string
     field: string
   }
 }

@@ -1,51 +1,48 @@
 import { setItemData } from '../actions/items'
 import { State, Action } from '../types'
+import { getParams, getItemIndex } from '../helpers'
 
 // case reducers are implicitly wrapped with immer
 // so we have "mutative" immutable update logic
 
-export const reducers: any = {
-  setItems: (state: State, action: Action) => {
+class MutativeReducers {
+  setItems(state: State, action: Action) {
+    const { itemType, data } = getParams(state, action)
     state = updateItemByField(state, action, 'items')
-    const items = action.payload.data
-    if (!Array.isArray(items)) return void 0
-
-    const itemIndex: any = {}
-    items.forEach((el, index) => (itemIndex[String(el.id)] = index))
-    action = setItemData(action.meta.itemType, 'itemIndex', itemIndex)
+    const itemIndex = getItemIndex(data)
+    action = setItemData(itemType, 'itemIndex', itemIndex)
     state = updateItemByField(state, action, 'itemIndex')
-  },
+  }
 
-  setItem: (state: State, action: Action) =>
-    (state = updateItemById(state, action)),
+  setItem(state: State, action: Action) {
+    state = updateItemByKey(state, action)
+  }
 
-  setItemData: (state: State, action: Action) =>
-    (state = updateItemByField(state, action, action.meta.field)),
+  removeItem(state: State, action: Action) {}
 
-  setActiveItem: (state: State, action: Action) =>
-    (state = updateItemByField(state, action, 'activeItemId'))
+  setItemData(state: State, action: Action) {
+    state = updateItemByField(state, action, action.meta.field)
+  }
+
+  setActiveItem(state: State, action: Action) {
+    state = updateItemByField(state, action, 'activeItemId')
+  }
 }
 
 function updateItemByField(state: State, action: Action, field: string): State {
-  const { meta, payload } = action
-  const { itemType } = meta
-  const { data } = payload
-  const itemState = state[itemType] ? { ...state[itemType] } : {}
-
+  const { itemType, data, itemState } = getParams(state, action)
   itemState[field] = data
   state[itemType] = itemState
   return state
 }
 
-function updateItemById(state: State, action: Action): State {
-  const { meta, payload } = action
-  const { itemType } = meta
-  const { id, data } = payload
-  if (!id) return state
+function updateItemByKey(state: State, action: Action): State {
+  const { itemType, data, id, field, itemState } = getParams(state, action)
+  if (!id && !field) return state
 
-  const itemState = state[itemType] ? { ...state[itemType] } : {}
+  const key: string = String(id || field)
   let { items, itemIndex } = itemState
-  const index = itemIndex ? itemIndex[String(id)] : void 0
+  const index = itemIndex ? itemIndex[key] : void 0
 
   if (index !== void 0 && Array.isArray(items)) {
     // update existing item
@@ -54,11 +51,14 @@ function updateItemById(state: State, action: Action): State {
     // append new item
     if (!Array.isArray(items)) items = []
     if (!itemIndex) itemIndex = {}
-    itemIndex[String(id)] = items.length
+    itemIndex[key] = items.length
     items.push(data)
-    itemState.items = items
-    itemState.itemIndex = itemIndex
-    state[itemType] = itemState
   }
+
+  itemState.items = items
+  itemState.itemIndex = itemIndex
+  state[itemType] = itemState
   return state
 }
+
+export const reducers = new MutativeReducers()

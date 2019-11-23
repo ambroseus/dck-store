@@ -1,6 +1,6 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
-import { composeAction } from './helpers'
+import { composeAction } from '../helpers'
 
 // action creators for filters
 
@@ -13,17 +13,17 @@ export function setFilters(itemType: string, data: any[]): Action {
   })
 }
 
-export function setFilter(itemType: string, id: string, data: any): Action {
+export function setFilter(itemType: string, field: string, data: any): Action {
   return composeAction(ActionTypes.setFilter)({
     itemType: filterType(itemType),
-    id,
+    id: field,
     data
   })
 }
 
-export function removeFilter(itemType: string, id: string): Action {
+export function removeFilter(itemType: string, field: string): Action {
   return composeAction(ActionTypes.removeFilter)({
     itemType: filterType(itemType),
-    id
+    id: field
   })
 }
