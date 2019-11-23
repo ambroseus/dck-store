@@ -1,10 +1,8 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
-import { composeAction } from '../helpers'
+import { composeAction, sortingType } from '../helpers'
 
 // action creators for sorting
-
-const sortingType = (itemType: string): string => `sorting:${itemType}`
 
 export function setSortFields(itemType: string, sortFields: any[]): Action {
   return composeAction(ActionTypes.setSortFields)({

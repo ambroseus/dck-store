@@ -1,6 +1,9 @@
 import { createAction } from '@reduxjs/toolkit'
 import { State, Action } from '../types'
 
+export const filterType = (itemType: string): string => `filters:${itemType}`
+export const sortingType = (itemType: string): string => `sorting:${itemType}`
+
 export const isObject = (obj: any) =>
   Boolean(obj) && typeof obj === 'object' && obj.constructor === Object
 
