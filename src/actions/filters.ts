@@ -6,18 +6,22 @@ import { composeAction } from '../helpers'
 
 const filterType = (itemType: string): string => `filters:${itemType}`
 
-export function setFilters(itemType: string, data: any[]): Action {
+export function setFilters(itemType: string, filters: any[]): Action {
   return composeAction(ActionTypes.setFilters)({
     itemType: filterType(itemType),
-    data
+    payload: filters
   })
 }
 
-export function setFilter(itemType: string, field: string, data: any): Action {
+export function setFilter(
+  itemType: string,
+  field: string,
+  filter: any
+): Action {
   return composeAction(ActionTypes.setFilter)({
     itemType: filterType(itemType),
     field,
-    data
+    payload: filter
   })
 }
 

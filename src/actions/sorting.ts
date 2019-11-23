@@ -6,22 +6,22 @@ import { composeAction } from '../helpers'
 
 const sortingType = (itemType: string): string => `sorting:${itemType}`
 
-export function setSortFields(itemType: string, data: any[]): Action {
+export function setSortFields(itemType: string, sortFields: any[]): Action {
   return composeAction(ActionTypes.setFilters)({
     itemType: sortingType(itemType),
-    data
+    payload: sortFields
   })
 }
 
 export function setSortField(
   itemType: string,
   field: string,
-  data: any
+  sortField: any
 ): Action {
   return composeAction(ActionTypes.setFilter)({
     itemType: sortingType(itemType),
     field,
-    data
+    payload: sortField
   })
 }
 

@@ -4,13 +4,10 @@ export interface State {
 
 export interface Action {
   type: string
-  payload: {
-    data: any
-    [propName: string]: any
-  }
   meta: {
     itemType: string
     id: string
     field: string
   }
+  payload: any
 }
