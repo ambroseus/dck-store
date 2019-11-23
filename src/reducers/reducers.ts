@@ -1,6 +1,5 @@
-import { setItemData } from '../actions/items'
-import { State, Action } from '../types'
 import { getParams, getItemIndex, reservedFields } from '../helpers'
+import { State, Action } from '../types'
 
 // case reducers are implicitly wrapped with immer
 // so we have "mutative" immutable update logic
@@ -31,16 +30,11 @@ class MutativeReducers {
 export const reducers = new MutativeReducers()
 
 function setItemsWithIndex(state: State, action: Action): State {
-  const { itemType, data } = getParams(state, action)
-  state = updateItemByField(state, action, 'items')
-
-  const itemIndex = getItemIndex(data)
-  action = setItemData(itemType, 'itemIndex', itemIndex)
-  state = updateItemByField(state, action, 'itemIndex')
-
-  action = setItemData(itemType, 'selectedItems', {})
-  state = updateItemByField(state, action, 'selectedItems')
-
+  const { itemType, data, itemState } = getParams(state, action)
+  itemState.items = data
+  itemState.itemIndex = getItemIndex(data)
+  itemState.selectedItems = {}
+  state[itemType] = itemState
   return state
 }
 
