@@ -14,6 +14,10 @@ export const dckReducer = createReducer(
     // filters
     [ActionTypes.setFilters]: reducers.setItems,
     [ActionTypes.setFilter]: reducers.setItem,
-    [ActionTypes.removeFilter]: reducers.removeItem
+    [ActionTypes.removeFilter]: reducers.removeItem,
+    // sorting
+    [ActionTypes.setSortFields]: reducers.setItems,
+    [ActionTypes.setSortField]: reducers.setItem,
+    [ActionTypes.removeSortField]: reducers.removeItem
   }
 )

@@ -8,5 +8,9 @@ export enum ActionTypes {
   // filters
   setFilters = 'dck:setFilters',
   setFilter = 'dck:setFilter',
-  removeFilter = 'dck:removeFilter'
+  removeFilter = 'dck:removeFilter',
+  // sorting
+  setSortFields = 'dck:setSortFields',
+  setSortField = 'dck:setSortField',
+  removeSortField = 'dck:removeSortField'
 }
