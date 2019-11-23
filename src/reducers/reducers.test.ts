@@ -1,11 +1,6 @@
 import { State } from '../types'
-import {
-  setItems,
-  setItemData,
-  setItem,
-  setActiveItem,
-  setSelectedItem
-} from '../actions/items'
+import { setItems, setItemData, setItem, setActiveItem } from '../actions/items'
+import { setSelectedItem } from '../actions/selection'
 import { dckReducer } from './index'
 
 describe('items reducer', () => {

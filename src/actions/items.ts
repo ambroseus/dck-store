@@ -34,15 +34,3 @@ export function setActiveItem(itemType: string, id?: string): Action {
     payload: id
   })
 }
-
-export function setSelectedItem(
-  itemType: string,
-  id: string,
-  select: boolean
-): Action {
-  return composeAction(ActionTypes.setSelectedItem)({
-    itemType,
-    id,
-    payload: select
-  })
-}
