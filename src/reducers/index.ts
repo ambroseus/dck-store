@@ -2,22 +2,24 @@ import { createReducer } from '@reduxjs/toolkit'
 import { ActionTypes } from '../actionTypes'
 import { reducers } from './reducers'
 
+const { setItems, setItem, removeItem, setItemData, setActiveItem } = reducers
+
 export const dckReducer = createReducer(
   {},
   {
     // items
-    [ActionTypes.setItems]: reducers.setItems,
-    [ActionTypes.setItem]: reducers.setItem,
-    [ActionTypes.removeItem]: reducers.removeItem,
-    [ActionTypes.setItemData]: reducers.setItemData,
-    [ActionTypes.setActiveItem]: reducers.setActiveItem,
+    [ActionTypes.setItems]: setItems,
+    [ActionTypes.setItem]: setItem,
+    [ActionTypes.removeItem]: removeItem,
+    [ActionTypes.setItemData]: setItemData,
+    [ActionTypes.setActiveItem]: setActiveItem,
     // filters
-    [ActionTypes.setFilters]: reducers.setItems,
-    [ActionTypes.setFilter]: reducers.setItem,
-    [ActionTypes.removeFilter]: reducers.removeItem,
+    [ActionTypes.setFilters]: setItems,
+    [ActionTypes.setFilter]: setItem,
+    [ActionTypes.removeFilter]: removeItem,
     // sorting
-    [ActionTypes.setSortFields]: reducers.setItems,
-    [ActionTypes.setSortField]: reducers.setItem,
-    [ActionTypes.removeSortField]: reducers.removeItem
+    [ActionTypes.setSortFields]: setItems,
+    [ActionTypes.setSortField]: setItem,
+    [ActionTypes.removeSortField]: removeItem
   }
 )
