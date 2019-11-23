@@ -2,7 +2,7 @@ name: Publish
 
 on:
   release:
-    types: [published, edited]
+    types: [published]
 
 jobs:
   publish:
@@ -13,7 +13,8 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm publish
+      - run: |
+          npm ci
+          npm publish
         env:
-          CI: true
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
