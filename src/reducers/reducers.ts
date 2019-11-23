@@ -7,28 +7,31 @@ import { getParams, getItemIndex } from '../helpers'
 
 class MutativeReducers {
   setItems(state: State, action: Action) {
-    const { itemType, data } = getParams(state, action)
-    state = updateItemByField(state, action, 'items')
-    const itemIndex = getItemIndex(data)
-    action = setItemData(itemType, 'itemIndex', itemIndex)
-    state = updateItemByField(state, action, 'itemIndex')
+    state = setItemsWithIndex(state, action)
   }
-
   setItem(state: State, action: Action) {
     state = updateOrAppendItemByKey(state, action)
   }
-
   removeItem(state: State, action: Action) {
     state = removeItemByKey(state, action)
   }
-
   setItemData(state: State, action: Action) {
     state = updateItemByField(state, action, action.meta.field)
   }
-
   setActiveItem(state: State, action: Action) {
     state = updateItemByField(state, action, 'activeItemId')
   }
+}
+
+export const reducers = new MutativeReducers()
+
+function setItemsWithIndex(state: State, action: Action): State {
+  const { itemType, data } = getParams(state, action)
+  state = updateItemByField(state, action, 'items')
+  const itemIndex = getItemIndex(data)
+  action = setItemData(itemType, 'itemIndex', itemIndex)
+  state = updateItemByField(state, action, 'itemIndex')
+  return state
 }
 
 function updateItemByField(state: State, action: Action, field: string): State {
@@ -79,5 +82,3 @@ function removeItemByKey(state: State, action: Action): State {
   state[itemType] = itemState
   return state
 }
-
-export const reducers = new MutativeReducers()
