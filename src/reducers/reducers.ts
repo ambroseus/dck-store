@@ -15,10 +15,12 @@ class MutativeReducers {
   }
 
   setItem(state: State, action: Action) {
-    state = updateItemByKey(state, action)
+    state = updateOrAppendItemByKey(state, action)
   }
 
-  removeItem(state: State, action: Action) {}
+  removeItem(state: State, action: Action) {
+    state = removeItemByKey(state, action)
+  }
 
   setItemData(state: State, action: Action) {
     state = updateItemByField(state, action, action.meta.field)
@@ -36,7 +38,7 @@ function updateItemByField(state: State, action: Action, field: string): State {
   return state
 }
 
-function updateItemByKey(state: State, action: Action): State {
+function updateOrAppendItemByKey(state: State, action: Action): State {
   const { itemType, data, id, field, itemState } = getParams(state, action)
   if (!id && !field) return state
 
@@ -55,6 +57,23 @@ function updateItemByKey(state: State, action: Action): State {
     items.push(data)
   }
 
+  itemState.items = items
+  itemState.itemIndex = itemIndex
+  state[itemType] = itemState
+  return state
+}
+
+function removeItemByKey(state: State, action: Action): State {
+  const { itemType, id, field, itemState } = getParams(state, action)
+  if (!id && !field) return state
+
+  const key: string = String(id || field)
+  let { items, itemIndex } = itemState
+  const index = itemIndex ? itemIndex[key] : void 0
+  if (index === void 0 || !Array.isArray(items)) return state
+
+  items.splice(index, 1)
+  delete itemIndex[key]
   itemState.items = items
   itemState.itemIndex = itemIndex
   state[itemType] = itemState
