@@ -7,7 +7,7 @@ import { composeAction } from '../helpers'
 const sortingType = (itemType: string): string => `sorting:${itemType}`
 
 export function setSortFields(itemType: string, sortFields: any[]): Action {
-  return composeAction(ActionTypes.setFilters)({
+  return composeAction(ActionTypes.setSortFields)({
     itemType: sortingType(itemType),
     payload: sortFields
   })
@@ -18,7 +18,7 @@ export function setSortField(
   field: string,
   sortField: any
 ): Action {
-  return composeAction(ActionTypes.setFilter)({
+  return composeAction(ActionTypes.setSortField)({
     itemType: sortingType(itemType),
     field,
     payload: sortField
@@ -26,7 +26,7 @@ export function setSortField(
 }
 
 export function removeSortField(itemType: string, field: string): Action {
-  return composeAction(ActionTypes.removeFilter)({
+  return composeAction(ActionTypes.removeSortField)({
     itemType: sortingType(itemType),
     field
   })
