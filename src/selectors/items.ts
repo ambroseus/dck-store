@@ -1,11 +1,12 @@
+import { getItemState, getIndexedItem } from '../helpers'
 import { State } from '../types'
 
 export function getItems(state: State, itemType: string): any[] {
-  return _getItemState(state, itemType).items
+  return getItemState(state, itemType).items
 }
 
 export function getItem(state: State, itemType: string, id: string): any {
-  return _getItem(_getItemState(state, itemType), id)
+  return getIndexedItem(getItemState(state, itemType), id)
 }
 
 export function getItemData(
@@ -13,27 +14,14 @@ export function getItemData(
   itemType: string,
   field: string
 ): any {
-  return _getItemState(state, itemType)[field]
+  return getItemState(state, itemType)[field]
 }
 
 export function getActiveItemId(state: State, itemType: string): any {
-  return _getItemState(state, itemType).activeItemId
+  return getItemState(state, itemType).activeItemId
 }
 
 export function getActiveItem(state: State, itemType: string): any {
-  const itemState = _getItemState(state, itemType)
-  return _getItem(itemState, itemState.activeItemId)
-}
-
-const emptyState: State = {}
-
-function _getItemState(state: State, itemType: string): any {
-  return state?.dck?.[itemType] ?? emptyState
-}
-
-function _getItem(itemState: State, id: string): any {
-  const { items, itemIndex } = itemState
-  if (!Array.isArray(items) || !itemIndex) return void 0
-  const index = itemIndex[String(id)]
-  return index === void 0 ? void 0 : items[index]
+  const itemState = getItemState(state, itemType)
+  return getIndexedItem(itemState, itemState.activeItemId)
 }

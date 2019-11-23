@@ -36,3 +36,16 @@ export const getParams = (state: State, action: Action): State => {
   const itemState = state[itemType] || {}
   return { itemType, field, id, data: payload, itemState }
 }
+
+const emptyState: State = {}
+
+export function getItemState(state: State, itemType: string): any {
+  return state?.dck?.[itemType] ?? emptyState
+}
+
+export function getIndexedItem(itemState: State, id: string): any {
+  const { items, itemIndex } = itemState
+  if (!Array.isArray(items) || !itemIndex) return void 0
+  const index = itemIndex[String(id)]
+  return index === void 0 ? void 0 : items[index]
+}
