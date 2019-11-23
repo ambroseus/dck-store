@@ -18,21 +18,29 @@ describe('items reducer', () => {
         item: {},
         testItem: {
           testField: {},
-          items: [{ id: '1', data: 'testData' }],
-          itemIndex: { '1': 0 }
+          items: [
+            { id: '1', data: 'testData' },
+            { field: 'testField', data: 'testFieldData' }
+          ],
+          itemIndex: { '1': 0, testField: 1 }
         }
       }
 
       const state: State = dckReducer(
         stateBefore,
-        setItems('testItem', [{ id: '1', data: 'testData' }])
+        setItems('testItem', [
+          { id: '1', data: 'testData' },
+          { field: 'testField', data: 'testFieldData' }
+        ])
       )
-
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
 
-      expect(state.testItem.items).toEqual([{ id: '1', data: 'testData' }])
-      expect(state.testItem.itemIndex).toEqual({ '1': 0 })
+      expect(state.testItem.items).toEqual([
+        { id: '1', data: 'testData' },
+        { field: 'testField', data: 'testFieldData' }
+      ])
+      expect(state.testItem.itemIndex).toEqual({ '1': 0, testField: 1 })
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).not.toBe(stateBefore.testItem.items)
@@ -112,10 +120,11 @@ describe('items reducer', () => {
         testItem: {
           testField: {},
           items: [
-            { id: '2', data: 'testData2' },
-            { id: '1', data: 'testData1' }
+            { id: 0, data: {} },
+            { id: '1', data: 'testData' },
+            { field: 'testField', data: 'testFieldData' }
           ],
-          itemIndex: { '2': 0, '1': 1 }
+          itemIndex: { '0': 0, '1': 1, testField: 2 }
         }
       }
       const stateAfter: State = {
@@ -123,26 +132,34 @@ describe('items reducer', () => {
         testItem: {
           testField: {},
           items: [
-            { id: '2', data: 'testData2' },
-            { id: '1', data: 'updated' }
+            { id: 0, data: {} },
+            { id: '1', data: 'updated1' },
+            { field: 'testField', data: 'updated2' }
           ],
-          itemIndex: { '2': 0, '1': 1 }
+          itemIndex: { '0': 0, '1': 1, testField: 2 }
         }
       }
 
-      const state: State = dckReducer(
+      let state: State = dckReducer(
         stateBefore,
-        setItem('testItem', '1', { id: '1', data: 'updated' })
+        setItem('testItem', '1', { id: '1', data: 'updated1' })
       )
-
+      state = dckReducer(
+        state,
+        setItem('testItem', 'testField', {
+          field: 'testField',
+          data: 'updated2'
+        })
+      )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
 
       expect(state.testItem.items).toEqual([
-        { id: '2', data: 'testData2' },
-        { id: '1', data: 'updated' }
+        { id: 0, data: {} },
+        { id: '1', data: 'updated1' },
+        { field: 'testField', data: 'updated2' }
       ])
-      expect(state.testItem.itemIndex).toEqual({ '2': 0, '1': 1 })
+      expect(state.testItem.itemIndex).toEqual({ '0': 0, '1': 1, testField: 2 })
 
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
@@ -156,13 +173,13 @@ describe('items reducer', () => {
       let stateBefore: State = {}
       let stateAfter: State = {
         testItem: {
-          items: [{ id: '1', data: 'testData1' }],
+          items: [{ id: '1', data: 'testData' }],
           itemIndex: { '1': 0 }
         }
       }
       let state: State = dckReducer(
         stateBefore,
-        setItem('testItem', '1', { id: '1', data: 'testData1' })
+        setItem('testItem', '1', { id: '1', data: 'testData' })
       )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
@@ -171,15 +188,18 @@ describe('items reducer', () => {
       stateAfter = {
         testItem: {
           items: [
-            { id: '1', data: 'testData1' },
-            { id: '2', data: 'testData2' }
+            { id: '1', data: 'testData' },
+            { field: 'testField', data: 'testFieldData' }
           ],
-          itemIndex: { '1': 0, '2': 1 }
+          itemIndex: { '1': 0, testField: 1 }
         }
       }
       state = dckReducer(
         stateBefore,
-        setItem('testItem', '2', { id: '2', data: 'testData2' })
+        setItem('testItem', 'testField', {
+          field: 'testField',
+          data: 'testFieldData'
+        })
       )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
