@@ -1,5 +1,11 @@
 import { State } from '../types'
-import { setItems, setItemData, setItem, setActiveItem } from '../actions/items'
+import {
+  setItems,
+  setItemData,
+  setItem,
+  setActiveItem,
+  setSelectedItem
+} from '../actions/items'
 import { dckReducer } from './index'
 
 describe('items reducer', () => {
@@ -204,6 +210,53 @@ describe('items reducer', () => {
       )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
+    })
+  })
+
+  describe('for action [setSelectedItem]', () => {
+    it('should select item', () => {
+      const stateBefore: State = {
+        testItem: {
+          items: [
+            { id: 0, data: {} },
+            { id: '1', data: 'testData' },
+            { field: 'testField', data: 'testFieldData' }
+          ],
+          itemIndex: { '0': 0, '1': 1, testField: 2 },
+          selectedItems: {}
+        }
+      }
+      const stateAfter: State = {
+        testItem: {
+          items: [
+            { id: 0, data: {} },
+            { id: '1', data: 'testData' },
+            { field: 'testField', data: 'testFieldData' }
+          ],
+          itemIndex: { '0': 0, '1': 1, testField: 2 },
+          selectedItems: { '1': 1, testField: 2 }
+        }
+      }
+
+      let state: State = dckReducer(
+        stateBefore,
+        setSelectedItem('testItem', '1', true)
+      )
+      state = dckReducer(state, setSelectedItem('testItem', 'testField', true))
+      expect(state).toEqual(stateAfter)
+      expect(state).not.toBe(stateBefore)
+      expect(state.testItem.selectedItems).toEqual({ '1': 1, testField: 2 })
+
+      state = dckReducer(state, setSelectedItem('testItem', '1', false))
+      state = dckReducer(state, setSelectedItem('testItem', 'testField', false))
+      expect(state).toEqual(stateBefore)
+      expect(state).not.toBe(stateBefore)
+      expect(state.testItem.selectedItems).toEqual({})
+
+      expect(state.item).toBe(stateBefore.item)
+      expect(state.testItem).not.toBe(stateBefore.testItem)
+      expect(state.testItem.items).toBe(stateBefore.testItem.items)
+      expect(state.testItem.itemIndex).toBe(stateBefore.testItem.itemIndex)
     })
   })
 })

@@ -22,8 +22,8 @@ class MutativeReducers {
   setActiveItem(state: State, action: Action) {
     state = updateItemByField(state, action, 'activeItemId')
   }
-  selectItem(state: State, action: Action) {
-    state = selectOrUnselectItemByKey(state, action)
+  setSelectedItem(state: State, action: Action) {
+    state = selectOrUnsetSelectedItemByKey(state, action)
   }
 }
 
@@ -90,7 +90,7 @@ function removeItemByKey(state: State, action: Action): State {
   return state
 }
 
-function selectOrUnselectItemByKey(state: State, action: Action): State {
+function selectOrUnsetSelectedItemByKey(state: State, action: Action): State {
   const { itemType, id, field, data: select, itemState } = getParams(
     state,
     action

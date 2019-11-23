@@ -35,12 +35,12 @@ export function setActiveItem(itemType: string, id?: string): Action {
   })
 }
 
-export function selectItem(
+export function setSelectedItem(
   itemType: string,
   id: string,
   select: boolean
 ): Action {
-  return composeAction(ActionTypes.selectItem)({
+  return composeAction(ActionTypes.setSelectedItem)({
     itemType,
     id,
     payload: select
