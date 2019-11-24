@@ -1,5 +1,5 @@
 import { State } from '../types'
-import { setItems, setItemProp, setItem, setActiveItem } from '../actions/items'
+import { setItems, setItem, setActiveItem } from '../actions/items'
 import { setSelectedItem } from '../actions/selection'
 import { itemsReducer } from './index'
 
@@ -36,19 +36,13 @@ describe('itemsReducer', () => {
       )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
-
-      expect(state.testItem.items).toEqual([
-        { id: '1', data: 'testData' },
-        { field: 'testField', data: 'testFieldData' },
-      ])
-      expect(state.testItem.itemIndex).toEqual({ '1': 0, testField: 1 })
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).not.toBe(stateBefore.testItem.items)
-      expect(state.testItem.testField).toBe(stateBefore.testItem.testField)
     })
   })
 
+  /*
   describe('for action [setItemProp]', () => {
     it('should immutable update state', () => {
       const stateBefore: State = {
@@ -82,7 +76,7 @@ describe('itemsReducer', () => {
       expect(state.testItem.testField).not.toBe(stateBefore.testItem.testField)
     })
   })
-
+*/
   describe('for action [setActiveItem]', () => {
     it('should immutable update state', () => {
       const stateBefore: State = {
@@ -103,11 +97,8 @@ describe('itemsReducer', () => {
         stateBefore,
         setActiveItem('testItem', '1')
       )
-
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
-
-      expect(state.testItem.activeItemId).toEqual('1')
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).toBe(stateBefore.testItem.items)
@@ -122,7 +113,6 @@ describe('itemsReducer', () => {
       const stateBefore: State = {
         item: {},
         testItem: {
-          testField: {},
           items: [
             { id: 0, data: {} },
             { id: '1', data: 'testData' },
@@ -134,7 +124,6 @@ describe('itemsReducer', () => {
       const stateAfter: State = {
         item: {},
         testItem: {
-          testField: {},
           items: [
             { id: 0, data: {} },
             { id: '1', data: 'updated1' },
@@ -157,20 +146,11 @@ describe('itemsReducer', () => {
       )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
-
-      expect(state.testItem.items).toEqual([
-        { id: 0, data: {} },
-        { id: '1', data: 'updated1' },
-        { field: 'testField', data: 'updated2' },
-      ])
-      expect(state.testItem.itemIndex).toEqual({ '0': 0, '1': 1, testField: 2 })
-
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).not.toBe(stateBefore.testItem.items)
       expect(state.testItem.itemIndex).toBe(stateBefore.testItem.itemIndex)
       expect(state.testItem.items[0]).toBe(stateBefore.testItem.items[0])
-      expect(state.testItem.testField).toBe(stateBefore.testItem.testField)
     })
 
     it('should append item if item not found', () => {
@@ -245,7 +225,6 @@ describe('itemsReducer', () => {
       )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
-      expect(state.testItem.selectedItems).toEqual({ '1': 1, testField: 2 })
 
       state = itemsReducer(state, setSelectedItem('testItem', '1', false))
       state = itemsReducer(
@@ -255,7 +234,6 @@ describe('itemsReducer', () => {
       expect(state).toEqual(stateBefore)
       expect(state).not.toBe(stateBefore)
       expect(state.testItem.selectedItems).toEqual({})
-
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).toBe(stateBefore.testItem.items)
