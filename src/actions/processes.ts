@@ -11,8 +11,8 @@ export function processStart(itemType: string, process: string): Action {
     payload: {
       running: true,
       error: false,
-      response: {}
-    }
+      response: {},
+    },
   })
 }
 
@@ -23,8 +23,8 @@ export function processReset(itemType: string, process: string): Action {
     payload: {
       running: false,
       error: false,
-      response: {}
-    }
+      response: {},
+    },
   })
 }
 
@@ -39,8 +39,8 @@ export function processStop(
     payload: {
       running: false,
       error: false,
-      response: response || {}
-    }
+      response: response || {},
+    },
   })
 }
 
@@ -55,7 +55,7 @@ export function processFail(
     payload: {
       running: false,
       error: true,
-      response: response || {}
-    }
+      response: response || {},
+    },
   })
 }

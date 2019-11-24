@@ -4,7 +4,7 @@ import {
   getItem,
   getItemProp,
   getActiveItemId,
-  getActiveItem
+  getActiveItem,
 } from './items'
 
 const state: State = {
@@ -13,13 +13,13 @@ const state: State = {
       testField: 'testData',
       items: [
         { field: 'active', data: 'testData' },
-        { id: '1', data: 'testData1' }
+        { id: '1', data: 'testData1' },
       ],
       itemIndex: { active: 0, '1': 1 },
       selectedItems: { '1': 1 },
-      activeItemId: 'active'
-    }
-  }
+      activeItemId: 'active',
+    },
+  },
 }
 
 describe('items selectors', () => {
@@ -28,7 +28,7 @@ describe('items selectors', () => {
       const result = getItems(state, 'testItem')
       expect(result).toEqual([
         { field: 'active', data: 'testData' },
-        { id: '1', data: 'testData1' }
+        { id: '1', data: 'testData1' },
       ])
     })
     it('should return undefined for unknown itemType', () => {

@@ -24,13 +24,13 @@ export function setItemProp(
   return composeAction(ActionTypes.setItemProp)({
     itemType,
     field,
-    payload: data
+    payload: data,
   })
 }
 
 export function setActiveItem(itemType: string, id?: string): Action {
   return composeAction(ActionTypes.setActiveItem)({
     itemType,
-    payload: id
+    payload: id,
   })
 }

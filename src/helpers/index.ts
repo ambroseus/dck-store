@@ -9,7 +9,7 @@ export const reservedFields = [
   'items',
   'itemIndex',
   'selectedItems',
-  'activeItemId'
+  'activeItemId',
 ]
 
 export const isObject = (obj: any) =>
