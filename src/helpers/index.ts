@@ -3,6 +3,7 @@ import { State, Action } from '../types'
 
 export const filterType = (itemType: string): string => `filters:${itemType}`
 export const sortingType = (itemType: string): string => `sorting:${itemType}`
+export const processType = (itemType: string): string => `process:${itemType}`
 
 export const reservedFields = [
   'items',
