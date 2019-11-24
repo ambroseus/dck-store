@@ -36,13 +36,13 @@ export const getParams = (state: State, action: Action): State => {
 
 export const get3rdParam = (...args: any[]) => args[2]
 
-type getDckState = (block: string) => any
+type getDckState = (section: string) => any
 
 const emptyState: State = {}
 
-function _getDckState(block: string): any {
+function _getDckState(section: string): any {
   return function(state: State, itemType: string): any {
-    return state?.dck?.[block]?.[itemType] || emptyState
+    return state?.dck?.[section]?.[itemType] || emptyState
   }
 }
 
