@@ -30,9 +30,9 @@ export const dckReducer = createReducer(
     [ActionTypes.setSortField]: setItem,
     [ActionTypes.removeSortField]: removeItem,
     // processes
-    [ActionTypes.processStart]: setItemData,
-    [ActionTypes.processReset]: setItemData,
-    [ActionTypes.processStop]: setItemData,
-    [ActionTypes.processFail]: setItemData
+    [ActionTypes.processStart]: setItemProp,
+    [ActionTypes.processReset]: setItemProp,
+    [ActionTypes.processStop]: setItemProp,
+    [ActionTypes.processFail]: setItemProp
   }
 )
