@@ -42,7 +42,7 @@ const emptyState: State = {}
 
 function _getDckState(block: string): any {
   return function(state: State, itemType: string): any {
-    state?.dck?.[block]?.[itemType] ?? emptyState
+    return state?.dck?.[block]?.[itemType] || emptyState
   }
 }
 
