@@ -16,12 +16,12 @@ export function removeItem(itemType: string, id: string): Action {
   return composeAction(ActionTypes.removeItem)({ itemType, id })
 }
 
-export function setItemData(
+export function setItemProp(
   itemType: string,
   field: string,
   data: any
 ): Action {
-  return composeAction(ActionTypes.setItemData)({
+  return composeAction(ActionTypes.setItemProp)({
     itemType,
     field,
     payload: data

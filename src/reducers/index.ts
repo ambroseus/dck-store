@@ -6,7 +6,7 @@ const {
   setItems,
   setItem,
   removeItem,
-  setItemData,
+  setItemProp,
   setActiveItem,
   setSelectedItem
 } = reducers
@@ -18,7 +18,7 @@ export const dckReducer = createReducer(
     [ActionTypes.setItems]: setItems,
     [ActionTypes.setItem]: setItem,
     [ActionTypes.removeItem]: removeItem,
-    [ActionTypes.setItemData]: setItemData,
+    [ActionTypes.setItemProp]: setItemProp,
     [ActionTypes.setActiveItem]: setActiveItem,
     [ActionTypes.setSelectedItem]: setSelectedItem,
     // filters

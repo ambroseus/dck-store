@@ -2,7 +2,7 @@ import { State } from '../types'
 import {
   getItems,
   getItem,
-  getItemData,
+  getItemProp,
   getActiveItemId,
   getActiveItem
 } from './items'
@@ -52,17 +52,17 @@ describe('items selectors', () => {
     })
   })
 
-  describe('selector [getItemData]', () => {
+  describe('selector [getItemProp]', () => {
     it('should return data for given itemType & field', () => {
-      const result = getItemData(state, 'testItem', 'testField')
+      const result = getItemProp(state, 'testItem', 'testField')
       expect(result).toEqual('testData')
     })
     it('should return undefined for unknown itemType', () => {
-      const result = getItemData(state, 'fakeItem', 'testField')
+      const result = getItemProp(state, 'fakeItem', 'testField')
       expect(result).toBeUndefined()
     })
     it('should return undefined for unknown field', () => {
-      const result = getItemData(state, 'testItem', 'fakeField')
+      const result = getItemProp(state, 'testItem', 'fakeField')
       expect(result).toBeUndefined()
     })
   })

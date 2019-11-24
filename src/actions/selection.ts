@@ -1,7 +1,7 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
 import { composeAction } from '../helpers'
-import { setItemData } from './items'
+import { setItemProp } from './items'
 
 // action creators for items selection
 
@@ -18,5 +18,5 @@ export function setSelectedItem(
 }
 
 export function setAllItemsSelected(itemType: string, select: boolean): Action {
-  return setItemData(itemType, 'allItemsSelected', select)
+  return setItemProp(itemType, 'allItemsSelected', select)
 }

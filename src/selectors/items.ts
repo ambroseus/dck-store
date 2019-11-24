@@ -9,7 +9,7 @@ export function getItem(state: State, itemType: string, id: string): any {
   return getIndexedItem(getItemState(state, itemType), id)
 }
 
-export function getItemData(
+export function getItemProp(
   state: State,
   itemType: string,
   field: string

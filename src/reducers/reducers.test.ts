@@ -1,5 +1,5 @@
 import { State } from '../types'
-import { setItems, setItemData, setItem, setActiveItem } from '../actions/items'
+import { setItems, setItemProp, setItem, setActiveItem } from '../actions/items'
 import { setSelectedItem } from '../actions/selection'
 import { dckReducer } from './index'
 
@@ -50,7 +50,7 @@ describe('items reducer', () => {
     })
   })
 
-  describe('for action [setItemData]', () => {
+  describe('for action [setItemProp]', () => {
     it('should immutable update state', () => {
       const stateBefore: State = {
         item: {},
@@ -70,7 +70,7 @@ describe('items reducer', () => {
 
       const state: State = dckReducer(
         stateBefore,
-        setItemData('testItem', 'testField', {})
+        setItemProp('testItem', 'testField', {})
       )
 
       expect(state).toEqual(stateAfter)
