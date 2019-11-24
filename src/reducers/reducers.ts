@@ -1,4 +1,4 @@
-import { getParams, getItemIndex, reservedFields } from '../helpers'
+import { getParams, getItemIndex } from '../helpers'
 import { State, Action } from '../types'
 
 // case reducers are implicitly wrapped with immer
@@ -15,9 +15,7 @@ class MutativeReducers {
     state = removeItemByKey(state, action)
   }
   setItemProp(state: State, action: Action) {
-    const { field } = action.meta
-    if (!reservedFields.includes(field))
-      state = updateItemByField(state, action, field)
+    state = updateItemByField(state, action, action.meta.field)
   }
   setActiveItem(state: State, action: Action) {
     state = updateItemByField(state, action, 'activeItemId')

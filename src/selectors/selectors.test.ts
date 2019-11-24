@@ -1,23 +1,22 @@
 import { State } from '../types'
-import {
-  getItems,
-  getItem,
-  getItemProp,
-  getActiveItemId,
-  getActiveItem,
-} from './items'
+import { getItems, getItem, getActiveItemId, getActiveItem } from './items'
+import { getItemProp } from './itemProps'
 
 const state: State = {
   dck: {
-    testItem: {
-      testField: 'testData',
-      items: [
-        { field: 'active', data: 'testData' },
-        { id: '1', data: 'testData1' },
-      ],
-      itemIndex: { active: 0, '1': 1 },
-      selectedItems: { '1': 1 },
-      activeItemId: 'active',
+    items: {
+      testItem: {
+        items: [
+          { field: 'active', data: 'testData' },
+          { id: '1', data: 'testData1' },
+        ],
+        itemIndex: { active: 0, '1': 1 },
+        selectedItems: { '1': 1 },
+        activeItemId: 'active',
+      },
+    },
+    itemProps: {
+      testItem: { testField: 'testData' },
     },
   },
 }
