@@ -1,8 +1,9 @@
-import { getItemState } from '../helpers'
+import { getItemState } from './items'
+import { getItemProp } from './itemProps'
 import { State } from '../types'
 
 export function areAllItemsSelected(state: State, itemType: string): boolean {
-  return Boolean(getItemState(state, itemType).allItemsSelected)
+  return getItemProp(state, itemType, 'allItemsSelected')
 }
 
 export function isItemSelected(

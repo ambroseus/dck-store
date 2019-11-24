@@ -1,12 +1,12 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
-import { composeAction, processType } from '../helpers'
+import { composeAction } from '../helpers'
 
 // action creators for processes
 
 export function processStart(itemType: string, process: string): Action {
   return composeAction(ActionTypes.processStart)({
-    itemType: processType(itemType),
+    itemType,
     field: process,
     payload: {
       running: true,
@@ -18,7 +18,7 @@ export function processStart(itemType: string, process: string): Action {
 
 export function processReset(itemType: string, process: string): Action {
   return composeAction(ActionTypes.processReset)({
-    itemType: processType(itemType),
+    itemType,
     field: process,
     payload: {
       running: false,
@@ -34,7 +34,7 @@ export function processStop(
   response: any
 ): Action {
   return composeAction(ActionTypes.processStop)({
-    itemType: processType(itemType),
+    itemType,
     field: process,
     payload: {
       running: false,
@@ -50,7 +50,7 @@ export function processFail(
   response: any
 ): Action {
   return composeAction(ActionTypes.processFail)({
-    itemType: processType(itemType),
+    itemType,
     field: process,
     payload: {
       running: false,

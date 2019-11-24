@@ -18,5 +18,5 @@ export function setSelectedItem(
 }
 
 export function setAllItemsSelected(itemType: string, select: boolean): Action {
-  return setItemProp(itemType, 'allItemsSelected', select)
+  return setItemProp(itemType, 'allItemsSelected', Boolean(select))
 }

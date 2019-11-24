@@ -1,11 +1,25 @@
-import { getItems, getItem } from './items'
-import { filterType } from '../helpers'
+import { createSelector } from '@reduxjs/toolkit'
+import { getDckState, get3rdParam } from '../helpers'
+import { getIndexedItem } from './items'
 import { State } from '../types'
 
-export function getFilters(state: State, itemType: string): any[] {
-  return getItems(state, filterType(itemType))
-}
+type getFilters = (state: State, itemType: string) => any[]
+type getFilter = (state: State, itemType: string, field: string) => any
+type getFiltersState = (state: State, itemType: string) => any
 
-export function getFilter(state: State, itemType: string, field: string): any {
-  return getItem(state, filterType(itemType), field)
-}
+const _getFiltersState = getDckState('filters')
+
+export const getFiltersState: getFiltersState = createSelector(
+  _getFiltersState,
+  filtersState => filtersState
+)
+
+export const getFilters: getFilters = createSelector(
+  getFiltersState,
+  filtersState => filtersState.items
+)
+
+export const getFilter: getFilter = createSelector(
+  [getFiltersState, get3rdParam],
+  getIndexedItem
+)
