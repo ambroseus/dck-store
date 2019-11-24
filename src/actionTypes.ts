@@ -13,5 +13,10 @@ export enum ActionTypes {
   // sorting
   setSortFields = 'dck:setSortFields',
   setSortField = 'dck:setSortField',
-  removeSortField = 'dck:removeSortField'
+  removeSortField = 'dck:removeSortField',
+  // processes
+  processStart = 'dck:processStart',
+  processStop = 'dck:processStop',
+  processFail = 'dck:processFail',
+  processReset = 'dck:processRestart'
 }
