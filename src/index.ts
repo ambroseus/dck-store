@@ -4,3 +4,4 @@ import * as dckSelectors from './selectors'
 
 export { dckActions, dckSelectors }
 export { dckReducer } from './reducers'
+export { isAction } from './helpers/actions'
