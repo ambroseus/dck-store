@@ -1,9 +1,5 @@
-import { createAction } from '@reduxjs/toolkit'
+import { createAction, createSelector } from '@reduxjs/toolkit'
 import { State, Action } from '../types'
-
-export const filterType = (itemType: string): string => `filters:${itemType}`
-export const sortingType = (itemType: string): string => `sorting:${itemType}`
-export const processType = (itemType: string): string => `process:${itemType}`
 
 export const isObject = (obj: any) =>
   Boolean(obj) && typeof obj === 'object' && obj.constructor === Object
@@ -39,3 +35,18 @@ export const getParams = (state: State, action: Action): State => {
 }
 
 export const get3rdParam = (...args: any[]) => args[2]
+
+type getDckState = (block: string) => any
+
+const emptyState: State = {}
+
+function _getDckState(block: string): any {
+  return function(state: State, itemType: string): any {
+    state?.dck?.[block]?.[itemType] ?? emptyState
+  }
+}
+
+export const getDckState: getDckState = createSelector(
+  _getDckState,
+  dckState => dckState
+)

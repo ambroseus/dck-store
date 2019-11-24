@@ -1,12 +1,12 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
-import { composeAction, sortingType } from '../helpers'
+import { composeAction } from '../helpers'
 
 // action creators for sorting
 
 export function setSortFields(itemType: string, sortFields: any[]): Action {
   return composeAction(ActionTypes.setSortFields)({
-    itemType: sortingType(itemType),
+    itemType,
     payload: sortFields,
   })
 }
@@ -17,7 +17,7 @@ export function setSortField(
   sortField: any
 ): Action {
   return composeAction(ActionTypes.setSortField)({
-    itemType: sortingType(itemType),
+    itemType,
     field,
     payload: sortField,
   })
@@ -25,7 +25,7 @@ export function setSortField(
 
 export function removeSortField(itemType: string, field: string): Action {
   return composeAction(ActionTypes.removeSortField)({
-    itemType: sortingType(itemType),
+    itemType,
     field,
   })
 }

@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { get3rdParam } from '../helpers'
+import { getDckState, get3rdParam } from '../helpers'
 import { State } from '../types'
 
 type getItems = (state: State, itemType: string) => any[]
@@ -10,18 +10,14 @@ type getActiveItem = (state: State, itemType: string) => any
 type getItemState = (state: State, itemType: string) => any
 type getIndexedItem = (itemState: State, id: string) => any
 
-const emptyState: State = {}
-
-function _getItemState(state: State, itemType: string): any {
-  return state?.dck?.items?.[itemType] ?? emptyState
-}
+const _getItemState = getDckState('items')
 
 export const getItemState: getItemState = createSelector(
   _getItemState,
   itemState => itemState
 )
 
-function _getIndexedItem(itemState: State, id: string): any {
+export function _getIndexedItem(itemState: State, id: string): any {
   const { items, itemIndex } = itemState
   if (!Array.isArray(items) || !itemIndex) return void 0
   const index = itemIndex[String(id)]
