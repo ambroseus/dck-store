@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit'
+import { createAction, createSelector } from '@reduxjs/toolkit'
 import { State, Action } from '../types'
 
 export const filterType = (itemType: string): string => `filters:${itemType}`
@@ -11,8 +11,6 @@ export const reservedFields = [
   'selectedItems',
   'activeItemId'
 ]
-
-export const get3rdParam = (...args: any[]) => args[2]
 
 export const isObject = (obj: any) =>
   Boolean(obj) && typeof obj === 'object' && obj.constructor === Object
@@ -49,13 +47,29 @@ export const getParams = (state: State, action: Action): State => {
 
 const emptyState: State = {}
 
-export function getItemState(state: State, itemType: string): any {
+type getItemState = (state: State, itemType: string) => any
+
+function _getItemState(state: State, itemType: string): any {
   return state?.dck?.[itemType] ?? emptyState
 }
 
-export function getIndexedItem(itemState: State, id: string): any {
+export const getItemState: getItemState = createSelector(
+  _getItemState,
+  itemState => itemState
+)
+
+type getIndexedItem = (itemState: State, id: string) => any
+
+function _getIndexedItem(itemState: State, id: string): any {
   const { items, itemIndex } = itemState
   if (!Array.isArray(items) || !itemIndex) return void 0
   const index = itemIndex[String(id)]
   return index === void 0 ? void 0 : items[index]
 }
+
+export const getIndexedItem: getIndexedItem = createSelector(
+  _getIndexedItem,
+  item => item
+)
+
+export const get3rdParam = (...args: any[]) => args[2]
