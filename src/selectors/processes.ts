@@ -37,12 +37,13 @@ export function isProcessFailed(
 
 const emptyObject = {}
 
-export function getProcessResult(
+export function getProcessResponse(
   state: State,
   itemType: string,
   process: string
 ): object {
   return (
-    getItemState(state, processType(itemType))?.[process]?.result || emptyObject
+    getItemState(state, processType(itemType))?.[process]?.response ||
+    emptyObject
   )
 }

@@ -11,7 +11,7 @@ export function processStart(itemType: string, process: string): Action {
     payload: {
       running: true,
       error: false,
-      result: {}
+      response: {}
     }
   })
 }
@@ -23,7 +23,7 @@ export function processReset(itemType: string, process: string): Action {
     payload: {
       running: false,
       error: false,
-      result: {}
+      response: {}
     }
   })
 }
@@ -31,7 +31,7 @@ export function processReset(itemType: string, process: string): Action {
 export function processStop(
   itemType: string,
   process: string,
-  result: any
+  response: any
 ): Action {
   return composeAction(ActionTypes.processStop)({
     itemType: processType(itemType),
@@ -39,7 +39,7 @@ export function processStop(
     payload: {
       running: false,
       error: false,
-      result: result ?? {}
+      response: response || {}
     }
   })
 }
@@ -47,7 +47,7 @@ export function processStop(
 export function processFail(
   itemType: string,
   process: string,
-  result: any
+  response: any
 ): Action {
   return composeAction(ActionTypes.processFail)({
     itemType: processType(itemType),
@@ -55,7 +55,7 @@ export function processFail(
     payload: {
       running: false,
       error: true,
-      result: result || {}
+      response: response || {}
     }
   })
 }
