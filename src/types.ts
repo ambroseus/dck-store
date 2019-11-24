@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 export interface State {
   [propName: string]: any
 }

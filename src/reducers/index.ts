@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { createReducer } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 import { ActionTypes } from '../actionTypes'
