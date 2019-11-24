@@ -13,7 +13,7 @@ export function setSelectedItem(
   return composeAction(ActionTypes.setSelectedItem)({
     itemType,
     id,
-    payload: select
+    payload: select,
   })
 }
 

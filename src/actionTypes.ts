@@ -18,5 +18,5 @@ export enum ActionTypes {
   processStart = 'dck:processStart',
   processStop = 'dck:processStop',
   processFail = 'dck:processFail',
-  processReset = 'dck:processRestart'
+  processReset = 'dck:processRestart',
 }

@@ -7,7 +7,7 @@ import { composeAction, filterType } from '../helpers'
 export function setFilters(itemType: string, filters: any[]): Action {
   return composeAction(ActionTypes.setFilters)({
     itemType: filterType(itemType),
-    payload: filters
+    payload: filters,
   })
 }
 
@@ -19,13 +19,13 @@ export function setFilter(
   return composeAction(ActionTypes.setFilter)({
     itemType: filterType(itemType),
     field,
-    payload: filter
+    payload: filter,
   })
 }
 
 export function removeFilter(itemType: string, field: string): Action {
   return composeAction(ActionTypes.removeFilter)({
     itemType: filterType(itemType),
-    field
+    field,
   })
 }
