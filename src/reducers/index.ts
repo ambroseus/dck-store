@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
 import { ActionTypes } from '../actionTypes'
 import { reducers } from './reducers'
 
@@ -8,31 +9,59 @@ const {
   removeItem,
   setItemProp,
   setActiveItem,
-  setSelectedItem
+  setSelectedItem,
 } = reducers
 
-export const dckReducer = createReducer(
+export const itemsReducer = createReducer(
   {},
   {
-    // items
     [ActionTypes.setItems]: setItems,
     [ActionTypes.setItem]: setItem,
     [ActionTypes.removeItem]: removeItem,
-    [ActionTypes.setItemProp]: setItemProp,
     [ActionTypes.setActiveItem]: setActiveItem,
     [ActionTypes.setSelectedItem]: setSelectedItem,
-    // filters
+  }
+)
+
+export const itemPropsReducer = createReducer(
+  {},
+  {
+    [ActionTypes.setItemProp]: setItemProp,
+  }
+)
+
+export const filtersReducer = createReducer(
+  {},
+  {
     [ActionTypes.setFilters]: setItems,
     [ActionTypes.setFilter]: setItem,
     [ActionTypes.removeFilter]: removeItem,
-    // sorting
+  }
+)
+
+export const sortingReducer = createReducer(
+  {},
+  {
     [ActionTypes.setSortFields]: setItems,
     [ActionTypes.setSortField]: setItem,
     [ActionTypes.removeSortField]: removeItem,
-    // processes
+  }
+)
+
+export const processesReducer = createReducer(
+  {},
+  {
     [ActionTypes.processStart]: setItemProp,
     [ActionTypes.processReset]: setItemProp,
     [ActionTypes.processStop]: setItemProp,
-    [ActionTypes.processFail]: setItemProp
+    [ActionTypes.processFail]: setItemProp,
   }
 )
+
+export const dckReducer = combineReducers({
+  items: itemsReducer,
+  itemProps: itemPropsReducer,
+  filters: filtersReducer,
+  sorting: sortingReducer,
+  processes: processesReducer,
+})
