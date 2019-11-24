@@ -1,15 +1,25 @@
-import { getItems, getItem } from './items'
-import { sortingType } from '../helpers'
+import { createSelector } from '@reduxjs/toolkit'
+import { getDckState, get3rdParam } from '../helpers'
+import { getIndexedItem } from './items'
 import { State } from '../types'
 
-export function getSortFields(state: State, itemType: string): any[] {
-  return getItems(state, sortingType(itemType))
-}
+type getSortFields = (state: State, itemType: string) => any[]
+type getSortField = (state: State, itemType: string, field: string) => any
+type getSortingState = (state: State, itemType: string) => any
 
-export function getSortField(
-  state: State,
-  itemType: string,
-  field: string
-): any {
-  return getItem(state, sortingType(itemType), field)
-}
+const _getSortingState = getDckState('sorting')
+
+export const getSortingState: getSortingState = createSelector(
+  _getSortingState,
+  sortingState => sortingState
+)
+
+export const getSortFields: getSortFields = createSelector(
+  getSortingState,
+  sortingState => sortingState.items
+)
+
+export const getSortField: getSortField = createSelector(
+  [getSortingState, get3rdParam],
+  getIndexedItem
+)

@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { getItemState, processType } from '../helpers'
+import { getDckState, get3rdParam } from '../helpers'
 import { State } from '../types'
 
 type getProcessStatus = (
@@ -14,18 +14,23 @@ type getProcessResponse = (
   process: string
 ) => any
 
-const emptyObject = {}
+type getProcess = (state: State, itemType: string, process: string) => any
+type getProcessState = (state: State, itemType: string) => any
 
-function getProcessState(
-  state: State,
-  itemType: string,
-  process: string
-): State {
-  return getItemState(state, processType(itemType))?.[process] || emptyObject
-}
+const _getProcessState = getDckState('processes')
+
+const getProcessState: getProcessState = createSelector(
+  _getProcessState,
+  filtersState => filtersState
+)
+
+const getProcess: getProcess = createSelector(
+  [getProcessState, get3rdParam],
+  (processState, process) => processState[process]
+)
 
 export const isProcessRunning: getProcessStatus = createSelector(
-  getProcessState,
+  getProcess,
   process => Boolean(process.running)
 )
 
@@ -35,7 +40,7 @@ export const isProcessIdle: getProcessStatus = createSelector(
 )
 
 export const isProcessSucceed: getProcessStatus = createSelector(
-  [getProcessState, isProcessIdle],
+  [getProcess, isProcessIdle],
   (process, idle) => idle && !process.error
 )
 
@@ -44,6 +49,7 @@ export const isProcessFailed: getProcessStatus = createSelector(
   (process, idle) => idle && Boolean(process.error)
 )
 
+const emptyObject = {}
 export const getProcessResponse: getProcessResponse = createSelector(
   getProcessState,
   process => process.response || emptyObject
