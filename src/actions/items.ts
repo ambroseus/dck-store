@@ -34,3 +34,7 @@ export function setActiveItem(itemType: string, id?: string): Action {
     payload: id,
   })
 }
+
+export function loadItems(itemType: string): Action {
+  return composeAction(ActionTypes.loadItems)({ itemType })
+}
