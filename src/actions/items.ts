@@ -38,3 +38,18 @@ export function setActiveItem(itemType: string, id?: string): Action {
 export function loadItems(itemType: string): Action {
   return composeAction(ActionTypes.loadItems)({ itemType })
 }
+export function addItems(itemType: string): Action {
+  return composeAction(ActionTypes.addItems)({ itemType })
+}
+export function updateItems(itemType: string): Action {
+  return composeAction(ActionTypes.updateItems)({ itemType })
+}
+export function deleteItems(itemType: string): Action {
+  return composeAction(ActionTypes.deleteItems)({ itemType })
+}
+export function importItems(itemType: string): Action {
+  return composeAction(ActionTypes.importItems)({ itemType })
+}
+export function exportItems(itemType: string): Action {
+  return composeAction(ActionTypes.exportItems)({ itemType })
+}
