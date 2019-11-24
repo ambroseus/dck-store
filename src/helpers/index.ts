@@ -12,6 +12,8 @@ export const reservedFields = [
   'activeItemId'
 ]
 
+export const get3rdParam = (...args: any[]) => args[2]
+
 export const isObject = (obj: any) =>
   Boolean(obj) && typeof obj === 'object' && obj.constructor === Object
 

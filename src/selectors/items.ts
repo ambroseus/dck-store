@@ -1,27 +1,34 @@
-import { getItemState, getIndexedItem } from '../helpers'
+import { createSelector } from '@reduxjs/toolkit'
+import { getItemState, getIndexedItem, get3rdParam } from '../helpers'
 import { State } from '../types'
 
-export function getItems(state: State, itemType: string): any[] {
-  return getItemState(state, itemType).items
-}
+type getItems = (state: State, itemType: string) => any[]
+type getItem = (state: State, itemType: string, id: string) => any
+type getItemProp = (state: State, itemType: string, field: string) => any
+type getActiveItemId = (state: State, itemType: string) => any
+type getActiveItem = (state: State, itemType: string) => any
 
-export function getItem(state: State, itemType: string, id: string): any {
-  return getIndexedItem(getItemState(state, itemType), id)
-}
+export const getItems: getItems = createSelector(
+  getItemState,
+  itemState => itemState.items
+)
 
-export function getItemProp(
-  state: State,
-  itemType: string,
-  field: string
-): any {
-  return getItemState(state, itemType)[field]
-}
+export const getItem: getItem = createSelector(
+  [getItemState, get3rdParam],
+  getIndexedItem
+)
 
-export function getActiveItemId(state: State, itemType: string): any {
-  return getItemState(state, itemType).activeItemId
-}
+export const getItemProp: getItemProp = createSelector(
+  [getItemState, get3rdParam],
+  (itemState, prop) => itemState[prop]
+)
 
-export function getActiveItem(state: State, itemType: string): any {
-  const itemState = getItemState(state, itemType)
-  return getIndexedItem(itemState, itemState.activeItemId)
-}
+export const getActiveItemId: getActiveItemId = createSelector(
+  getItemState,
+  itemState => itemState.activeItemId
+)
+
+export const getActiveItem: getActiveItem = createSelector(
+  getItemState,
+  itemState => getIndexedItem(itemState, itemState.activeItemId)
+)
