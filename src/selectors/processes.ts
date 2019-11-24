@@ -1,49 +1,50 @@
+import { createSelector } from '@reduxjs/toolkit'
 import { getItemState, processType } from '../helpers'
 import { State } from '../types'
 
-export function isProcessRunning(
+type getProcessStatus = (
   state: State,
   itemType: string,
   process: string
-): boolean {
-  return Boolean(getItemState(state, processType(itemType))?.[process]?.running)
-}
+) => boolean
 
-export function isProcessIdle(
+type getProcessResponse = (
   state: State,
   itemType: string,
   process: string
-): boolean {
-  return !isProcessRunning(state, itemType, process)
-}
-
-export function isProcessSucceed(
-  state: State,
-  itemType: string,
-  process: string
-): boolean {
-  const processState =
-    getItemState(state, processType(itemType))?.[process] || {}
-  return !processState.running && !processState.error
-}
-
-export function isProcessFailed(
-  state: State,
-  itemType: string,
-  process: string
-): boolean {
-  return !isProcessSucceed(state, itemType, process)
-}
+) => any
 
 const emptyObject = {}
 
-export function getProcessResponse(
+function getProcessState(
   state: State,
   itemType: string,
   process: string
-): object {
-  return (
-    getItemState(state, processType(itemType))?.[process]?.response ||
-    emptyObject
-  )
+): State {
+  return getItemState(state, processType(itemType))?.[process] || emptyObject
 }
+
+export const isProcessRunning: getProcessStatus = createSelector(
+  getProcessState,
+  process => Boolean(process.running)
+)
+
+export const isProcessIdle: getProcessStatus = createSelector(
+  isProcessRunning,
+  running => !running
+)
+
+export const isProcessSucceed: getProcessStatus = createSelector(
+  [getProcessState, isProcessIdle],
+  (process, idle) => idle && !process.error
+)
+
+export const isProcessFailed: getProcessStatus = createSelector(
+  [getProcessState, isProcessIdle],
+  (process, idle) => idle && Boolean(process.error)
+)
+
+export const getProcessResponse: getProcessResponse = createSelector(
+  getProcessState,
+  process => process.response || emptyObject
+)
