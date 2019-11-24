@@ -21,7 +21,7 @@ const _getProcessState = getDckState('processes')
 
 const getProcessState: getProcessState = createSelector(
   _getProcessState,
-  filtersState => filtersState
+  processState => processState
 )
 
 const getProcess: getProcess = createSelector(
