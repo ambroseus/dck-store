@@ -1,38 +1,37 @@
 import { State } from '../types'
 import { setItems, setItemProp, setItem, setActiveItem } from '../actions/items'
 import { setSelectedItem } from '../actions/selection'
-import { dckReducer } from './index'
+import { itemsReducer } from './index'
 
-describe('items reducer', () => {
+describe('itemsReducer', () => {
   it('should handle initial state', () => {
     const action = { type: '' }
-    expect(dckReducer(void 0, action)).toEqual({})
+    expect(itemsReducer(void 0, action)).toEqual({})
   })
 
   describe('for action [setItems]', () => {
     it('should immutable update state', () => {
       const stateBefore: State = {
         item: {},
-        testItem: { testField: {} }
+        testItem: { items: [] },
       }
       const stateAfter: State = {
         item: {},
         testItem: {
-          testField: {},
           items: [
             { id: '1', data: 'testData' },
-            { field: 'testField', data: 'testFieldData' }
+            { field: 'testField', data: 'testFieldData' },
           ],
           itemIndex: { '1': 0, testField: 1 },
-          selectedItems: {}
-        }
+          selectedItems: {},
+        },
       }
 
-      const state: State = dckReducer(
+      const state: State = itemsReducer(
         stateBefore,
         setItems('testItem', [
           { id: '1', data: 'testData' },
-          { field: 'testField', data: 'testFieldData' }
+          { field: 'testField', data: 'testFieldData' },
         ])
       )
       expect(state).toEqual(stateAfter)
@@ -40,7 +39,7 @@ describe('items reducer', () => {
 
       expect(state.testItem.items).toEqual([
         { id: '1', data: 'testData' },
-        { field: 'testField', data: 'testFieldData' }
+        { field: 'testField', data: 'testFieldData' },
       ])
       expect(state.testItem.itemIndex).toEqual({ '1': 0, testField: 1 })
       expect(state.item).toBe(stateBefore.item)
@@ -56,19 +55,19 @@ describe('items reducer', () => {
         item: {},
         testItem: {
           items: [{ id: '1', data: 'testData' }],
-          itemIndex: { '1': 0 }
-        }
+          itemIndex: { '1': 0 },
+        },
       }
       const stateAfter: State = {
         item: {},
         testItem: {
           testField: {},
           items: [{ id: '1', data: 'testData' }],
-          itemIndex: { '1': 0 }
-        }
+          itemIndex: { '1': 0 },
+        },
       }
 
-      const state: State = dckReducer(
+      const state: State = itemsReducer(
         stateBefore,
         setItemProp('testItem', 'testField', {})
       )
@@ -89,18 +88,21 @@ describe('items reducer', () => {
       const stateBefore: State = {
         item: {},
         testItem: {
-          items: [{ id: '1', data: 'testData' }]
-        }
+          items: [{ id: '1', data: 'testData' }],
+        },
       }
       const stateAfter: State = {
         item: {},
         testItem: {
           activeItemId: '1',
-          items: [{ id: '1', data: 'testData' }]
-        }
+          items: [{ id: '1', data: 'testData' }],
+        },
       }
 
-      let state: State = dckReducer(stateBefore, setActiveItem('testItem', '1'))
+      let state: State = itemsReducer(
+        stateBefore,
+        setActiveItem('testItem', '1')
+      )
 
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
@@ -110,7 +112,7 @@ describe('items reducer', () => {
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).toBe(stateBefore.testItem.items)
 
-      state = dckReducer(stateBefore, setActiveItem('testItem'))
+      state = itemsReducer(stateBefore, setActiveItem('testItem'))
       expect(state.testItem.activeItemId).toEqual(void 0)
     })
   })
@@ -124,10 +126,10 @@ describe('items reducer', () => {
           items: [
             { id: 0, data: {} },
             { id: '1', data: 'testData' },
-            { field: 'testField', data: 'testFieldData' }
+            { field: 'testField', data: 'testFieldData' },
           ],
-          itemIndex: { '0': 0, '1': 1, testField: 2 }
-        }
+          itemIndex: { '0': 0, '1': 1, testField: 2 },
+        },
       }
       const stateAfter: State = {
         item: {},
@@ -136,21 +138,21 @@ describe('items reducer', () => {
           items: [
             { id: 0, data: {} },
             { id: '1', data: 'updated1' },
-            { field: 'testField', data: 'updated2' }
+            { field: 'testField', data: 'updated2' },
           ],
-          itemIndex: { '0': 0, '1': 1, testField: 2 }
-        }
+          itemIndex: { '0': 0, '1': 1, testField: 2 },
+        },
       }
 
-      let state: State = dckReducer(
+      let state: State = itemsReducer(
         stateBefore,
         setItem('testItem', '1', { id: '1', data: 'updated1' })
       )
-      state = dckReducer(
+      state = itemsReducer(
         state,
         setItem('testItem', 'testField', {
           field: 'testField',
-          data: 'updated2'
+          data: 'updated2',
         })
       )
       expect(state).toEqual(stateAfter)
@@ -159,7 +161,7 @@ describe('items reducer', () => {
       expect(state.testItem.items).toEqual([
         { id: 0, data: {} },
         { id: '1', data: 'updated1' },
-        { field: 'testField', data: 'updated2' }
+        { field: 'testField', data: 'updated2' },
       ])
       expect(state.testItem.itemIndex).toEqual({ '0': 0, '1': 1, testField: 2 })
 
@@ -176,10 +178,10 @@ describe('items reducer', () => {
       let stateAfter: State = {
         testItem: {
           items: [{ id: '1', data: 'testData' }],
-          itemIndex: { '1': 0 }
-        }
+          itemIndex: { '1': 0 },
+        },
       }
-      let state: State = dckReducer(
+      let state: State = itemsReducer(
         stateBefore,
         setItem('testItem', '1', { id: '1', data: 'testData' })
       )
@@ -191,16 +193,16 @@ describe('items reducer', () => {
         testItem: {
           items: [
             { id: '1', data: 'testData' },
-            { field: 'testField', data: 'testFieldData' }
+            { field: 'testField', data: 'testFieldData' },
           ],
-          itemIndex: { '1': 0, testField: 1 }
-        }
+          itemIndex: { '1': 0, testField: 1 },
+        },
       }
-      state = dckReducer(
+      state = itemsReducer(
         stateBefore,
         setItem('testItem', 'testField', {
           field: 'testField',
-          data: 'testFieldData'
+          data: 'testFieldData',
         })
       )
       expect(state).toEqual(stateAfter)
@@ -215,35 +217,41 @@ describe('items reducer', () => {
           items: [
             { id: 0, data: {} },
             { id: '1', data: 'testData' },
-            { field: 'testField', data: 'testFieldData' }
+            { field: 'testField', data: 'testFieldData' },
           ],
           itemIndex: { '0': 0, '1': 1, testField: 2 },
-          selectedItems: {}
-        }
+          selectedItems: {},
+        },
       }
       const stateAfter: State = {
         testItem: {
           items: [
             { id: 0, data: {} },
             { id: '1', data: 'testData' },
-            { field: 'testField', data: 'testFieldData' }
+            { field: 'testField', data: 'testFieldData' },
           ],
           itemIndex: { '0': 0, '1': 1, testField: 2 },
-          selectedItems: { '1': 1, testField: 2 }
-        }
+          selectedItems: { '1': 1, testField: 2 },
+        },
       }
 
-      let state: State = dckReducer(
+      let state: State = itemsReducer(
         stateBefore,
         setSelectedItem('testItem', '1', true)
       )
-      state = dckReducer(state, setSelectedItem('testItem', 'testField', true))
+      state = itemsReducer(
+        state,
+        setSelectedItem('testItem', 'testField', true)
+      )
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
       expect(state.testItem.selectedItems).toEqual({ '1': 1, testField: 2 })
 
-      state = dckReducer(state, setSelectedItem('testItem', '1', false))
-      state = dckReducer(state, setSelectedItem('testItem', 'testField', false))
+      state = itemsReducer(state, setSelectedItem('testItem', '1', false))
+      state = itemsReducer(
+        state,
+        setSelectedItem('testItem', 'testField', false)
+      )
       expect(state).toEqual(stateBefore)
       expect(state).not.toBe(stateBefore)
       expect(state.testItem.selectedItems).toEqual({})
