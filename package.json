@@ -4,11 +4,13 @@
   "description": "Redux-based framework to get rid of CRUD-related boilerplate",
   "repository": "https://github.com/ambroseus/dck-store",
   "keywords": [
+    "typescript",
     "redux",
-    "react",
-    "toolkit",
+    "tsdx",
+    "redux-saga",
     "immer",
-    "dck"
+    "crud",
+    "toolkit"
   ],
   "publishConfig": {
     "access": "public"
