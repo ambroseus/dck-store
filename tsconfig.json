@@ -12,6 +12,5 @@
     "target": "es2018",
     "baseUrl": "./src"
   },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
+  "include": ["src"]
 }

@@ -1,4 +1,4 @@
-import { State } from '../types'
+import { State } from 'types'
 import { getItems, getItem, getActiveItemId, getActiveItem } from './selectors'
 
 const state: State = {
