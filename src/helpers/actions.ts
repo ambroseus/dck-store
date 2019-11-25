@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ActionTypes } from 'actionTypes'
-import { Action } from 'types'
+import { ActionTypes } from '../actionTypes'
+import { Action } from '../types'
 
 /*
 helpers for take* sagas effects
