@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { getDckState, get3rdParam } from 'helpers/selectors'
-import { getIndexedItem } from 'items/selectors'
-import { State } from 'types'
+import { getDckState, get3rdParam } from '../helpers/selectors'
+import { getIndexedItem } from '../items/selectors'
+import { State } from '../types'
 
 type getFilters = (state: State, itemType: string) => any[]
 type getFilter = (state: State, itemType: string, field: string) => any

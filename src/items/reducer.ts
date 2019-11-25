@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { ActionTypes } from 'actionTypes'
-import { reducers } from 'reducers'
+import { ActionTypes } from '../actionTypes'
+import { reducers } from '../reducers'
 
 const {
   setItems,

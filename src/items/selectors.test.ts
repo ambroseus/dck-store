@@ -1,5 +1,5 @@
-import { State } from 'types'
 import { getItems, getItem, getActiveItemId, getActiveItem } from './selectors'
+import { State } from '../types'
 
 const state: State = {
   dck: {

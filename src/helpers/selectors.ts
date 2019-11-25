@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { State } from 'types'
+import { State } from '../types'
 
 export const get3rdParam = (...args: any[]) => args[2]
 
