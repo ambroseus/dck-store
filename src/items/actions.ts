@@ -1,6 +1,5 @@
-import { ActionTypes } from '../actionTypes'
 import { composeAction } from '../helpers/actions'
-import { Action } from '../types'
+import { Action, ActionTypes } from '../types'
 
 // core action creators for items
 
@@ -33,23 +32,4 @@ export function setSelectedItem(
     id,
     payload: select,
   })
-}
-
-export function loadItems(itemType: string): Action {
-  return composeAction(ActionTypes.loadItems)({ itemType })
-}
-export function addItems(itemType: string): Action {
-  return composeAction(ActionTypes.addItems)({ itemType })
-}
-export function updateItems(itemType: string): Action {
-  return composeAction(ActionTypes.updateItems)({ itemType })
-}
-export function deleteItems(itemType: string): Action {
-  return composeAction(ActionTypes.deleteItems)({ itemType })
-}
-export function importItems(itemType: string): Action {
-  return composeAction(ActionTypes.importItems)({ itemType })
-}
-export function exportItems(itemType: string): Action {
-  return composeAction(ActionTypes.exportItems)({ itemType })
 }

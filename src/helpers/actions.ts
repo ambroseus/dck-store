@@ -1,6 +1,12 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ActionTypes } from '../actionTypes'
-import { Action } from '../types'
+import { Action, ActionTypes, Acts } from '../types'
+
+export const composeAction = (actionType: string): any => {
+  return createAction(actionType, params => {
+    const { itemType, id, field, payload } = params
+    return { meta: { itemType, id, field }, payload }
+  })
+}
 
 /*
 helpers for take* sagas effects
@@ -14,7 +20,7 @@ without helper:
   )
 
 with helper:
-  takeLatest(isAction.load(ItemType), loadItemsSaga)
+  takeLatest(isAction.Load(ItemType), loadItemsSaga)
 */
 
 const is = (actionType: ActionTypes) => (itemType: string) => (
@@ -22,19 +28,12 @@ const is = (actionType: ActionTypes) => (itemType: string) => (
 ) => action.type === actionType && action.meta.itemType === itemType
 
 export const isAction: any = {
-  Load: is(ActionTypes.loadItems),
-  Add: is(ActionTypes.addItems),
-  Update: is(ActionTypes.updateItems),
-  Delete: is(ActionTypes.deleteItems),
-  Import: is(ActionTypes.importItems),
-  Export: is(ActionTypes.exportItems),
-  Active: is(ActionTypes.setActiveItem),
-  Select: is(ActionTypes.setSelectedItem),
-}
-
-export const composeAction = (actionType: string): any => {
-  return createAction(actionType, params => {
-    const { itemType, id, field, payload } = params
-    return { meta: { itemType, id, field }, payload }
-  })
+  [Acts.Load]: is(ActionTypes.loadItems),
+  [Acts.Add]: is(ActionTypes.addItem),
+  [Acts.Update]: is(ActionTypes.updateItem),
+  [Acts.Delete]: is(ActionTypes.deleteItem),
+  [Acts.Import]: is(ActionTypes.importItems),
+  [Acts.Export]: is(ActionTypes.exportItems),
+  [Acts.Active]: is(ActionTypes.setActiveItem),
+  [Acts.Select]: is(ActionTypes.setSelectedItem),
 }
