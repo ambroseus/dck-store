@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { getDckState, get3rdParam } from 'helpers'
+import { getDckState, get3rdParam } from 'helpers/selectors'
 import { State } from 'types'
 
 type getItemPropsState = (state: State, itemType: string) => any
