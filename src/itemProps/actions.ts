@@ -1,6 +1,6 @@
-import { ActionTypes } from '../actionTypes'
-import { Action } from '../types'
-import { composeAction } from '../helpers'
+import { ActionTypes } from 'actionTypes'
+import { Action } from 'types'
+import { composeAction } from 'helpers/actions'
 
 // action creators for itemProps
 

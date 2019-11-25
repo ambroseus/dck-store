@@ -31,3 +31,10 @@ export const isAction: any = {
   Active: is(ActionTypes.setActiveItem),
   Select: is(ActionTypes.setSelectedItem),
 }
+
+export const composeAction = (actionType: string): any => {
+  return createAction(actionType, params => {
+    const { itemType, id, field, payload } = params
+    return { meta: { itemType, id, field }, payload }
+  })
+}
