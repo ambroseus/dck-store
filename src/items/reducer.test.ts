@@ -1,7 +1,7 @@
 import { State } from '../types'
 import { setItems, setItem, setActiveItem } from '../actions/items'
 import { setSelectedItem } from '../actions/selection'
-import { itemsReducer } from './_index'
+import { itemsReducer } from './reducer'
 
 describe('itemsReducer', () => {
   it('should handle initial state', () => {

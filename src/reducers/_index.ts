@@ -2,7 +2,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 import { ActionTypes } from '../actionTypes'
-import { reducers } from './reducers'
+import { reducers } from '.'
 
 const {
   setItems,
