@@ -1,5 +1,6 @@
 import { ActionTypes } from '../actionTypes'
 import { composeAction } from '../helpers/actions'
+import { Action } from '../types'
 
 // action creators for processes
 
