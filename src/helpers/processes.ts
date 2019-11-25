@@ -1,4 +1,4 @@
-import { put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import {
   getFilters,
@@ -46,14 +46,20 @@ export class Process {
   }
 
   filters = () => select(state => getFilters(state, this.itemType))
+
   sorting = () => select(state => getSortFields(state, this.itemType))
+
   page = () => select(state => getCurrentPage(state, this.itemType))
+
   pageSize = () => select(state => getPageSize(state, this.itemType))
+
   itemProp = (prop: any) =>
     select(state => getItemProp(state, this.itemType, prop))
 
   start = () => put(processStart(this.itemType, this.act))
+
   reset = () => put(processReset(this.itemType, this.act))
+
   stop = (response: any) => put(processStop(this.itemType, this.act, response))
 
   fail = (response: any) => put(processFail(this.itemType, this.act, response))
@@ -68,6 +74,17 @@ export class Process {
       if (!Array.isArray(data)) data = [data]
       return put(setItems(this.itemType, data))
     }
+  }
+
+  request = (params: any) => {
+    const request = params || {}
+    if (this.options?.pageble) {
+      request.page = this.page()
+      request.pageSize = this.page()
+      request.filters = this.filters()
+      request.sorting = this.sorting()
+    }
+    return call(this.dataProvider, { process: this, request })
   }
 }
 
