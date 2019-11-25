@@ -11,7 +11,7 @@ export function processStart(itemType: string, process: string): Action {
     payload: {
       running: true,
       error: false,
-      response: {},
+      response: void 0,
     },
   })
 }
@@ -23,7 +23,7 @@ export function processReset(itemType: string, process: string): Action {
     payload: {
       running: false,
       error: false,
-      response: {},
+      response: void 0,
     },
   })
 }
