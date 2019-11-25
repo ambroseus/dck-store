@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { ActionTypes } from '../actionTypes'
+import { ActionTypes } from '../types'
 import { reducers } from '../reducers'
 
 const {
