@@ -1,4 +1,4 @@
-import { State, Action } from '../types'
+import { State, Action } from 'types'
 
 export const isObject = (obj: any) =>
   Boolean(obj) && typeof obj === 'object' && obj.constructor === Object

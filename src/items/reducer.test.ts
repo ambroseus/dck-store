@@ -1,7 +1,6 @@
-import { State } from '../types'
-import { setItems, setItem, setActiveItem } from '../actions/items'
-import { setSelectedItem } from '../actions/selection'
+import { setItems, setItem, setActiveItem, setSelectedItem } from './actions'
 import { itemsReducer } from './reducer'
+import { State } from 'types'
 
 describe('itemsReducer', () => {
   it('should handle initial state', () => {
