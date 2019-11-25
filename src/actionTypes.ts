@@ -4,7 +4,6 @@ export enum ActionTypes {
   setItems = 'dck:setItems',
   setItem = 'dck:setItem',
   removeItem = 'dck:removeItem',
-  setItemProp = 'dck:setItemProp',
   setActiveItem = 'dck:setActiveItem',
   setSelectedItem = 'dck:setSelectedItem',
   loadItems = 'dck:loadItems',
@@ -13,6 +12,8 @@ export enum ActionTypes {
   deleteItems = 'dck:deleteItems',
   importItems = 'dck:importItems',
   exportItems = 'dck:exportItems',
+  // itemProps
+  setItemProp = 'dck:setItemProp',
   // filters
   setFilters = 'dck:setFilters',
   setFilter = 'dck:setFilter',

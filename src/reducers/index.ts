@@ -1,68 +1,107 @@
-/* istanbul ignore file */
-import { createReducer } from '@reduxjs/toolkit'
-import { combineReducers } from 'redux'
-import { ActionTypes } from '../actionTypes'
-import { reducers } from './reducers'
+import { getParams, getItemIndex } from '../helpers'
+import { State, Action } from '../types'
 
-const {
-  setItems,
-  setItem,
-  removeItem,
-  setItemProp,
-  setActiveItem,
-  setSelectedItem,
-} = reducers
+// case reducers are implicitly wrapped with immer
+// so we have "mutative" immutable update logic
 
-export const itemsReducer = createReducer(
-  {},
-  {
-    [ActionTypes.setItems]: setItems,
-    [ActionTypes.setItem]: setItem,
-    [ActionTypes.removeItem]: removeItem,
-    [ActionTypes.setActiveItem]: setActiveItem,
-    [ActionTypes.setSelectedItem]: setSelectedItem,
+class MutativeReducers {
+  setItems(state: State, action: Action) {
+    state = setItemsWithIndex(state, action)
   }
-)
-
-export const itemPropsReducer = createReducer(
-  {},
-  {
-    [ActionTypes.setItemProp]: setItemProp,
+  setItem(state: State, action: Action) {
+    state = updateOrAppendItemByKey(state, action)
   }
-)
-
-export const filtersReducer = createReducer(
-  {},
-  {
-    [ActionTypes.setFilters]: setItems,
-    [ActionTypes.setFilter]: setItem,
-    [ActionTypes.removeFilter]: removeItem,
+  removeItem(state: State, action: Action) {
+    state = removeItemByKey(state, action)
   }
-)
-
-export const sortingReducer = createReducer(
-  {},
-  {
-    [ActionTypes.setSortFields]: setItems,
-    [ActionTypes.setSortField]: setItem,
-    [ActionTypes.removeSortField]: removeItem,
+  setItemProp(state: State, action: Action) {
+    state = updateItemByField(state, action, action.meta.field)
   }
-)
-
-export const processesReducer = createReducer(
-  {},
-  {
-    [ActionTypes.processStart]: setItemProp,
-    [ActionTypes.processReset]: setItemProp,
-    [ActionTypes.processStop]: setItemProp,
-    [ActionTypes.processFail]: setItemProp,
+  setActiveItem(state: State, action: Action) {
+    state = updateItemByField(state, action, 'activeItemId')
   }
-)
+  setSelectedItem(state: State, action: Action) {
+    state = selectOrUnselectItemByKey(state, action)
+  }
+}
 
-export const dckReducer = combineReducers({
-  items: itemsReducer,
-  itemProps: itemPropsReducer,
-  filters: filtersReducer,
-  sorting: sortingReducer,
-  processes: processesReducer,
-})
+export const reducers = new MutativeReducers()
+
+function setItemsWithIndex(state: State, action: Action): State {
+  const { itemType, data, itemState } = getParams(state, action)
+  itemState.items = data
+  itemState.itemIndex = getItemIndex(data)
+  itemState.selectedItems = {}
+  state[itemType] = itemState
+  return state
+}
+
+function updateItemByField(state: State, action: Action, field: string): State {
+  const { itemType, data, itemState } = getParams(state, action)
+  itemState[field] = data
+  state[itemType] = itemState
+  return state
+}
+
+function updateOrAppendItemByKey(state: State, action: Action): State {
+  const { itemType, data, id, field, itemState } = getParams(state, action)
+  if (!id && !field) return state
+
+  const key: string = String(id || field)
+  let { items, itemIndex } = itemState
+  const index = itemIndex ? itemIndex[key] : void 0
+
+  if (index !== void 0 && Array.isArray(items)) {
+    // update existing item
+    items[index] = data
+  } else {
+    // append new item
+    if (!Array.isArray(items)) items = []
+    if (!itemIndex) itemIndex = {}
+    itemIndex[key] = items.length
+    items.push(data)
+  }
+
+  itemState.items = items
+  itemState.itemIndex = itemIndex
+  state[itemType] = itemState
+  return state
+}
+
+function removeItemByKey(state: State, action: Action): State {
+  const { itemType, id, field, itemState } = getParams(state, action)
+  if (!id && !field) return state
+
+  const key: string = String(id || field)
+  let { items, itemIndex, selectedItems } = itemState
+  const index = itemIndex ? itemIndex[key] : void 0
+  if (index === void 0 || !Array.isArray(items)) return state
+
+  items.splice(index, 1)
+  delete itemIndex[key]
+  if (selectedItems) delete selectedItems[key]
+
+  itemState.items = items
+  itemState.itemIndex = itemIndex
+  itemState.selectedItems = selectedItems
+  state[itemType] = itemState
+  return state
+}
+
+function selectOrUnselectItemByKey(state: State, action: Action): State {
+  const { itemType, id, field, data: select, itemState } = getParams(
+    state,
+    action
+  )
+  if (!id && !field) return state
+
+  const key: string = String(id || field)
+  let { selectedItems, itemIndex } = itemState
+  if (!selectedItems) selectedItems = {}
+
+  select ? (selectedItems[key] = itemIndex[key]) : delete selectedItems[key]
+
+  itemState.selectedItems = selectedItems
+  state[itemType] = itemState
+  return state
+}
