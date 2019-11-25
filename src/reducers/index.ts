@@ -1,5 +1,5 @@
-import { getParams, getItemIndex } from '../helpers'
-import { State, Action } from '../types'
+import { getParams, getItemIndex } from 'helpers/reducers'
+import { State, Action } from 'types'
 
 // case reducers are implicitly wrapped with immer
 // so we have "mutative" immutable update logic
