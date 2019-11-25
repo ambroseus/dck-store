@@ -1,6 +1,6 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
-import { composeAction } from '../helpers'
+import { composeAction } from '../helpers/selectors'
 
 // core action creators for items
 

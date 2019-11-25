@@ -1,6 +1,6 @@
 import { ActionTypes } from '../actionTypes'
 import { Action } from '../types'
-import { composeAction } from '../helpers'
+import { composeAction } from '../helpers/selectors'
 import { setItemProp } from './items'
 
 // action creators for items selection
