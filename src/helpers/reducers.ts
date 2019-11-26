@@ -1,4 +1,4 @@
-import { State, Action } from '../types'
+import { IState, IAction } from '../types'
 
 export const isObject = (obj: any) =>
   Boolean(obj) && typeof obj === 'object' && obj.constructor === Object
@@ -7,7 +7,7 @@ export const getItemKey = (item: any) => {
   return (isObject(item) && (item.id || item.field)) || void 0
 }
 
-export const getItemIndex = (items: any[]): State => {
+export const getItemIndex = (items: any[]): IState => {
   const itemIndex: any = {}
 
   if (Array.isArray(items)) {
@@ -19,7 +19,7 @@ export const getItemIndex = (items: any[]): State => {
   return itemIndex
 }
 
-export const getParams = (state: State, action: Action): State => {
+export const getParams = (state: IState, action: IAction): IState => {
   const { meta, payload } = action
   const { itemType, field, id } = meta
   const itemState = state[itemType] || {}
