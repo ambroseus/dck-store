@@ -20,20 +20,35 @@ import {
 } from '../dck/actions'
 
 import { TDataProvider } from '../types'
+
 export type TProcess = typeof Process
-export type TProcessInstance = InstanceType<TProcess>
+export type TProcessLoad = typeof ProcessLoad
+export type TProcessAdd = typeof ProcessAdd
+export type TProcessUpdate = typeof ProcessUpdate
+export type TProcessDelete = typeof ProcessDelete
+export type TProcessImport = typeof ProcessImport
+export type TProcessExport = typeof ProcessExport
+
+export type TProcessInstance =
+  | InstanceType<TProcess>
+  | InstanceType<TProcessLoad>
+  | InstanceType<TProcessAdd>
+  | InstanceType<TProcessUpdate>
+  | InstanceType<TProcessDelete>
+  | InstanceType<TProcessImport>
+  | InstanceType<TProcessExport>
 
 export class Process {
-  public static Load: TProcess
-  public static Add: TProcess
-  public static Update: TProcess
-  public static Delete: TProcess
-  public static Import: TProcess
-  public static Export: TProcess
+  public static Load: TProcessLoad
+  public static Add: TProcessAdd
+  public static Update: TProcessUpdate
+  public static Delete: TProcessDelete
+  public static Import: TProcessImport
+  public static Export: TProcessExport
 
   public act: Acts
   public itemType: string
-  public provider: TDataProvider
+  public provider: TDataProvider | any
   public options: any
   public response: any
   public data: any
@@ -41,7 +56,7 @@ export class Process {
   constructor(
     act: Acts,
     itemType?: string,
-    provider?: TDataProvider,
+    provider?: TDataProvider | any,
     options?: any
   ) {
     this.act = act
@@ -67,7 +82,7 @@ export class Process {
 
   reset = () => put(processReset(this.itemType, this.act))
 
-  stop = (response: any) => put(processStop(this.itemType, this.act, response))
+  stop = (response?: any) => put(processStop(this.itemType, this.act, response))
 
   fail = (response: any) => put(processFail(this.itemType, this.act, response))
 
@@ -92,9 +107,10 @@ export class Process {
     process.normalizeResponse(response)
   }
   */
-  request(request: any): void {
-    if (this.provider?.provideData)
-      call(this.provider.provideData, this, request)
+  request(request: any): any {
+    if (this.provider?.provideData) {
+      return call([this.provider, 'provideData'], this, request)
+    }
   }
 
   normalizeRequest(request: any): any {
@@ -110,7 +126,7 @@ export class Process {
     return normalizedRequest
   }
 
-  normalizeResponse = response => (this.response = response)
+  normalizeResponse = (response: any) => (this.response = response)
 }
 
 class ProcessLoad extends Process {

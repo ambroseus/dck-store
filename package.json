@@ -26,9 +26,11 @@
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.1",
+    "@types/redux-saga-tester": "1.0.1",
     "eslint-config-react-app": "^5.0.2",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
+    "redux-saga-tester": "^1.0.614",
     "tsdx": "^0.11.0",
     "tslib": "^1.10.0",
     "typescript": "^3.7.2"
