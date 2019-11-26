@@ -3,7 +3,7 @@ import { TProcessInstance } from '../types'
 export type TDataProvider = DataProvider
 
 export class DataProvider {
-  doRequest(request) {
+  doRequest(request: any) {
     return request
   }
   provideData(process: TProcessInstance, request: any): void {

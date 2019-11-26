@@ -29,8 +29,8 @@ export function processReset(itemType: string, process: Acts): IAction {
 
 export function processStop(
   itemType: string,
-  process: Acts,
-  response: any
+  process: Acts | string,
+  response?: any
 ): IAction {
   return composeAction(ActionTypes.processStop)({
     itemType,
