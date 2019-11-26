@@ -11,8 +11,7 @@ toolset:
 - <https://redux-toolkit.js.org>
 - <https://immerjs.github.io/immer>
 - <https://redux-saga.js.org>
+- <https://github.com/wix/redux-saga-tester>
 - <https://github.com/jaredpalmer/tsdx>
 
-ci:
-
-- github actions
+ci: github actions
