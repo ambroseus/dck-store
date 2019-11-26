@@ -83,8 +83,8 @@ export class Process {
     }
   }
 
-  async request(request: any) {
-    if (this.provider?.request) await this.provider.request(this, request)
+  request(request: any): void {
+    if (this.provider?.request) call(this.provider.request, this, request)
   }
 
   normalizeResponse = response => (this.response = response)

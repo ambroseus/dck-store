@@ -1,7 +1,12 @@
-import { getItems, getItem, getActiveItemId, getActiveItem } from './selectors'
-import { State } from '../types'
+import {
+  getItems,
+  getItem,
+  getActiveItemId,
+  getActiveItem,
+} from '../items/selectors'
+import { IState } from '../types'
 
-const state: State = {
+const state: IState = {
   dck: {
     items: {
       testItem: {
