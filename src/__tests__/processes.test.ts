@@ -28,8 +28,20 @@ const provider = new FakeDataProvider()
 function* loadTestItemsSaga(action: any) {
   const proc = new Process.Load('testItem', provider, { pageble: true })
   yield proc.start()
-  yield proc.request({ test: 'test' })
-  yield proc.stop()
+  yield proc.provideData({ test: 'test' })
+  yield proc.stop({ message: 'done' })
+
+  const response = {
+    test: 'test',
+    pageble: {
+      page: undefined,
+      pageSize: undefined,
+      filters: undefined,
+      sorting: undefined,
+    },
+    result: true,
+  }
+  expect(proc.response).toEqual(response)
 }
 
 describe('process helper', () => {
@@ -38,5 +50,27 @@ describe('process helper', () => {
     expect(sagaTester.getState()).toEqual(initialState)
     sagaTester.dispatch(loadItems('testItem'))
     await sagaTester.waitFor(ActionTypes.processStop)
+
+    const stateAfter = {
+      dck: {
+        items: {},
+        itemProps: {},
+        filters: {},
+        sorting: {},
+        processes: {
+          testItem: {
+            Load: {
+              running: false,
+              error: false,
+              response: {
+                message: 'done',
+              },
+            },
+          },
+        },
+      },
+    }
+
+    expect(sagaTester.getState()).toEqual(stateAfter)
   })
 })

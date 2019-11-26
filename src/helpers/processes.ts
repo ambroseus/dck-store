@@ -96,37 +96,40 @@ export class Process {
       if (!Array.isArray(data)) data = [data]
       return put(setItems(this.itemType, data))
     }
-  }
+  };
 
-  /*
-  DataProvider.provideData method calls normalizeRequest before request
-  and normalizeResponse after receiving response
-
-  DataProvider.provideData(process: TProcessInstance, request) {
-    const response = this.doRequest(process.normalizeRequest(request))
-    process.normalizeResponse(response)
-  }
-  */
-  request(request: any): any {
+  *provideData(request: any): any {
     if (this.provider?.provideData) {
-      return call([this.provider, 'provideData'], this, request)
+      request = yield this.extendRequest(request)
+      const response = yield call(
+        [this.provider, this.provider.provideData],
+        request
+      )
+      this.response = yield this.postprocessResponse(response)
     }
   }
 
-  normalizeRequest(request: any): any {
-    const normalizedRequest = request || {}
+  *extendRequest(request: any): any {
+    request = request || {}
     if (this.options.pageble) {
-      normalizedRequest.pageble = {
-        page: this.page(),
-        pageSize: this.pageSize(),
-        filters: this.filters(),
-        sorting: this.sorting(),
+      const page = yield this.page()
+      const pageSize = yield this.pageSize()
+      const filters = yield this.filters()
+      const sorting = yield this.sorting()
+      request.pageble = {
+        page,
+        pageSize,
+        filters,
+        sorting,
       }
     }
-    return normalizedRequest
+    return request
   }
 
-  normalizeResponse = (response: any) => (this.response = response)
+  *postprocessResponse(response: any): any {
+    response = response || {}
+    return yield response
+  }
 }
 
 class ProcessLoad extends Process {
