@@ -90,8 +90,8 @@ export class Process {
   setItemProp = (prop: string, data: any): PutEffect<IAction> =>
     put(setItemProp(this.itemType, prop, data))
 
-  set = (data: any, id?: string | number): PutEffect<IAction> => {
-    if (!data) return
+  set = (data?: any, id?: string | number): PutEffect<IAction> => {
+    if (!data) data = []
     if (id !== void 0) {
       return put(setItem(this.itemType, String(id), data))
     } else {
