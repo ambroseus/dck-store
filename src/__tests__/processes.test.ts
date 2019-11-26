@@ -6,8 +6,7 @@ import { dckReducer } from '../dck/reducer'
 import { isAction } from '../helpers/actions'
 import { loadItems } from '../dck/actions'
 import { Process } from '../helpers/processes'
-import { FakeDataProvider } from './fakeDataProvider'
-import { ActionTypes } from '../types'
+import { ActionTypes, Acts } from '../types'
 
 const initialState = {
   dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
@@ -23,25 +22,40 @@ function* testSaga() {
   yield all([takeLatest(isAction.Load('testItem'), loadTestItemsSaga)])
 }
 
-const provider = new FakeDataProvider()
+function loadTestItemsFetcher(request: any) {
+  if (request.itemType === 'testItem' && request.act === Acts.Load) {
+    return testFetch()
+  }
+}
+
+// similate async fetch
+async function testFetch() {
+  await new Promise(resolve => setTimeout(resolve, 10))
+  return {
+    data: [
+      {
+        id: '1',
+        data: 'data1',
+      },
+      {
+        id: '2',
+        data: 'data2',
+      },
+    ],
+  }
+}
 
 function* loadTestItemsSaga(action: any) {
-  const proc = new Process.Load('testItem', provider, { pageble: true })
+  const proc = new Process.Load('testItem', loadTestItemsFetcher, {
+    pageble: true,
+  })
+  yield proc.setItemProp('page', 3)
+  yield proc.setItemProp('pageSize', 10)
   yield proc.start()
-  yield proc.provideData({ test: 'test' })
+  yield proc.fetch()
+  yield proc.set(proc.response.data)
+  yield proc.setActive(2)
   yield proc.stop({ message: 'done' })
-
-  const response = {
-    test: 'test',
-    pageble: {
-      page: undefined,
-      pageSize: undefined,
-      filters: undefined,
-      sorting: undefined,
-    },
-    result: true,
-  }
-  expect(proc.response).toEqual(response)
 }
 
 describe('process helper', () => {
@@ -53,8 +67,32 @@ describe('process helper', () => {
 
     const stateAfter = {
       dck: {
-        items: {},
-        itemProps: {},
+        items: {
+          testItem: {
+            items: [
+              {
+                id: '1',
+                data: 'data1',
+              },
+              {
+                id: '2',
+                data: 'data2',
+              },
+            ],
+            itemIndex: {
+              '1': 0,
+              '2': 1,
+            },
+            selectedItems: {},
+            activeItemId: '2',
+          },
+        },
+        itemProps: {
+          testItem: {
+            page: 3,
+            pageSize: 10,
+          },
+        },
         filters: {},
         sorting: {},
         processes: {
