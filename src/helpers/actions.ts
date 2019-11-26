@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { Action, ActionTypes, Acts } from '../types'
+import { IAction, ActionTypes, Acts } from '../types'
 
 export const composeAction = (actionType: string): any => {
   return createAction(actionType, params => {
@@ -24,7 +24,7 @@ with helper:
 */
 
 const is = (actionType: ActionTypes) => (itemType: string) => (
-  action: Action
+  action: IAction
 ) => action.type === actionType && action.meta.itemType === itemType
 
 export const isAction: any = {

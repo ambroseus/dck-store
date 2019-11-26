@@ -1,12 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { getDckState, get3rdParam } from '../helpers/selectors'
-import { State } from '../types'
+import { IState } from '../types'
 
-type getItemPropsState = (state: State, itemType: string) => any
-type getItemProp = (state: State, itemType: string, field: string) => any
-type getTotalItems = (state: State, itemType: string) => any
-type getCurrentPage = (state: State, itemType: string) => any
-type getPageSize = (state: State, itemType: string) => any
+type getItemPropsState = (state: IState, itemType: string) => any
+type getItemProp = (state: IState, itemType: string, field: string) => any
+type getTotalItems = (state: IState, itemType: string) => any
+type getCurrentPage = (state: IState, itemType: string) => any
+type getPageSize = (state: IState, itemType: string) => any
 
 const _getItemPropsState = getDckState('itemProps')
 
