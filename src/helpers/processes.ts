@@ -8,7 +8,7 @@ import {
   getItemProp,
 } from '../dck/selectors'
 
-import { Acts } from '../types'
+import { Acts, TAct } from '../types'
 import {
   processStart,
   processReset,
@@ -39,6 +39,10 @@ export type TProcessInstance =
   | InstanceType<TProcessImport>
   | InstanceType<TProcessExport>
 
+function* extendRequestStub(request: any): any {
+  return request
+}
+
 export class Process {
   public static Load: TProcessLoad
   public static Add: TProcessAdd
@@ -47,7 +51,9 @@ export class Process {
   public static Import: TProcessImport
   public static Export: TProcessExport
 
-  public act: Acts
+  public static extendRequest: any = extendRequestStub
+
+  public act: TAct
   public itemType: string
   public fetcher: TFetcher | any
   public options: any
@@ -55,7 +61,7 @@ export class Process {
   public data: any
 
   constructor(
-    act: Acts,
+    act: TAct,
     itemType?: string,
     fetcher?: TFetcher | any,
     options?: any
@@ -103,24 +109,27 @@ export class Process {
     }
   };
 
-  *fetch(request?: any): any {
+  *fetch(params?: any): any {
     if (this.fetcher) {
-      request = yield this.extendRequest(request)
+      const request = yield this.createRequest(params)
       this.response = yield call(this.fetcher, request)
     }
   }
 
-  *extendRequest(request?: any): any {
+  *createRequest(request?: any): any {
     request = request || {}
     request.itemType = this.itemType
     request.act = this.act
     request.options = this.options
+
     if (this.options.pageble) {
       request.page = yield this.page()
       request.pageSize = yield this.pageSize()
       request.filters = yield this.filters()
       request.sorting = yield this.sorting()
     }
+
+    request = yield Process.extendRequest(request)
     return request
   }
 }
