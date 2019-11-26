@@ -22,7 +22,19 @@ function* testSaga() {
   yield all([takeLatest(isAction.Load('testItem'), loadTestItemsSaga)])
 }
 
-function loadTestItemsFetcher(request: any) {
+function testFetcher(request: any) {
+  const extendedRequest = {
+    itemType: 'testItem',
+    act: 'Load',
+    options: { pageble: true },
+    page: 3,
+    pageSize: 10,
+    filters: undefined,
+    sorting: undefined,
+    token: 'SESSION_TOKEN',
+  }
+  expect(request).toEqual(extendedRequest)
+
   if (request.itemType === 'testItem' && request.act === Acts.Load) {
     return testFetch()
   }
@@ -45,11 +57,20 @@ async function testFetch() {
   }
 }
 
+function* getSession(request: any) {
+  return yield {
+    ...request,
+    token: 'SESSION_TOKEN',
+  }
+}
+
+Process.extendRequest = getSession
+
 function* loadTestItemsSaga(action: any) {
-  const proc = new Process.Load('testItem', loadTestItemsFetcher, {
+  const proc = new Process.Load('testItem', testFetcher, {
     pageble: true,
   })
-  yield proc.setItemProp('page', 3)
+  yield proc.setItemProp('currentPage', 3)
   yield proc.setItemProp('pageSize', 10)
   yield proc.start()
   yield proc.fetch()
@@ -89,7 +110,7 @@ describe('process helper', () => {
         },
         itemProps: {
           testItem: {
-            page: 3,
+            currentPage: 3,
             pageSize: 10,
           },
         },
