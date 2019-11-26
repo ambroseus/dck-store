@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-export { TProcess, TProcessInstance } from './helpers/processes'
+export { TProcess } from './helpers/processes'
 
 export interface IState {
   [propName: string]: any

@@ -1,4 +1,5 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, PutEffect, SelectEffect } from 'redux-saga/effects'
+import { Acts, TAct, TFetcher, IAction } from '../types'
 
 import {
   getFilters,
@@ -8,7 +9,6 @@ import {
   getItemProp,
 } from '../dck/selectors'
 
-import { Acts, TAct } from '../types'
 import {
   processStart,
   processReset,
@@ -20,8 +20,6 @@ import {
   setItemProp,
 } from '../dck/actions'
 
-import { TFetcher } from '../types'
-
 export type TProcess = typeof Process
 export type TProcessLoad = typeof ProcessLoad
 export type TProcessAdd = typeof ProcessAdd
@@ -29,19 +27,6 @@ export type TProcessUpdate = typeof ProcessUpdate
 export type TProcessDelete = typeof ProcessDelete
 export type TProcessImport = typeof ProcessImport
 export type TProcessExport = typeof ProcessExport
-
-export type TProcessInstance =
-  | InstanceType<TProcess>
-  | InstanceType<TProcessLoad>
-  | InstanceType<TProcessAdd>
-  | InstanceType<TProcessUpdate>
-  | InstanceType<TProcessDelete>
-  | InstanceType<TProcessImport>
-  | InstanceType<TProcessExport>
-
-function* extendRequestStub(request: any): any {
-  return yield request
-}
 
 export class Process {
   public static Load: TProcessLoad
@@ -51,7 +36,7 @@ export class Process {
   public static Import: TProcessImport
   public static Export: TProcessExport
 
-  public static extendRequest: any = extendRequestStub
+  public static extendRequest: any
 
   public act: TAct
   public itemType: string
@@ -74,32 +59,38 @@ export class Process {
     this.data = null
   }
 
-  filters = () => select(state => getFilters(state, this.itemType))
+  filters = (): SelectEffect =>
+    select(state => getFilters(state, this.itemType))
 
-  sorting = () => select(state => getSortFields(state, this.itemType))
+  sorting = (): SelectEffect =>
+    select(state => getSortFields(state, this.itemType))
 
-  page = () => select(state => getCurrentPage(state, this.itemType))
+  page = (): SelectEffect =>
+    select(state => getCurrentPage(state, this.itemType))
 
-  pageSize = () => select(state => getPageSize(state, this.itemType))
+  pageSize = (): SelectEffect =>
+    select(state => getPageSize(state, this.itemType))
 
-  itemProp = (prop: any) =>
+  itemProp = (prop: any): SelectEffect =>
     select(state => getItemProp(state, this.itemType, prop))
 
-  start = () => put(processStart(this.itemType, this.act))
+  start = (): PutEffect<IAction> => put(processStart(this.itemType, this.act))
 
-  reset = () => put(processReset(this.itemType, this.act))
+  reset = (): PutEffect<IAction> => put(processReset(this.itemType, this.act))
 
-  stop = (response?: any) => put(processStop(this.itemType, this.act, response))
+  stop = (response?: any): PutEffect<IAction> =>
+    put(processStop(this.itemType, this.act, response))
 
-  fail = (response: any) => put(processFail(this.itemType, this.act, response))
+  fail = (response: any): PutEffect<IAction> =>
+    put(processFail(this.itemType, this.act, response))
 
-  setActive = (id: string | number) =>
+  setActive = (id: string | number): PutEffect<IAction> =>
     put(setActiveItem(this.itemType, String(id)))
 
-  setItemProp = (prop: string, data: any) =>
+  setItemProp = (prop: string, data: any): PutEffect<IAction> =>
     put(setItemProp(this.itemType, prop, data))
 
-  set = (data: any, id?: string | number) => {
+  set = (data: any, id?: string | number): PutEffect<IAction> => {
     if (!data) return
     if (id !== void 0) {
       return put(setItem(this.itemType, String(id), data))
@@ -132,6 +123,12 @@ export class Process {
     request = yield Process.extendRequest(request)
     return request
   }
+}
+
+Process.extendRequest = extendRequestStub
+
+function* extendRequestStub(request: any): any {
+  return yield request
 }
 
 class ProcessLoad extends Process {
