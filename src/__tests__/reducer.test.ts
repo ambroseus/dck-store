@@ -1,6 +1,11 @@
-import { setItems, setItem, setActiveItem, setSelectedItem } from './actions'
-import { itemsReducer } from './reducer'
-import { State } from '../types'
+import {
+  setItems,
+  setItem,
+  setActiveItem,
+  setSelectedItem,
+} from '../items/actions'
+import { itemsReducer } from '../items/reducer'
+import { IState } from '../types'
 
 describe('itemsReducer', () => {
   it('should handle initial state', () => {
@@ -10,11 +15,11 @@ describe('itemsReducer', () => {
 
   describe('for action [setItems]', () => {
     it('should immutable update state', () => {
-      const stateBefore: State = {
+      const stateBefore: IState = {
         item: {},
         testItem: { items: [] },
       }
-      const stateAfter: State = {
+      const stateAfter: IState = {
         item: {},
         testItem: {
           items: [
@@ -26,7 +31,7 @@ describe('itemsReducer', () => {
         },
       }
 
-      const state: State = itemsReducer(
+      const state: IState = itemsReducer(
         stateBefore,
         setItems('testItem', [
           { id: '1', data: 'testData' },
@@ -44,14 +49,14 @@ describe('itemsReducer', () => {
   /*
   describe('for action [setItemProp]', () => {
     it('should immutable update state', () => {
-      const stateBefore: State = {
+      const stateBefore: IState = {
         item: {},
         testItem: {
           items: [{ id: '1', data: 'testData' }],
           itemIndex: { '1': 0 },
         },
       }
-      const stateAfter: State = {
+      const stateAfter: IState = {
         item: {},
         testItem: {
           testField: {},
@@ -60,7 +65,7 @@ describe('itemsReducer', () => {
         },
       }
 
-      const state: State = itemsReducer(
+      const state: IState = itemsReducer(
         stateBefore,
         setItemProp('testItem', 'testField', {})
       )
@@ -78,13 +83,13 @@ describe('itemsReducer', () => {
 */
   describe('for action [setActiveItem]', () => {
     it('should immutable update state', () => {
-      const stateBefore: State = {
+      const stateBefore: IState = {
         item: {},
         testItem: {
           items: [{ id: '1', data: 'testData' }],
         },
       }
-      const stateAfter: State = {
+      const stateAfter: IState = {
         item: {},
         testItem: {
           activeItemId: '1',
@@ -92,7 +97,7 @@ describe('itemsReducer', () => {
         },
       }
 
-      let state: State = itemsReducer(
+      let state: IState = itemsReducer(
         stateBefore,
         setActiveItem('testItem', '1')
       )
@@ -109,7 +114,7 @@ describe('itemsReducer', () => {
 
   describe('for action [setItem]', () => {
     it('should immutable update state', () => {
-      const stateBefore: State = {
+      const stateBefore: IState = {
         item: {},
         testItem: {
           items: [
@@ -120,7 +125,7 @@ describe('itemsReducer', () => {
           itemIndex: { '0': 0, '1': 1, testField: 2 },
         },
       }
-      const stateAfter: State = {
+      const stateAfter: IState = {
         item: {},
         testItem: {
           items: [
@@ -132,7 +137,7 @@ describe('itemsReducer', () => {
         },
       }
 
-      let state: State = itemsReducer(
+      let state: IState = itemsReducer(
         stateBefore,
         setItem('testItem', '1', { id: '1', data: 'updated1' })
       )
@@ -153,14 +158,14 @@ describe('itemsReducer', () => {
     })
 
     it('should append item if item not found', () => {
-      let stateBefore: State = {}
-      let stateAfter: State = {
+      let stateBefore: IState = {}
+      let stateAfter: IState = {
         testItem: {
           items: [{ id: '1', data: 'testData' }],
           itemIndex: { '1': 0 },
         },
       }
-      let state: State = itemsReducer(
+      let state: IState = itemsReducer(
         stateBefore,
         setItem('testItem', '1', { id: '1', data: 'testData' })
       )
@@ -191,7 +196,7 @@ describe('itemsReducer', () => {
 
   describe('for action [setSelectedItem]', () => {
     it('should select item', () => {
-      const stateBefore: State = {
+      const stateBefore: IState = {
         testItem: {
           items: [
             { id: 0, data: {} },
@@ -202,7 +207,7 @@ describe('itemsReducer', () => {
           selectedItems: {},
         },
       }
-      const stateAfter: State = {
+      const stateAfter: IState = {
         testItem: {
           items: [
             { id: 0, data: {} },
@@ -214,7 +219,7 @@ describe('itemsReducer', () => {
         },
       }
 
-      let state: State = itemsReducer(
+      let state: IState = itemsReducer(
         stateBefore,
         setSelectedItem('testItem', '1', true)
       )
