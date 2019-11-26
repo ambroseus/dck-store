@@ -40,7 +40,7 @@ export type TProcessInstance =
   | InstanceType<TProcessExport>
 
 function* extendRequestStub(request: any): any {
-  return request
+  return yield request
 }
 
 export class Process {
