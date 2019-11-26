@@ -58,3 +58,5 @@ export enum Acts {
   Active = 'Active',
   Select = 'Select',
 }
+
+export type TAct = Acts | string
