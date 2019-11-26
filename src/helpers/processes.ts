@@ -83,8 +83,31 @@ export class Process {
     }
   }
 
+  /*
+  DataProvider.provideData method calls normalizeRequest before request
+  and normalizeResponse after receiving response
+
+  DataProvider.provideData(process: TProcessInstance, request) {
+    const response = this.doRequest(process.normalizeRequest(request))
+    process.normalizeResponse(response)
+  }
+  */
   request(request: any): void {
-    if (this.provider?.request) call(this.provider.request, this, request)
+    if (this.provider?.provideData)
+      call(this.provider.provideData, this, request)
+  }
+
+  normalizeRequest(request: any): any {
+    const normalizedRequest = request || {}
+    if (this.options.pageble) {
+      normalizedRequest.pageble = {
+        page: this.page(),
+        pageSize: this.pageSize(),
+        filters: this.filters(),
+        sorting: this.sorting(),
+      }
+    }
+    return normalizedRequest
   }
 
   normalizeResponse = response => (this.response = response)

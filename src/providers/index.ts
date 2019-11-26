@@ -1,9 +1,13 @@
 import { TProcessInstance } from '../types'
-import { resolve } from 'dns'
+
 export type TDataProvider = DataProvider
 
 export class DataProvider {
-  request(process: TProcessInstance, request: any): void {
-    process.normalizeResponse(request)
+  doRequest(request) {
+    return request
+  }
+  provideData(process: TProcessInstance, request: any): void {
+    const response = this.doRequest(process.normalizeRequest(request))
+    process.normalizeResponse(response)
   }
 }
