@@ -1,33 +1,33 @@
 import { getParams, getItemIndex } from '../helpers/reducers'
-import { State, Action } from '../types'
+import { IState, IAction } from '../types'
 
 // case reducers are implicitly wrapped with immer
 // so we have "mutative" immutable update logic
 
 class MutativeReducers {
-  setItems(state: State, action: Action) {
+  setItems(state: IState, action: IAction) {
     state = setItemsWithIndex(state, action)
   }
-  setItem(state: State, action: Action) {
+  setItem(state: IState, action: IAction) {
     state = updateOrAppendItemByKey(state, action)
   }
-  removeItem(state: State, action: Action) {
+  removeItem(state: IState, action: IAction) {
     state = removeItemByKey(state, action)
   }
-  setItemProp(state: State, action: Action) {
+  setItemProp(state: IState, action: IAction) {
     state = updateItemByField(state, action, action.meta.field)
   }
-  setActiveItem(state: State, action: Action) {
+  setActiveItem(state: IState, action: IAction) {
     state = updateItemByField(state, action, 'activeItemId')
   }
-  setSelectedItem(state: State, action: Action) {
+  setSelectedItem(state: IState, action: IAction) {
     state = selectOrUnselectItemByKey(state, action)
   }
 }
 
 export const reducers = new MutativeReducers()
 
-function setItemsWithIndex(state: State, action: Action): State {
+function setItemsWithIndex(state: IState, action: IAction): IState {
   const { itemType, data, itemState } = getParams(state, action)
   itemState.items = data
   itemState.itemIndex = getItemIndex(data)
@@ -36,14 +36,18 @@ function setItemsWithIndex(state: State, action: Action): State {
   return state
 }
 
-function updateItemByField(state: State, action: Action, field: string): State {
+function updateItemByField(
+  state: IState,
+  action: IAction,
+  field: string
+): IState {
   const { itemType, data, itemState } = getParams(state, action)
   itemState[field] = data
   state[itemType] = itemState
   return state
 }
 
-function updateOrAppendItemByKey(state: State, action: Action): State {
+function updateOrAppendItemByKey(state: IState, action: IAction): IState {
   const { itemType, data, id, field, itemState } = getParams(state, action)
   if (!id && !field) return state
 
@@ -68,7 +72,7 @@ function updateOrAppendItemByKey(state: State, action: Action): State {
   return state
 }
 
-function removeItemByKey(state: State, action: Action): State {
+function removeItemByKey(state: IState, action: IAction): IState {
   const { itemType, id, field, itemState } = getParams(state, action)
   if (!id && !field) return state
 
@@ -88,7 +92,7 @@ function removeItemByKey(state: State, action: Action): State {
   return state
 }
 
-function selectOrUnselectItemByKey(state: State, action: Action): State {
+function selectOrUnselectItemByKey(state: IState, action: IAction): IState {
   const { itemType, id, field, data: select, itemState } = getParams(
     state,
     action
