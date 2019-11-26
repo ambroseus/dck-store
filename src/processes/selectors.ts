@@ -1,21 +1,21 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { getDckState, get3rdParam } from '../helpers/selectors'
-import { State } from '../types'
+import { IState } from '../types'
 
 type getProcessStatus = (
-  state: State,
+  state: IState,
   itemType: string,
   process: string
 ) => boolean
 
 type getProcessResponse = (
-  state: State,
+  state: IState,
   itemType: string,
   process: string
 ) => any
 
-type getProcess = (state: State, itemType: string, process: string) => any
-type getProcessState = (state: State, itemType: string) => any
+type getProcess = (state: IState, itemType: string, process: string) => any
+type getProcessState = (state: IState, itemType: string) => any
 
 const _getProcessState = getDckState('processes')
 

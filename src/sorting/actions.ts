@@ -1,9 +1,9 @@
 import { composeAction } from '../helpers/actions'
-import { Action, ActionTypes } from '../types'
+import { IAction, ActionTypes } from '../types'
 
 // action creators for sorting
 
-export function setSortFields(itemType: string, sortFields: any[]): Action {
+export function setSortFields(itemType: string, sortFields: any[]): IAction {
   return composeAction(ActionTypes.setSortFields)({
     itemType,
     payload: sortFields,
@@ -14,7 +14,7 @@ export function setSortField(
   itemType: string,
   field: string,
   sortField: any
-): Action {
+): IAction {
   return composeAction(ActionTypes.setSortField)({
     itemType,
     field,
@@ -22,7 +22,7 @@ export function setSortField(
   })
 }
 
-export function removeSortField(itemType: string, field: string): Action {
+export function removeSortField(itemType: string, field: string): IAction {
   return composeAction(ActionTypes.removeSortField)({
     itemType,
     field,

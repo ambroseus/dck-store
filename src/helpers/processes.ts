@@ -19,7 +19,9 @@ import {
   setItems,
 } from '../dck/actions'
 
-type TProcess = typeof Process
+import { TDataProvider } from '../types'
+export type TProcess = typeof Process
+export type TProcessInstance = InstanceType<TProcess>
 
 export class Process {
   public static Load: TProcess
@@ -31,15 +33,20 @@ export class Process {
 
   public act: Acts
   public itemType: string
-  public dataProvider: any
+  public provider: TDataProvider
   public options: any
   public response: any
   public data: any
 
-  constructor(act: Acts, itemType?: string, dataProvider?: any, options?: any) {
+  constructor(
+    act: Acts,
+    itemType?: string,
+    provider?: TDataProvider,
+    options?: any
+  ) {
     this.act = act
     this.itemType = itemType || ''
-    this.dataProvider = dataProvider
+    this.provider = provider
     this.options = options || {}
     this.response = null
     this.data = null
@@ -76,51 +83,46 @@ export class Process {
     }
   }
 
-  request = (params: any) => {
-    const request = params || {}
-    if (this.options?.pageble) {
-      request.page = this.page()
-      request.pageSize = this.page()
-      request.filters = this.filters()
-      request.sorting = this.sorting()
-    }
-    return call(this.dataProvider, { process: this, request })
+  async request(request: any) {
+    if (this.provider?.request) await this.provider.request(this, request)
   }
+
+  normalizeResponse = response => (this.response = response)
 }
 
 class ProcessLoad extends Process {
-  constructor(itemType: string, dataProvider?: any, options?: any) {
-    super(Acts.Load, itemType, dataProvider, options)
+  constructor(itemType: string, provider?: any, options?: any) {
+    super(Acts.Load, itemType, provider, options)
   }
 }
 
 class ProcessAdd extends Process {
-  constructor(itemType: string, dataProvider?: any, options?: any) {
-    super(Acts.Add, itemType, dataProvider, options)
+  constructor(itemType: string, provider?: any, options?: any) {
+    super(Acts.Add, itemType, provider, options)
   }
 }
 
 class ProcessUpdate extends Process {
-  constructor(itemType: string, dataProvider?: any, options?: any) {
-    super(Acts.Update, itemType, dataProvider, options)
+  constructor(itemType: string, provider?: any, options?: any) {
+    super(Acts.Update, itemType, provider, options)
   }
 }
 
 class ProcessDelete extends Process {
-  constructor(itemType: string, dataProvider?: any, options?: any) {
-    super(Acts.Delete, itemType, dataProvider, options)
+  constructor(itemType: string, provider?: any, options?: any) {
+    super(Acts.Delete, itemType, provider, options)
   }
 }
 
 class ProcessImport extends Process {
-  constructor(itemType: string, dataProvider?: any, options?: any) {
-    super(Acts.Import, itemType, dataProvider, options)
+  constructor(itemType: string, provider?: any, options?: any) {
+    super(Acts.Import, itemType, provider, options)
   }
 }
 
 class ProcessExport extends Process {
-  constructor(itemType: string, dataProvider?: any, options?: any) {
-    super(Acts.Export, itemType, dataProvider, options)
+  constructor(itemType: string, provider?: any, options?: any) {
+    super(Acts.Export, itemType, provider, options)
   }
 }
 

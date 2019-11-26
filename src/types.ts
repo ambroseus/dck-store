@@ -1,9 +1,12 @@
 /* istanbul ignore file */
-export interface State {
+export { TProcess, TProcessInstance } from './helpers/processes'
+export { TDataProvider } from './providers'
+
+export interface IState {
   [propName: string]: any
 }
 
-export interface Action {
+export interface IAction {
   type: string
   meta: {
     itemType: string

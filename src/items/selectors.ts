@@ -1,14 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { getDckState, get3rdParam } from '../helpers/selectors'
-import { State } from '../types'
+import { IState } from '../types'
 
-type getItems = (state: State, itemType: string) => any[]
-type getItem = (state: State, itemType: string, id: string) => any
-type getActiveItemId = (state: State, itemType: string) => any
-type getActiveItem = (state: State, itemType: string) => any
+type getItems = (state: IState, itemType: string) => any[]
+type getItem = (state: IState, itemType: string, id: string) => any
+type getActiveItemId = (state: IState, itemType: string) => any
+type getActiveItem = (state: IState, itemType: string) => any
 
-type getItemState = (state: State, itemType: string) => any
-type getIndexedItem = (itemState: State, id: string) => any
+type getItemState = (state: IState, itemType: string) => any
+type getIndexedItem = (itemState: IState, id: string) => any
 
 const _getItemState = getDckState('items')
 
@@ -17,7 +17,7 @@ export const getItemState: getItemState = createSelector(
   itemState => itemState
 )
 
-export function _getIndexedItem(itemState: State, id: string): any {
+export function _getIndexedItem(itemState: IState, id: string): any {
   const { items, itemIndex } = itemState
   if (!Array.isArray(items) || !itemIndex) return void 0
   const index = itemIndex[String(id)]
@@ -50,7 +50,7 @@ export const getActiveItem: getActiveItem = createSelector(
 )
 
 export function isItemSelected(
-  state: State,
+  state: IState,
   itemType: string,
   id: string
 ): boolean {
@@ -59,13 +59,13 @@ export function isItemSelected(
   return String(id) in selectedItems
 }
 
-export function getSelectedItemIds(state: State, itemType: string): string[] {
+export function getSelectedItemIds(state: IState, itemType: string): string[] {
   const { selectedItems } = getItemState(state, itemType)
   if (!selectedItems) return []
   return Object.keys(selectedItems)
 }
 
-export function getSelectedItems(state: State, itemType: string): any[] {
+export function getSelectedItems(state: IState, itemType: string): any[] {
   const { selectedItems, items } = getItemState(state, itemType)
   if (!selectedItems) return []
   const selectedIds = getSelectedItemIds(state, itemType)

@@ -1,9 +1,9 @@
 import { composeAction } from '../helpers/actions'
-import { Action, ActionTypes, Acts } from '../types'
+import { IAction, ActionTypes, Acts } from '../types'
 
 // action creators for processes
 
-export function processStart(itemType: string, process: Acts): Action {
+export function processStart(itemType: string, process: Acts): IAction {
   return composeAction(ActionTypes.processStart)({
     itemType,
     field: process,
@@ -15,7 +15,7 @@ export function processStart(itemType: string, process: Acts): Action {
   })
 }
 
-export function processReset(itemType: string, process: Acts): Action {
+export function processReset(itemType: string, process: Acts): IAction {
   return composeAction(ActionTypes.processReset)({
     itemType,
     field: process,
@@ -31,7 +31,7 @@ export function processStop(
   itemType: string,
   process: Acts,
   response: any
-): Action {
+): IAction {
   return composeAction(ActionTypes.processStop)({
     itemType,
     field: process,
@@ -47,7 +47,7 @@ export function processFail(
   itemType: string,
   process: Acts,
   response: any
-): Action {
+): IAction {
   return composeAction(ActionTypes.processFail)({
     itemType,
     field: process,
