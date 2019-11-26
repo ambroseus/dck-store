@@ -17,9 +17,10 @@ import {
   setActiveItem,
   setItem,
   setItems,
+  setItemProp,
 } from '../dck/actions'
 
-import { TDataProvider } from '../types'
+import { TFetcher } from '../types'
 
 export type TProcess = typeof Process
 export type TProcessLoad = typeof ProcessLoad
@@ -48,7 +49,7 @@ export class Process {
 
   public act: Acts
   public itemType: string
-  public provider: TDataProvider | any
+  public fetcher: TFetcher | any
   public options: any
   public response: any
   public data: any
@@ -56,12 +57,12 @@ export class Process {
   constructor(
     act: Acts,
     itemType?: string,
-    provider?: TDataProvider | any,
+    fetcher?: TFetcher | any,
     options?: any
   ) {
     this.act = act
     this.itemType = itemType || ''
-    this.provider = provider
+    this.fetcher = fetcher
     this.options = options || {}
     this.response = null
     this.data = null
@@ -86,7 +87,11 @@ export class Process {
 
   fail = (response: any) => put(processFail(this.itemType, this.act, response))
 
-  setActive = (id: string) => put(setActiveItem(this.itemType, String(id)))
+  setActive = (id: string | number) =>
+    put(setActiveItem(this.itemType, String(id)))
+
+  setItemProp = (prop: string, data: any) =>
+    put(setItemProp(this.itemType, prop, data))
 
   set = (data: any, id?: string | number) => {
     if (!data) return
@@ -98,73 +103,61 @@ export class Process {
     }
   };
 
-  *provideData(request: any): any {
-    if (this.provider?.provideData) {
+  *fetch(request?: any): any {
+    if (this.fetcher) {
       request = yield this.extendRequest(request)
-      const response = yield call(
-        [this.provider, this.provider.provideData],
-        request
-      )
-      this.response = yield this.postprocessResponse(response)
+      this.response = yield call(this.fetcher, request)
     }
   }
 
-  *extendRequest(request: any): any {
+  *extendRequest(request?: any): any {
     request = request || {}
+    request.itemType = this.itemType
+    request.act = this.act
+    request.options = this.options
     if (this.options.pageble) {
-      const page = yield this.page()
-      const pageSize = yield this.pageSize()
-      const filters = yield this.filters()
-      const sorting = yield this.sorting()
-      request.pageble = {
-        page,
-        pageSize,
-        filters,
-        sorting,
-      }
+      request.page = yield this.page()
+      request.pageSize = yield this.pageSize()
+      request.filters = yield this.filters()
+      request.sorting = yield this.sorting()
     }
     return request
-  }
-
-  *postprocessResponse(response: any): any {
-    response = response || {}
-    return yield response
   }
 }
 
 class ProcessLoad extends Process {
-  constructor(itemType: string, provider?: any, options?: any) {
-    super(Acts.Load, itemType, provider, options)
+  constructor(itemType: string, fetcher?: any, options?: any) {
+    super(Acts.Load, itemType, fetcher, options)
   }
 }
 
 class ProcessAdd extends Process {
-  constructor(itemType: string, provider?: any, options?: any) {
-    super(Acts.Add, itemType, provider, options)
+  constructor(itemType: string, fetcher?: any, options?: any) {
+    super(Acts.Add, itemType, fetcher, options)
   }
 }
 
 class ProcessUpdate extends Process {
-  constructor(itemType: string, provider?: any, options?: any) {
-    super(Acts.Update, itemType, provider, options)
+  constructor(itemType: string, fetcher?: any, options?: any) {
+    super(Acts.Update, itemType, fetcher, options)
   }
 }
 
 class ProcessDelete extends Process {
-  constructor(itemType: string, provider?: any, options?: any) {
-    super(Acts.Delete, itemType, provider, options)
+  constructor(itemType: string, fetcher?: any, options?: any) {
+    super(Acts.Delete, itemType, fetcher, options)
   }
 }
 
 class ProcessImport extends Process {
-  constructor(itemType: string, provider?: any, options?: any) {
-    super(Acts.Import, itemType, provider, options)
+  constructor(itemType: string, fetcher?: any, options?: any) {
+    super(Acts.Import, itemType, fetcher, options)
   }
 }
 
 class ProcessExport extends Process {
-  constructor(itemType: string, provider?: any, options?: any) {
-    super(Acts.Export, itemType, provider, options)
+  constructor(itemType: string, fetcher?: any, options?: any) {
+    super(Acts.Export, itemType, fetcher, options)
   }
 }
 

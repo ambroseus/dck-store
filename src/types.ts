@@ -1,6 +1,5 @@
 /* istanbul ignore file */
 export { TProcess, TProcessInstance } from './helpers/processes'
-export { TDataProvider } from './providers'
 
 export interface IState {
   [propName: string]: any
@@ -15,6 +14,8 @@ export interface IAction {
   }
   payload: any
 }
+
+export type TFetcher = (request: any) => any
 
 export enum ActionTypes {
   // items
