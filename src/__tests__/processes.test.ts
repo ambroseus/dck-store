@@ -8,18 +8,7 @@ import { dckActions } from '../index'
 import { Process } from '../helpers/processes'
 import { ActionTypes, Acts } from '../types'
 
-const initialState = {
-  dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
-}
-
 const TestItem = 'testItem'
-
-const reducers: Reducer = combineReducers({ dck: dckReducer })
-
-const sagaTester = new SagaTester({
-  initialState,
-  reducers,
-})
 
 Process.extendRequest = getSession
 
@@ -64,25 +53,8 @@ async function testFetch() {
   }
 }
 
-function* testSaga() {
-  yield all([takeLatest(isAction.Load(TestItem), loadItemsSaga)])
-}
-
-function* loadItemsSaga() {
-  const proc = new Process.Load(TestItem, {
-    fetcher: testFetcher,
-    pageble: true,
-  })
-  yield proc.setCurrentPage(3)
-  yield proc.setPageSize(10)
-
-  yield proc.start()
-  yield proc.fetch()
-
-  yield proc.setItems(proc.data)
-  yield proc.setActiveItem(2)
-
-  yield proc.stop({ message: 'done' })
+const initialState = {
+  dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
 }
 
 const stateAfter = {
@@ -129,10 +101,38 @@ const stateAfter = {
   },
 }
 
+const reducers: Reducer = combineReducers({ dck: dckReducer })
+
+const sagaTester = new SagaTester({
+  initialState,
+  reducers,
+})
+
+function* testSaga() {
+  yield all([takeLatest(isAction.Load(TestItem), loadItemsSaga)])
+}
+
+function* loadItemsSaga() {
+  const proc = new Process.Load(TestItem, {
+    fetcher: testFetcher,
+    pageble: true,
+  })
+  yield proc.setCurrentPage(3)
+  yield proc.setPageSize(10)
+  yield proc.start()
+
+  yield proc.fetch()
+  yield proc.setItems(proc.data)
+  yield proc.setActiveItem(2)
+
+  yield proc.stop({ message: 'done' })
+}
+
 describe('process helper', () => {
   it('should run loadItemsSaga', async () => {
     sagaTester.start(testSaga)
     expect(sagaTester.getState()).toEqual(initialState)
+
     sagaTester.dispatch(dckActions.loadItems(TestItem))
     await sagaTester.waitFor(ActionTypes.processStop)
     expect(sagaTester.getState()).toEqual(stateAfter)
