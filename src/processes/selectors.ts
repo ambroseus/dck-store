@@ -55,6 +55,6 @@ export const isProcessFailed: getProcessStatus = createSelector(
 )
 
 export const getProcessResponse: getProcessResponse = createSelector(
-  getProcessState,
+  getProcess,
   process => process.response
 )
