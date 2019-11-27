@@ -11,3 +11,8 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
+      - name: Upload coverage to Codecov  
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.codecov_token }}
+          file: ./coverage/clover.xml
