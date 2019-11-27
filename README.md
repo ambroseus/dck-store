@@ -1,4 +1,4 @@
-![build](https://github.com/ambroseus/dck-store/workflows/Node%20CI/badge.svg)
+![build](https://github.com/ambroseus/dck-store/workflows/Build/badge.svg)
 ![publish](https://github.com/ambroseus/dck-store/workflows/Publish/badge.svg)
 
 # dck-store
