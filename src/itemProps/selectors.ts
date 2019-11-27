@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { getDckState, get3rdParam } from '../helpers/selectors'
-import { IState } from '../types'
+import { IState, ItemProps } from '../types'
 
 type getItemPropsState = (state: IState, itemType: string) => any
 type getItemProp = (state: IState, itemType: string, field: string) => any
@@ -22,15 +22,15 @@ export const getItemProp: getItemProp = createSelector(
 
 export const getTotalItems: getTotalItems = createSelector(
   getItemPropsState,
-  itemPropsState => itemPropsState.totalItems
+  itemPropsState => itemPropsState[ItemProps.totalItems]
 )
 
 export const getCurrentPage: getCurrentPage = createSelector(
   getItemPropsState,
-  itemPropsState => itemPropsState.currentPage
+  itemPropsState => itemPropsState[ItemProps.currentPage]
 )
 
 export const getPageSize: getPageSize = createSelector(
   getItemPropsState,
-  itemPropsState => itemPropsState.pageSize
+  itemPropsState => itemPropsState[ItemProps.pageSize]
 )

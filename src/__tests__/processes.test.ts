@@ -4,7 +4,7 @@ import { all, takeLatest } from 'redux-saga/effects'
 
 import { dckReducer } from '../dck/reducer'
 import { isAction } from '../helpers/actions'
-import { loadItems } from '../dck/actions'
+import { dckActions } from '../index'
 import { Process } from '../helpers/processes'
 import { ActionTypes, Acts } from '../types'
 
@@ -12,22 +12,29 @@ const initialState = {
   dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
 }
 
+const TestItem = 'testItem'
+
 const reducers: Reducer = combineReducers({ dck: dckReducer })
+
 const sagaTester = new SagaTester({
   initialState,
   reducers,
 })
 
-function* testSaga() {
-  yield all([takeLatest(isAction.Load('testItem'), loadTestItemsSaga)])
+Process.extendRequest = getSession
+
+function* getSession(request: any) {
+  return yield {
+    ...request,
+    token: 'SESSION_TOKEN',
+  }
 }
 
 function testFetcher(request: any) {
   const extendedRequest = {
-    itemType: 'testItem',
-    act: 'Load',
-    options: { pageble: true },
-    page: 3,
+    itemType: TestItem,
+    act: Acts.Load,
+    currentPage: 3,
     pageSize: 10,
     filters: undefined,
     sorting: undefined,
@@ -35,12 +42,12 @@ function testFetcher(request: any) {
   }
   expect(request).toEqual(extendedRequest)
 
-  if (request.itemType === 'testItem' && request.act === Acts.Load) {
+  if (request.itemType === TestItem && request.act === Acts.Load) {
     return testFetch()
   }
 }
 
-// similate async fetch
+// simulate async fetch
 async function testFetch() {
   await new Promise(resolve => setTimeout(resolve, 10))
   return {
@@ -57,79 +64,77 @@ async function testFetch() {
   }
 }
 
-function* getSession(request: any) {
-  return yield {
-    ...request,
-    token: 'SESSION_TOKEN',
-  }
+function* testSaga() {
+  yield all([takeLatest(isAction.Load(TestItem), loadItemsSaga)])
 }
 
-Process.extendRequest = getSession
-
-function* loadTestItemsSaga(action: any) {
-  const proc = new Process.Load('testItem', testFetcher, {
+function* loadItemsSaga() {
+  const proc = new Process.Load(TestItem, {
+    fetcher: testFetcher,
     pageble: true,
   })
-  yield proc.setItemProp('currentPage', 3)
-  yield proc.setItemProp('pageSize', 10)
+  yield proc.setCurrentPage(3)
+  yield proc.setPageSize(10)
+
   yield proc.start()
   yield proc.fetch()
-  yield proc.set(proc.response.data)
-  yield proc.setActive(2)
+
+  yield proc.setItems(proc.data)
+  yield proc.setActiveItem(2)
+
   yield proc.stop({ message: 'done' })
 }
 
-describe('process helper', () => {
-  it('should run loadTestItemsSaga', async () => {
-    sagaTester.start(testSaga)
-    expect(sagaTester.getState()).toEqual(initialState)
-    sagaTester.dispatch(loadItems('testItem'))
-    await sagaTester.waitFor(ActionTypes.processStop)
-
-    const stateAfter = {
-      dck: {
-        items: {
-          testItem: {
-            items: [
-              {
-                id: '1',
-                data: 'data1',
-              },
-              {
-                id: '2',
-                data: 'data2',
-              },
-            ],
-            itemIndex: {
-              '1': 0,
-              '2': 1,
-            },
-            selectedItems: {},
-            activeItemId: '2',
+const stateAfter = {
+  dck: {
+    items: {
+      testItem: {
+        items: [
+          {
+            id: '1',
+            data: 'data1',
           },
-        },
-        itemProps: {
-          testItem: {
-            currentPage: 3,
-            pageSize: 10,
+          {
+            id: '2',
+            data: 'data2',
           },
+        ],
+        itemIndex: {
+          '1': 0,
+          '2': 1,
         },
-        filters: {},
-        sorting: {},
-        processes: {
-          testItem: {
-            Load: {
-              running: false,
-              error: false,
-              response: {
-                message: 'done',
-              },
-            },
+        selectedItems: {},
+        activeItemId: '2',
+      },
+    },
+    itemProps: {
+      testItem: {
+        currentPage: 3,
+        pageSize: 10,
+      },
+    },
+    filters: {},
+    sorting: {},
+    processes: {
+      testItem: {
+        Load: {
+          running: false,
+          error: false,
+          response: {
+            message: 'done',
           },
         },
       },
-    }
+    },
+  },
+}
 
+describe('process helper', () => {
+  it('should run loadItemsSaga', async () => {
+    sagaTester.start(testSaga)
+    expect(sagaTester.getState()).toEqual(initialState)
+    sagaTester.dispatch(dckActions.loadItems(TestItem))
+    await sagaTester.waitFor(ActionTypes.processStop)
     expect(sagaTester.getState()).toEqual(stateAfter)
   })
 })

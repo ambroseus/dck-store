@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 export { TProcess } from './helpers/processes'
+export type TFetcher = (request: any) => any
 
 export interface IState {
   [propName: string]: any
@@ -15,37 +16,41 @@ export interface IAction {
   payload: any
 }
 
-export type TFetcher = (request: any) => any
-
 export enum ActionTypes {
   // items
-  setItems = 'dck:setItems',
-  setItem = 'dck:setItem',
-  removeItem = 'dck:removeItem',
-  setActiveItem = 'dck:setActiveItem',
-  setSelectedItem = 'dck:setSelectedItem',
+  setItems = 'dck/items/setItems',
+  setItem = 'dck/items/setItem',
+  removeItem = 'dck/items/removeItem',
+  setActiveItem = 'dck/items/setActiveItem',
+  setSelectedItem = 'dck/items/setSelectedItem',
   // crud items
-  loadItems = 'dck:loadItems',
-  addItem = 'dck:addItem',
-  updateItem = 'dck:updateItem',
-  deleteItem = 'dck:deleteItem',
-  importItems = 'dck:importItems',
-  exportItems = 'dck:exportItems',
+  loadItems = 'dck/crud/loadItems',
+  addItem = 'dck/crud/addItem',
+  updateItem = 'dck/crud/updateItem',
+  deleteItem = 'dck/crud/deleteItem',
+  importItems = 'dck/crud/importItems',
+  exportItems = 'dck/crud/exportItems',
   // itemProps
-  setItemProp = 'dck:setItemProp',
+  setItemProp = 'dck/itemProps/setItemProp',
   // filters
-  setFilters = 'dck:setFilters',
-  setFilter = 'dck:setFilter',
-  removeFilter = 'dck:removeFilter',
+  setFilters = 'dck/filters/setFilters',
+  setFilter = 'dck/filters/setFilter',
+  removeFilter = 'dck/filters/removeFilter',
   // sorting
-  setSortFields = 'dck:setSortFields',
-  setSortField = 'dck:setSortField',
-  removeSortField = 'dck:removeSortField',
+  setSortFields = 'dck/sorting/setSortFields',
+  setSortField = 'dck/sorting/setSortField',
+  removeSortField = 'dck/sorting/removeSortField',
   // processes
-  processStart = 'dck:processStart',
-  processStop = 'dck:processStop',
-  processFail = 'dck:processFail',
-  processReset = 'dck:processRestart',
+  processStart = 'dck/processes/processStart',
+  processStop = 'dck/processes/processStop',
+  processFail = 'dck/processes/processFail',
+  processReset = 'dck/processes/processRestart',
+}
+
+export enum ItemProps {
+  totalItems = 'totalItems',
+  currentPage = 'currentPage',
+  pageSize = 'pageSize',
 }
 
 export enum Acts {
