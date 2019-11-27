@@ -1,11 +1,9 @@
-<div>
+# dck-store
+
 ![build](https://github.com/ambroseus/dck-store/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/ambroseus/dck-store/branch/master/graph/badge.svg)](https://codecov.io/gh/ambroseus/dck-store)&nbsp;&nbsp;
 ![publish](https://github.com/ambroseus/dck-store/workflows/publish/badge.svg)
 ![npm latest](https://img.shields.io/npm/v/@ambroseus/dck-store/latest?label=npm&style=flat)
-</div>
-
-# dck-store
 
 Redux-based framework to get rid of CRUD-related boilerplate
 
