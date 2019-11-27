@@ -52,8 +52,6 @@ export class Process {
     this.act = act
     this.itemType = itemType || '__internal__'
     this.options = options || {}
-    this.response
-    this.data
   }
 
   *fetch(params?: any): any {
