@@ -1,27 +1,6 @@
 import { call, put, select, PutEffect, SelectEffect } from 'redux-saga/effects'
 import { Acts, TAct, TFetcher, IAction, ItemProps } from '../types'
-
-import {
-  getFilters,
-  getSortFields,
-  getCurrentPage,
-  getPageSize,
-  getItemProp,
-} from '../dck/selectors'
-
-import {
-  processStart,
-  processReset,
-  processStop,
-  processFail,
-  setActiveItem,
-  setItem,
-  setItems,
-  setItemProp,
-  setCurrentPage,
-  setPageSize,
-  setTotalItems,
-} from '../dck/actions'
+import { dckSelectors, dckActions } from '../index'
 
 export type TProcess = typeof Process
 export type TProcessLoad = typeof ProcessLoad
@@ -39,7 +18,10 @@ export class Process {
   public static [Acts.Import]: TProcessImport
   public static [Acts.Export]: TProcessExport
 
+  // static hook to extend request params before fetch, for ex. session token
   public static extendRequest: any
+
+  // default static fetcher to fetch data, if there is no fetcher in options
   public static fetcher: TFetcher | undefined
 
   public act: TAct
@@ -81,53 +63,57 @@ export class Process {
     return request
   }
 
+  // selectors helpers
   filters = (): SelectEffect =>
-    select(state => getFilters(state, this.itemType))
+    select(state => dckSelectors.getFilters(state, this.itemType))
 
   sorting = (): SelectEffect =>
-    select(state => getSortFields(state, this.itemType))
+    select(state => dckSelectors.getSortFields(state, this.itemType))
 
   currentPage = (): SelectEffect =>
-    select(state => getCurrentPage(state, this.itemType))
+    select(state => dckSelectors.getCurrentPage(state, this.itemType))
 
   pageSize = (): SelectEffect =>
-    select(state => getPageSize(state, this.itemType))
+    select(state => dckSelectors.getPageSize(state, this.itemType))
 
   itemProp = (prop: any): SelectEffect =>
-    select(state => getItemProp(state, this.itemType, prop))
+    select(state => dckSelectors.getItemProp(state, this.itemType, prop))
 
-  start = (): PutEffect<IAction> => put(processStart(this.itemType, this.act))
+  // actions helpers
+  start = (): PutEffect<IAction> =>
+    put(dckActions.processStart(this.itemType, this.act))
 
-  reset = (): PutEffect<IAction> => put(processReset(this.itemType, this.act))
+  reset = (): PutEffect<IAction> =>
+    put(dckActions.processReset(this.itemType, this.act))
 
   stop = (response?: any): PutEffect<IAction> =>
-    put(processStop(this.itemType, this.act, response))
+    put(dckActions.processStop(this.itemType, this.act, response))
 
   fail = (response: any): PutEffect<IAction> =>
-    put(processFail(this.itemType, this.act, response))
+    put(dckActions.processFail(this.itemType, this.act, response))
 
   setActiveItem = (id: string | number): PutEffect<IAction> =>
-    put(setActiveItem(this.itemType, String(id)))
+    put(dckActions.setActiveItem(this.itemType, String(id)))
 
   setItemProp = (prop: string, data: any): PutEffect<IAction> =>
-    put(setItemProp(this.itemType, prop, data))
+    put(dckActions.setItemProp(this.itemType, prop, data))
 
   setCurrentPage = (currentPage: number): PutEffect<IAction> =>
-    put(setCurrentPage(this.itemType, currentPage))
+    put(dckActions.setCurrentPage(this.itemType, currentPage))
 
   setPageSize = (pageSize: number): PutEffect<IAction> =>
-    put(setPageSize(this.itemType, pageSize))
+    put(dckActions.setPageSize(this.itemType, pageSize))
 
   setTotalItems = (totalItems: number): PutEffect<IAction> =>
-    put(setTotalItems(this.itemType, totalItems))
+    put(dckActions.setTotalItems(this.itemType, totalItems))
 
   setItems = (data?: any[]): PutEffect<IAction> => {
     if (!data) data = []
-    return put(setItems(this.itemType, data))
+    return put(dckActions.setItems(this.itemType, data))
   }
 
   setItem = (id: string | number, data: any): PutEffect<IAction> =>
-    put(setItem(this.itemType, String(id), data))
+    put(dckActions.setItem(this.itemType, String(id), data))
 }
 
 Process.extendRequest = _extendRequest
