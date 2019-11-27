@@ -2,9 +2,8 @@ import { combineReducers, Reducer } from 'redux'
 import SagaTester from 'redux-saga-tester'
 import { all, takeLatest } from 'redux-saga/effects'
 
-import { dckReducer } from '../dck/reducer'
 import { isAction } from '../helpers/actions'
-import { dckActions } from '../index'
+import { dckActions, dckSelectors, dckReducer } from '../index'
 import { Process } from '../helpers/processes'
 import { ActionTypes, Acts } from '../types'
 
@@ -36,20 +35,22 @@ function testFetcher(request: any) {
   }
 }
 
+const testItems = [
+  {
+    id: '1',
+    data: 'data1',
+  },
+  {
+    id: '2',
+    data: 'data2',
+  },
+]
+
 // simulate async fetch
 async function testFetch() {
   await new Promise(resolve => setTimeout(resolve, 10))
   return {
-    data: [
-      {
-        id: '1',
-        data: 'data1',
-      },
-      {
-        id: '2',
-        data: 'data2',
-      },
-    ],
+    data: testItems,
   }
 }
 
@@ -135,6 +136,14 @@ describe('process helper', () => {
 
     sagaTester.dispatch(dckActions.loadItems(TestItem))
     await sagaTester.waitFor(ActionTypes.processStop)
-    expect(sagaTester.getState()).toEqual(stateAfter)
+
+    const state = sagaTester.getState()
+    expect(state).toEqual(stateAfter)
+
+    const items = dckSelectors.getItems(state, TestItem)
+    expect(items).toEqual(testItems)
+
+    const activeItem = dckSelectors.getActiveItem(state, TestItem)
+    expect(activeItem).toEqual(testItems[1])
   })
 })
