@@ -1,6 +1,7 @@
 ![build](https://github.com/ambroseus/dck-store/workflows/Build/badge.svg)
-![publish](https://github.com/ambroseus/dck-store/workflows/Publish/badge.svg)
 [![codecov](https://codecov.io/gh/ambroseus/dck-store/branch/master/graph/badge.svg)](https://codecov.io/gh/ambroseus/dck-store)
+![publish](https://github.com/ambroseus/dck-store/workflows/Publish/badge.svg)
+![npm latest](https://img.shields.io/npm/v/@ambroseus/dck-store/latest?label=npm&style=flat)
 
 # dck-store
 
