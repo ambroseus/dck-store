@@ -49,6 +49,7 @@ export enum ActionTypes {
 
 export enum ItemProps {
   totalItems = 'totalItems',
+  totalPages = 'totalPages',
   currentPage = 'currentPage',
   pageSize = 'pageSize',
 }

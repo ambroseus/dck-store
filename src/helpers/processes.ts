@@ -36,17 +36,6 @@ export class Process {
     this.options = options || {}
   }
 
-  *fetch(params?: any): any {
-    const request = yield this.createRequest(params)
-    const fetcher = Process.fetcher || this.options.fetcher
-    if (fetcher) {
-      this.response = yield call(fetcher, request)
-      if (this.response?.data) this.data = this.response.data
-      return yield this.response
-    }
-    return yield void 0
-  }
-
   *createRequest(request?: any): any {
     request = request || {}
     request.itemType = this.itemType
@@ -63,6 +52,30 @@ export class Process {
     return request
   }
 
+  *fetch(params?: any): any {
+    const request = yield this.createRequest(params)
+    const fetcher = Process.fetcher || this.options.fetcher
+    if (fetcher) {
+      const response = yield call(fetcher, request)
+      return yield this.postFetch(response)
+    }
+    return yield void 0
+  }
+
+  *postFetch(response: any): any {
+    if (!response) return yield void 0
+
+    const data = response?.data
+    const totalItems = response?.totalItems
+    const totalPages = response?.totalPages
+
+    this.response = response
+    if (data !== void 0) this.data = data
+    if (totalItems !== void 0) yield this.setTotalItems(totalItems)
+    if (totalPages !== void 0) yield this.setTotalPages(totalPages)
+    return yield response
+  }
+
   // selectors helpers
   filters = (): SelectEffect =>
     select(state => dckSelectors.getFilters(state, this.itemType))
@@ -75,6 +88,12 @@ export class Process {
 
   pageSize = (): SelectEffect =>
     select(state => dckSelectors.getPageSize(state, this.itemType))
+
+  totalItems = (): SelectEffect =>
+    select(state => dckSelectors.getTotalItems(state, this.itemType))
+
+  totalPages = (): SelectEffect =>
+    select(state => dckSelectors.getTotalPages(state, this.itemType))
 
   itemProp = (prop: any): SelectEffect =>
     select(state => dckSelectors.getItemProp(state, this.itemType, prop))
@@ -104,16 +123,28 @@ export class Process {
   setPageSize = (pageSize: number): PutEffect<IAction> =>
     put(dckActions.setPageSize(this.itemType, pageSize))
 
-  setTotalItems = (totalItems: number): PutEffect<IAction> =>
-    put(dckActions.setTotalItems(this.itemType, totalItems))
-
   setItems = (data?: any[]): PutEffect<IAction> => {
     if (!data) data = []
     return put(dckActions.setItems(this.itemType, data))
   }
 
-  setItem = (id: string | number, data: any): PutEffect<IAction> =>
-    put(dckActions.setItem(this.itemType, String(id), data))
+  setItem = (id: string | number, data: any): PutEffect<IAction> => {
+    return put(dckActions.setItem(this.itemType, String(id), data))
+  }
+
+  setTotalItems = (totalItems: number): PutEffect<IAction> =>
+    put(dckActions.setTotalItems(this.itemType, totalItems));
+
+  *setTotalPages(totalPages: number) {
+    // set current page to last page if current page is greater than total pages
+    const currentPage: number = (yield this.currentPage()) || 0
+    let page: number = totalPages > 0 ? currentPage : 0
+    if (page >= totalPages) page = totalPages - 1
+    if (page !== currentPage) {
+      yield put(dckActions.setCurrentPage(this.itemType, page))
+    }
+    yield put(dckActions.setTotalPages(this.itemType, totalPages))
+  }
 }
 
 Process.extendRequest = _extendRequest

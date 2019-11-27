@@ -19,6 +19,10 @@ export function setTotalItems(itemType: string, totalItems: number): IAction {
   return setItemProp(itemType, ItemProps.totalItems, totalItems)
 }
 
+export function setTotalPages(itemType: string, totalPages: number): IAction {
+  return setItemProp(itemType, ItemProps.totalPages, totalPages)
+}
+
 export function setCurrentPage(itemType: string, currentPage: number): IAction {
   return setItemProp(itemType, ItemProps.currentPage, currentPage)
 }
