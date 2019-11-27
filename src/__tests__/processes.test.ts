@@ -140,10 +140,17 @@ describe('process helper', () => {
     const state = sagaTester.getState()
     expect(state).toEqual(stateAfter)
 
-    const items = dckSelectors.getItems(state, TestItem)
-    expect(items).toEqual(testItems)
-
-    const activeItem = dckSelectors.getActiveItem(state, TestItem)
-    expect(activeItem).toEqual(testItems[1])
+    expect(dckSelectors.isProcessRunning(state, TestItem, Acts.Load)).toEqual(
+      false
+    )
+    expect(dckSelectors.isProcessSucceed(state, TestItem, Acts.Load)).toEqual(
+      true
+    )
+    expect(
+      dckSelectors.getProcessResponse(state, TestItem, Acts.Load)
+    ).toEqual({ message: 'done' })
+    expect(dckSelectors.getItems(state, TestItem)).toEqual(testItems)
+    expect(dckSelectors.getActiveItem(state, TestItem)).toEqual(testItems[1])
+    expect(dckSelectors.getPageSize(state, TestItem)).toEqual(10)
   })
 })
