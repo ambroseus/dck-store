@@ -1,5 +1,6 @@
 ![build](https://github.com/ambroseus/dck-store/workflows/Build/badge.svg)
 ![publish](https://github.com/ambroseus/dck-store/workflows/Publish/badge.svg)
+[![codecov](https://codecov.io/gh/ambroseus/dck-store/branch/master/graph/badge.svg)](https://codecov.io/gh/ambroseus/dck-store)
 
 # dck-store
 
