@@ -1,3 +1,6 @@
+![build](https://github.com/ambroseus/dck-store/workflows/Node%20CI/badge.svg)
+![publish](https://github.com/ambroseus/dck-store/workflows/Publish/badge.svg)
+
 # dck-store
 
 Redux-based framework to get rid of CRUD-related boilerplate
