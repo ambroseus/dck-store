@@ -51,6 +51,8 @@ async function testFetch() {
   await new Promise(resolve => setTimeout(resolve, 10))
   return {
     data: testItems,
+    totalItems: 5,
+    totalPages: 1,
   }
 }
 
@@ -82,8 +84,10 @@ const stateAfter = {
     },
     itemProps: {
       testItem: {
-        currentPage: 3,
+        currentPage: 0,
         pageSize: 10,
+        totalItems: 5,
+        totalPages: 1,
       },
     },
     filters: {},
@@ -130,7 +134,7 @@ function* loadItemsSaga() {
 }
 
 describe('process helper', () => {
-  it('should run loadItemsSaga', async () => {
+  it('should successfully execute loadItemsSaga', async () => {
     sagaTester.start(testSaga)
     expect(sagaTester.getState()).toEqual(initialState)
 
@@ -152,5 +156,8 @@ describe('process helper', () => {
     expect(dckSelectors.getItems(state, TestItem)).toEqual(testItems)
     expect(dckSelectors.getActiveItem(state, TestItem)).toEqual(testItems[1])
     expect(dckSelectors.getPageSize(state, TestItem)).toEqual(10)
+    expect(dckSelectors.getCurrentPage(state, TestItem)).toEqual(0)
+    expect(dckSelectors.getTotalItems(state, TestItem)).toEqual(5)
+    expect(dckSelectors.getTotalPages(state, TestItem)).toEqual(1)
   })
 })
