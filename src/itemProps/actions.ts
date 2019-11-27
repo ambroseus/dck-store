@@ -1,5 +1,5 @@
 import { composeAction } from '../helpers/actions'
-import { IAction, ActionTypes } from '../types'
+import { IAction, ActionTypes, ItemProps } from '../types'
 
 // action creators for itemProps
 
@@ -16,12 +16,12 @@ export function setItemProp(
 }
 
 export function setTotalItems(itemType: string, totalItems: number): IAction {
-  return setItemProp(itemType, 'totalItems', totalItems)
+  return setItemProp(itemType, ItemProps.totalItems, totalItems)
 }
 
 export function setCurrentPage(itemType: string, currentPage: number): IAction {
-  return setItemProp(itemType, 'currentPage', currentPage)
+  return setItemProp(itemType, ItemProps.currentPage, currentPage)
 }
 export function setPageSize(itemType: string, pageSize: number): IAction {
-  return setItemProp(itemType, 'pageSize', pageSize)
+  return setItemProp(itemType, ItemProps.pageSize, pageSize)
 }

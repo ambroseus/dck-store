@@ -6,3 +6,4 @@ export { ActionTypes as dckActionTypes, Acts } from './types'
 export { dckActions, dckSelectors }
 export { dckReducer } from './dck/reducer'
 export { isAction } from './helpers/actions'
+export * from './helpers/processes'
