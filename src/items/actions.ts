@@ -7,15 +7,19 @@ export function setItems(itemType: string, items?: any[]): IAction {
   return composeAction(ActionTypes.setItems)({ itemType, payload: items })
 }
 
-export function setItem(itemType: string, id: string, item: any): IAction {
+export function setItem(
+  itemType: string,
+  id: string | number,
+  item: any
+): IAction {
   return composeAction(ActionTypes.setItem)({ itemType, id, payload: item })
 }
 
-export function removeItem(itemType: string, id: string): IAction {
+export function removeItem(itemType: string, id: string | number): IAction {
   return composeAction(ActionTypes.removeItem)({ itemType, id })
 }
 
-export function setActiveItem(itemType: string, id?: string): IAction {
+export function setActiveItem(itemType: string, id: string | number): IAction {
   return composeAction(ActionTypes.setActiveItem)({
     itemType,
     payload: id,
@@ -24,7 +28,7 @@ export function setActiveItem(itemType: string, id?: string): IAction {
 
 export function setSelectedItem(
   itemType: string,
-  id: string,
+  id: string | number,
   select: boolean
 ): IAction {
   return composeAction(ActionTypes.setSelectedItem)({

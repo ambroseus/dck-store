@@ -13,7 +13,7 @@ export const testItems = [
   },
 ]
 
-export const testRequest = {
+export const testLoadRequest = {
   itemType: TestItem,
   act: Acts.Load,
   params: undefined,
@@ -23,6 +23,13 @@ export const testRequest = {
     filters: undefined,
     sorting: undefined,
   },
+  token: 'SESSION_TOKEN',
+}
+
+export const testAddRequest = {
+  itemType: TestItem,
+  act: Acts.Add,
+  params: { id: 3, data: 'testData3' },
   token: 'SESSION_TOKEN',
 }
 
@@ -49,7 +56,7 @@ export const stateAfterLoadSaga = {
           '2': 1,
         },
         selectedItems: {},
-        activeItemId: '2',
+        activeItemId: 2,
       },
     },
     itemProps: {
@@ -78,7 +85,19 @@ export const stateAfterLoadSaga = {
 
 export const stateAfterAddSaga = {
   dck: {
-    items: {},
+    items: {
+      testItem: {
+        items: [
+          {
+            id: 3,
+            data: 'testData3',
+          },
+        ],
+        itemIndex: {
+          '3': 0,
+        },
+      },
+    },
     itemProps: {},
     filters: {},
     sorting: {},
@@ -86,9 +105,31 @@ export const stateAfterAddSaga = {
       testItem: {
         Add: {
           running: false,
+          error: false,
+          response: {},
+        },
+      },
+    },
+  },
+}
+
+export const stateAfterSelectSaga = {
+  dck: {
+    items: {
+      testItem: {
+        selectedItems: {},
+      },
+    },
+    itemProps: {},
+    filters: {},
+    sorting: {},
+    processes: {
+      testItem: {
+        __select__: {
+          running: false,
           error: true,
           response: {
-            message: 'wrong item: fakeData',
+            message: 'wrong item id: 1',
           },
         },
       },

@@ -1,8 +1,9 @@
 import { all, takeLatest } from 'redux-saga/effects'
 import { Process } from '../helpers/processes'
 import { isAction } from '../helpers/actions'
-import { testLoadFetcher, failFetcher } from './fetchers'
+import { testLoadFetcher, testAddFetcher, failFetcher } from './fetchers'
 import { TestItem } from './testData'
+import { IAction } from '../types'
 
 Process.extendRequest = getSession
 
@@ -16,7 +17,8 @@ function* getSession(request: any) {
 export function* testSaga() {
   yield all([
     takeLatest(isAction.Load(TestItem), loadItemsSaga),
-    takeLatest(isAction.Add(TestItem), failAddSaga),
+    takeLatest(isAction.Add(TestItem), addItemSaga),
+    takeLatest(isAction.Select(TestItem), failSelectSaga),
   ])
 }
 
@@ -36,13 +38,23 @@ function* loadItemsSaga() {
   yield proc.stop({ message: 'done' })
 }
 
-function* failAddSaga(action: any) {
+function* addItemSaga(action: IAction) {
   const proc = new Process.Add(TestItem, {
+    fetcher: testAddFetcher,
+  })
+  yield proc.start()
+  yield proc.fetch(action.payload)
+  yield proc.setItem(proc.response.id, proc.data)
+  yield proc.stop()
+}
+
+function* failSelectSaga(action: any) {
+  const proc = new Process('__select__', TestItem, {
     fetcher: failFetcher,
   })
   yield proc.start()
   try {
-    yield proc.fetch(action.payload.data)
+    yield proc.fetch({ id: action.meta.id })
     yield proc.stop()
   } catch (e) {
     yield proc.fail(e)

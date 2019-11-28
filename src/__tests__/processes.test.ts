@@ -9,6 +9,7 @@ import {
   initialState,
   stateAfterLoadSaga,
   stateAfterAddSaga,
+  stateAfterSelectSaga,
 } from './testData'
 
 const reducers: Reducer = combineReducers({
@@ -46,22 +47,38 @@ describe('process helper', () => {
     expect(dckSelectors.getTotalPages(state, TestItem)).toEqual(1)
   })
 
-  it('should successfully execute failAddSaga', async () => {
+  it('should successfully execute addItemSaga', async () => {
     const sagaTester = new SagaTester({
       initialState,
       reducers,
     })
     const action = dckActions.addItem(TestItem, {
-      field: 'fakeField',
-      data: 'fakeData',
+      id: 3,
+      data: 'testData3',
     })
+
+    sagaTester.start(testSaga)
+    sagaTester.dispatch(action)
+    await sagaTester.waitFor(ActionTypes.processStop)
+
+    const state = sagaTester.getState()
+    expect(state).toEqual(stateAfterAddSaga)
+    expect(dckSelectors.isProcessIdle(state, TestItem, Acts.Add)).toEqual(true)
+  })
+
+  it('should successfully execute failSelectSaga', async () => {
+    const sagaTester = new SagaTester({
+      initialState,
+      reducers,
+    })
+    const action = dckActions.setSelectedItem(TestItem, '1', true)
 
     sagaTester.start(testSaga)
     sagaTester.dispatch(action)
     await sagaTester.waitFor(ActionTypes.processFail)
 
     const state = sagaTester.getState()
-    expect(state).toEqual(stateAfterAddSaga)
+    expect(state).toEqual(stateAfterSelectSaga)
     expect(dckSelectors.isProcessFailed(state, TestItem, Acts.Add)).toEqual(
       true
     )

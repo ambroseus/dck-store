@@ -10,7 +10,7 @@ export interface IAction {
   type: string
   meta: {
     itemType: string
-    id: string
+    id: string | number
     field: string
   }
   payload: any
