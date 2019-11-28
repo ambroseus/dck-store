@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { combineReducers } from 'redux'
 import { itemsReducer } from '../items/reducer'
 import { itemPropsReducer } from '../itemProps/reducer'

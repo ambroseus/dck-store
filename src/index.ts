@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import * as dckActions from './dck/actions'
 import * as dckSelectors from './dck/selectors'
 
