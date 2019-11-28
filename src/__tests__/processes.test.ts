@@ -1,116 +1,19 @@
-import { combineReducers, Reducer } from 'redux'
 import SagaTester from 'redux-saga-tester'
-import { all, takeLatest } from 'redux-saga/effects'
-
-import { isAction } from '../helpers/actions'
+import { combineReducers, Reducer } from 'redux'
 import { dckActions, dckSelectors, dckReducer } from '../index'
-import { Process } from '../helpers/processes'
 import { ActionTypes, Acts } from '../types'
+import { testSaga } from './sagas'
+import {
+  TestItem,
+  testItems,
+  initialState,
+  stateAfterLoadSaga,
+  stateAfterAddSaga,
+} from './testData'
 
-const TestItem = 'testItem'
-
-const testItems = [
-  {
-    id: '1',
-    data: 'data1',
-  },
-  {
-    id: '2',
-    data: 'data2',
-  },
-]
-
-const initialState = {
-  dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
-}
-
-const reducers: Reducer = combineReducers({ dck: dckReducer })
-
-Process.extendRequest = getSession
-
-function* getSession(request: any) {
-  return yield {
-    ...request,
-    token: 'SESSION_TOKEN',
-  }
-}
-
-// fetchers
-
-function testFetcher(request: any) {
-  const extendedRequest = {
-    itemType: TestItem,
-    act: Acts.Load,
-    params: undefined,
-    pageble: {
-      currentPage: 3,
-      pageSize: 10,
-      filters: undefined,
-      sorting: undefined,
-    },
-    token: 'SESSION_TOKEN',
-  }
-  expect(request).toEqual(extendedRequest)
-
-  if (request.itemType === TestItem && request.act === Acts.Load) {
-    return testFetch()
-  }
-}
-
-async function testFetch() {
-  // simulate async fetch
-  await new Promise(resolve => setTimeout(resolve, 10))
-  return {
-    data: testItems,
-    totalItems: 5,
-    totalPages: 1,
-  }
-}
-
-function failFetcher(request: any) {
-  // simulate failed fetch
-  throw new TypeError(`wrong item: ${request.params}`)
-}
-
-function* testSaga() {
-  yield all([
-    takeLatest(isAction.Load(TestItem), loadItemsSaga),
-    takeLatest(isAction.Add(TestItem), failAddSaga),
-  ])
-}
-
-// sagas
-
-function* loadItemsSaga() {
-  const proc = new Process.Load(TestItem, {
-    fetcher: testFetcher,
-    pageble: true,
-  })
-  yield proc.setCurrentPage(3)
-  yield proc.setPageSize(10)
-  yield proc.start()
-
-  yield proc.fetch()
-  yield proc.setItems(proc.data)
-  yield proc.setActiveItem(2)
-
-  yield proc.stop({ message: 'done' })
-}
-
-function* failAddSaga(action: any) {
-  const proc = new Process.Add(TestItem, {
-    fetcher: failFetcher,
-  })
-  yield proc.start()
-  try {
-    yield proc.fetch(action.payload.data)
-    yield proc.stop()
-  } catch (e) {
-    yield proc.fail(e)
-  }
-}
-
-// tests
+const reducers: Reducer = combineReducers({
+  dck: dckReducer,
+})
 
 describe('process helper', () => {
   it('should successfully execute loadItemsSaga', async () => {
@@ -123,55 +26,8 @@ describe('process helper', () => {
 
     sagaTester.dispatch(dckActions.loadItems(TestItem))
     await sagaTester.waitFor(ActionTypes.processStop)
-
-    const stateAfter = {
-      dck: {
-        items: {
-          testItem: {
-            items: [
-              {
-                id: '1',
-                data: 'data1',
-              },
-              {
-                id: '2',
-                data: 'data2',
-              },
-            ],
-            itemIndex: {
-              '1': 0,
-              '2': 1,
-            },
-            selectedItems: {},
-            activeItemId: '2',
-          },
-        },
-        itemProps: {
-          testItem: {
-            currentPage: 0,
-            pageSize: 10,
-            totalItems: 5,
-            totalPages: 1,
-          },
-        },
-        filters: {},
-        sorting: {},
-        processes: {
-          testItem: {
-            Load: {
-              running: false,
-              error: false,
-              response: {
-                message: 'done',
-              },
-            },
-          },
-        },
-      },
-    }
-
     const state = sagaTester.getState()
-    expect(state).toEqual(stateAfter)
+    expect(state).toEqual(stateAfterLoadSaga)
 
     expect(dckSelectors.isProcessRunning(state, TestItem, Acts.Load)).toEqual(
       false
@@ -205,26 +61,7 @@ describe('process helper', () => {
     await sagaTester.waitFor(ActionTypes.processFail)
 
     const state = sagaTester.getState()
-    const stateAfter = {
-      dck: {
-        items: {},
-        itemProps: {},
-        filters: {},
-        sorting: {},
-        processes: {
-          testItem: {
-            Add: {
-              running: false,
-              error: true,
-              response: {
-                message: 'wrong item: fakeData',
-              },
-            },
-          },
-        },
-      },
-    }
-    expect(state).toEqual(stateAfter)
+    expect(state).toEqual(stateAfterAddSaga)
     expect(dckSelectors.isProcessFailed(state, TestItem, Acts.Add)).toEqual(
       true
     )
