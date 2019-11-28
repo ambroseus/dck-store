@@ -67,9 +67,9 @@ export class Process {
   *postFetch(response: any): any {
     if (!response) return yield void 0
 
-    const data = response?.data
-    const totalItems = response?.totalItems
-    const totalPages = response?.totalPages
+    const data = response.data
+    const totalItems = response.totalItems
+    const totalPages = response.totalPages
 
     this.response = response
     if (data !== void 0) this.data = data
@@ -110,7 +110,7 @@ export class Process {
   stop = (response?: any): PutEffect<IAction> =>
     put(dckActions.processStop(this.itemType, this.act, response))
 
-  fail = (response: any): PutEffect<IAction> => {
+  fail = (response?: any): PutEffect<IAction> => {
     if (response instanceof Error) response = { message: response.message }
     return put(dckActions.processFail(this.itemType, this.act, response))
   }

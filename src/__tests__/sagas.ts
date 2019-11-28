@@ -61,10 +61,13 @@ function* deleteItemSaga(action: IAction) {
 }
 
 function* batchSaga() {
-  const procUpdate = new Process.Update(TestItem, { fetcher: () => {} })
+  const procUpdate = new Process.Update(TestItem, {
+    fetcher: () => ({ data: void 0 }),
+  })
   const procImport = new Process.Import(TestItem)
   const procExport = new Process.Export(TestItem)
 
+  yield procUpdate.setItems()
   const totalItems = (yield procUpdate.totalItems()) || 1
   const totalPages = (yield procImport.totalPages()) || 2
   const dummy = (yield procExport.itemProp('dummy')) || 3
@@ -81,6 +84,7 @@ function* batchSaga() {
   yield procExport.fetch()
 
   yield procExport.setItemProp('status', `${totalItems}${totalPages}${dummy}`)
+  yield procExport.fail()
   yield procExport.reset()
 }
 
@@ -91,7 +95,6 @@ function* failSelectSaga(action: any) {
   yield proc.start()
   try {
     yield proc.fetch({ id: action.meta.id })
-    yield proc.stop()
   } catch (e) {
     yield proc.fail(e)
   }

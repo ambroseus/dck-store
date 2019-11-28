@@ -32,6 +32,13 @@ describe('process helpers', () => {
       initialState,
       reducers,
     })
+    expect(
+      dckSelectors.isProcessRunning(initialState, TestItem, Acts.Active)
+    ).toEqual(false)
+    expect(
+      dckSelectors.isProcessFinished(initialState, TestItem, Acts.Active)
+    ).toEqual(false)
+
     sagaTester.start(testSaga)
     sagaTester.dispatch(dckActions.updateItem(TestItem, '1', {}))
     sagaTester.dispatch(dckActions.importItems(TestItem))
@@ -68,6 +75,7 @@ describe('process helpers', () => {
     ).toEqual({ message: 'done' })
 
     expect(dckSelectors.getItems(state, TestItem)).toEqual(testItems)
+    expect(dckSelectors.getActiveItemId(state, TestItem)).toEqual(2)
     expect(dckSelectors.getActiveItem(state, TestItem)).toEqual(testItems[1])
     expect(dckSelectors.getPageSize(state, TestItem)).toEqual(10)
     expect(dckSelectors.getCurrentPage(state, TestItem)).toEqual(0)
