@@ -16,11 +16,7 @@ inspired by [`dck-redux`](https://www.npmjs.com/package/dck-redux)
 toolset:
 
 - [TypeScript 3.7 (with optional chaining & nullish coalescing)](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html)
-- <https://redux.js.org>
-- <https://redux-toolkit.js.org>
-- <https://immerjs.github.io/immer>
-- <https://redux-saga.js.org>
-- <https://github.com/wix/redux-saga-tester>
-- <https://github.com/jaredpalmer/tsdx>
+- [`redux`](https://redux.js.org) [`redux-toolkit`](https://redux-toolkit.js.org) [`immer`](https://immerjs.github.io/immer) [`redux-saga`](https://redux-saga.js.org) [`redux-saga-tester`](https://github.com/wix/redux-saga-tester) [`tsdx`](https://github.com/jaredpalmer/tsdx)
+- CI: [github actions](https://github.com/features/actions)
 
-ci: github actions
+complementary project: [`dck-ui`](https://github.com/ambroseus/dck-ui)

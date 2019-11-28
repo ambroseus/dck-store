@@ -35,6 +35,14 @@
     "tslib": "^1.10.0",
     "typescript": "^3.7.2"
   },
+  "dependencies": {
+    "@reduxjs/toolkit": "1.0.4",
+    "redux-saga": "1.1.3"
+  },
+  "peerDependencies": {
+    "@reduxjs/toolkit": "1.0.4",
+    "redux-saga": "1.1.3"
+  },
   "scripts": {
     "build": "tsdx build --format esm --name dck-store",
     "format": "prettier --write \"src/*.ts\" \"src/**/*.ts\" \"**/*.md\"",
@@ -50,10 +58,6 @@
     "dist/index.d.ts",
     "src"
   ],
-  "dependencies": {
-    "@reduxjs/toolkit": "1.0.4",
-    "redux-saga": "1.1.3"
-  },
   "sideEffects": false,
   "jest": {
     "globals": {
