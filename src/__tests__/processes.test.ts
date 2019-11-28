@@ -41,10 +41,13 @@ function testFetcher(request: any) {
   const extendedRequest = {
     itemType: TestItem,
     act: Acts.Load,
-    currentPage: 3,
-    pageSize: 10,
-    filters: undefined,
-    sorting: undefined,
+    params: undefined,
+    pageble: {
+      currentPage: 3,
+      pageSize: 10,
+      filters: undefined,
+      sorting: undefined,
+    },
     token: 'SESSION_TOKEN',
   }
   expect(request).toEqual(extendedRequest)
@@ -66,7 +69,7 @@ async function testFetch() {
 
 function failFetcher(request: any) {
   // simulate failed fetch
-  throw new TypeError(`wrong item: ${request.item}`)
+  throw new TypeError(`wrong item: ${request.params}`)
 }
 
 function* testSaga() {
@@ -100,7 +103,7 @@ function* failAddSaga(action: any) {
   })
   yield proc.start()
   try {
-    yield proc.fetch({ item: action.payload.data })
+    yield proc.fetch(action.payload.data)
     yield proc.stop()
   } catch (e) {
     yield proc.fail(e)

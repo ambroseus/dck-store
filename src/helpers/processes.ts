@@ -36,16 +36,18 @@ export class Process {
     this.options = options || {}
   }
 
-  *createRequest(request?: any): any {
-    request = request || {}
+  *createRequest(params?: any): any {
+    let request: any = { params }
     request.itemType = this.itemType
     request.act = this.act
 
     if (this.options.pageble) {
-      request[ItemProps.currentPage] = yield this.currentPage()
-      request[ItemProps.pageSize] = yield this.pageSize()
-      request.filters = yield this.filters()
-      request.sorting = yield this.sorting()
+      const pageble: any = {}
+      pageble[ItemProps.currentPage] = yield this.currentPage()
+      pageble[ItemProps.pageSize] = yield this.pageSize()
+      pageble.filters = yield this.filters()
+      pageble.sorting = yield this.sorting()
+      request.pageble = pageble
     }
 
     request = yield Process.extendRequest(request)
