@@ -108,8 +108,10 @@ export class Process {
   stop = (response?: any): PutEffect<IAction> =>
     put(dckActions.processStop(this.itemType, this.act, response))
 
-  fail = (response: any): PutEffect<IAction> =>
-    put(dckActions.processFail(this.itemType, this.act, response))
+  fail = (response: any): PutEffect<IAction> => {
+    if (response instanceof Error) response = { message: response.message }
+    return put(dckActions.processFail(this.itemType, this.act, response))
+  }
 
   setActiveItem = (id: string | number): PutEffect<IAction> =>
     put(dckActions.setActiveItem(this.itemType, String(id)))

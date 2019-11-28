@@ -35,8 +35,8 @@ function testFetcher(request: any) {
   }
 }
 
-function failFetcher() {
-  throw new Error(`failed fetch`)
+function failFetcher(request: any) {
+  throw new TypeError(`wrong item: ${request.payload.data}`)
 }
 
 const testItems = [
@@ -98,7 +98,7 @@ function* failAddSaga(action: any) {
     yield proc.fetch(action)
     yield proc.stop()
   } catch (e) {
-    yield proc.fail({ message: e.message })
+    yield proc.fail(e)
   }
 }
 
@@ -186,7 +186,7 @@ describe('process helper', () => {
       reducers,
     })
     const action = dckActions.addItem(TestItem, {
-      field: 'fake',
+      field: 'fakeField',
       data: 'fakeData',
     })
 
@@ -207,7 +207,7 @@ describe('process helper', () => {
               running: false,
               error: true,
               response: {
-                message: 'failed fetch',
+                message: 'wrong item: fakeData',
               },
             },
           },
