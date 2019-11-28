@@ -20,4 +20,4 @@ toolset:
 - [`redux`](https://redux.js.org) [`redux-toolkit`](https://redux-toolkit.js.org) [`immer`](https://immerjs.github.io/immer) [`redux-saga`](https://redux-saga.js.org) [`redux-saga-tester`](https://github.com/wix/redux-saga-tester) [`tsdx`](https://github.com/jaredpalmer/tsdx)
 - CI: [github actions](https://github.com/features/actions)
 
-complementary project: [`dck-ui`](https://github.com/ambroseus/dck-ui)
+complementary projects: [`dck-ui`](https://github.com/ambroseus/dck-ui)
