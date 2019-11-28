@@ -72,7 +72,7 @@ describe('itemsReducer', () => {
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).toBe(stateBefore.testItem.items)
 
-      state = itemsReducer(stateBefore, setActiveItem('testItem'))
+      state = itemsReducer(stateBefore, setActiveItem('testItem', void 0))
       expect(state.testItem.activeItemId).toEqual(void 0)
     })
   })
