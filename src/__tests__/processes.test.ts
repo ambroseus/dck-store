@@ -9,6 +9,7 @@ import {
   initialState,
   stateAfterLoadSaga,
   stateAfterAddSaga,
+  stateAfterDeleteSaga,
   stateAfterSelectSaga,
 } from './testData'
 
@@ -39,6 +40,7 @@ describe('process helper', () => {
     expect(
       dckSelectors.getProcessResponse(state, TestItem, Acts.Load)
     ).toEqual({ message: 'done' })
+
     expect(dckSelectors.getItems(state, TestItem)).toEqual(testItems)
     expect(dckSelectors.getActiveItem(state, TestItem)).toEqual(testItems[1])
     expect(dckSelectors.getPageSize(state, TestItem)).toEqual(10)
@@ -64,6 +66,24 @@ describe('process helper', () => {
     const state = sagaTester.getState()
     expect(state).toEqual(stateAfterAddSaga)
     expect(dckSelectors.isProcessIdle(state, TestItem, Acts.Add)).toEqual(true)
+  })
+
+  it('should successfully execute deleteItemSaga', async () => {
+    const sagaTester = new SagaTester({
+      initialState,
+      reducers,
+    })
+    const action = dckActions.deleteItem(TestItem, 1)
+
+    sagaTester.start(testSaga)
+    sagaTester.dispatch(action)
+    await sagaTester.waitFor(ActionTypes.processStop)
+
+    const state = sagaTester.getState()
+    expect(state).toEqual(stateAfterDeleteSaga)
+    expect(dckSelectors.isProcessFailed(state, TestItem, Acts.Delete)).toEqual(
+      false
+    )
   })
 
   it('should successfully execute failSelectSaga', async () => {

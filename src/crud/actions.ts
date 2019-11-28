@@ -9,10 +9,14 @@ export function loadItems(itemType: string): IAction {
 export function addItem(itemType: string, item: any): IAction {
   return composeAction(ActionTypes.addItem)({ itemType, payload: item })
 }
-export function updateItem(itemType: string, id: string, item: any): IAction {
+export function updateItem(
+  itemType: string,
+  id: string | number,
+  item: any
+): IAction {
   return composeAction(ActionTypes.updateItem)({ itemType, id, payload: item })
 }
-export function deleteItem(itemType: string, id: string): IAction {
+export function deleteItem(itemType: string, id: string | number): IAction {
   return composeAction(ActionTypes.deleteItem)({ itemType, id })
 }
 export function importItems(itemType: string): IAction {

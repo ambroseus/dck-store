@@ -3,6 +3,7 @@ import {
   TestItem,
   testItems,
   testLoadRequest,
+  testDeleteRequest,
   testAddRequest,
 } from './testData'
 
@@ -21,6 +22,13 @@ export function testAddFetcher(request: any) {
   expect(request).toEqual(testAddRequest)
   if (request.itemType === TestItem && request.act === Acts.Add) {
     return testFetch({ id: 3, data: request.params })
+  }
+}
+
+export function testDeleteFetcher(request: any) {
+  expect(request).toEqual(testDeleteRequest)
+  if (request.itemType === TestItem && request.act === Acts.Delete) {
+    return testFetch()
   }
 }
 
