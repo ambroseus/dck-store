@@ -8,6 +8,7 @@
 
 [![dependencies](https://david-dm.org/ambroseus/dck-store/status.svg)](https://david-dm.org/ambroseus/dck-store)
 [![devDependencies](https://david-dm.org/ambroseus/dck-store/dev-status.svg)](https://david-dm.org/ambroseus/dck-store?type=dev)
+[![peerDependencies](https://david-dm.org/ambroseus/dck-store/peer-status.svg)](https://david-dm.org/ambroseus/dck-store?type=peer)
 
 Redux-based framework to get rid of CRUD-related boilerplate
 
