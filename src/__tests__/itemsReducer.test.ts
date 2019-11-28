@@ -46,41 +46,6 @@ describe('itemsReducer', () => {
     })
   })
 
-  /*
-  describe('for action [setItemProp]', () => {
-    it('should immutable update state', () => {
-      const stateBefore: IState = {
-        item: {},
-        testItem: {
-          items: [{ id: '1', data: 'testData' }],
-          itemIndex: { '1': 0 },
-        },
-      }
-      const stateAfter: IState = {
-        item: {},
-        testItem: {
-          testField: {},
-          items: [{ id: '1', data: 'testData' }],
-          itemIndex: { '1': 0 },
-        },
-      }
-
-      const state: IState = itemsReducer(
-        stateBefore,
-        setItemProp('testItem', 'testField', {})
-      )
-
-      expect(state).toEqual(stateAfter)
-      expect(state).not.toBe(stateBefore)
-
-      expect(state.testItem.testField).toEqual({})
-      expect(state.item).toBe(stateBefore.item)
-      expect(state.testItem).not.toBe(stateBefore.testItem)
-      expect(state.testItem.items).toBe(stateBefore.testItem.items)
-      expect(state.testItem.testField).not.toBe(stateBefore.testItem.testField)
-    })
-  })
-*/
   describe('for action [setActiveItem]', () => {
     it('should immutable update state', () => {
       const stateBefore: IState = {
