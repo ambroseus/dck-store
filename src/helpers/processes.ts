@@ -50,7 +50,9 @@ export class Process {
       request.pageble = pageble
     }
 
-    request = yield Process.extendRequest(request)
+    if (Process.extendRequest && typeof Process.extendRequest === 'function') {
+      request = yield Process.extendRequest(request)
+    }
     return request
   }
 
@@ -149,12 +151,6 @@ export class Process {
     }
     yield put(dckActions.setTotalPages(this.itemType, totalPages))
   }
-}
-
-Process.extendRequest = _extendRequest
-
-function* _extendRequest(request: any): any {
-  return yield request
 }
 
 class ProcessLoad extends Process {
