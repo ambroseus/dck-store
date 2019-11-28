@@ -116,7 +116,7 @@ export class Process {
   }
 
   setActiveItem = (id: string | number): PutEffect<IAction> =>
-    put(dckActions.setActiveItem(this.itemType, String(id)))
+    put(dckActions.setActiveItem(this.itemType, id))
 
   setItemProp = (prop: string, data: any): PutEffect<IAction> =>
     put(dckActions.setItemProp(this.itemType, prop, data))
@@ -133,7 +133,7 @@ export class Process {
   }
 
   setItem = (id: string | number, data: any): PutEffect<IAction> => {
-    return put(dckActions.setItem(this.itemType, String(id), data))
+    return put(dckActions.setItem(this.itemType, id, data))
   }
 
   setTotalItems = (totalItems: number): PutEffect<IAction> =>

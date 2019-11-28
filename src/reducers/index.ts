@@ -103,7 +103,11 @@ function selectOrUnselectItemByKey(state: IState, action: IAction): IState {
   let { selectedItems, itemIndex } = itemState
   if (!selectedItems) selectedItems = {}
 
-  select ? (selectedItems[key] = itemIndex[key]) : delete selectedItems[key]
+  if (select) {
+    if (itemIndex?.[key]) selectedItems[key] = itemIndex[key]
+  } else {
+    delete selectedItems[key]
+  }
 
   itemState.selectedItems = selectedItems
   state[itemType] = itemState
