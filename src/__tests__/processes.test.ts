@@ -9,6 +9,23 @@ import { ActionTypes, Acts } from '../types'
 
 const TestItem = 'testItem'
 
+const testItems = [
+  {
+    id: '1',
+    data: 'data1',
+  },
+  {
+    id: '2',
+    data: 'data2',
+  },
+]
+
+const initialState = {
+  dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
+}
+
+const reducers: Reducer = combineReducers({ dck: dckReducer })
+
 Process.extendRequest = getSession
 
 function* getSession(request: any) {
@@ -17,6 +34,8 @@ function* getSession(request: any) {
     token: 'SESSION_TOKEN',
   }
 }
+
+// fetchers
 
 function testFetcher(request: any) {
   const extendedRequest = {
@@ -35,23 +54,8 @@ function testFetcher(request: any) {
   }
 }
 
-function failFetcher(request: any) {
-  throw new TypeError(`wrong item: ${request.payload.data}`)
-}
-
-const testItems = [
-  {
-    id: '1',
-    data: 'data1',
-  },
-  {
-    id: '2',
-    data: 'data2',
-  },
-]
-
-// simulate async fetch
 async function testFetch() {
+  // simulate async fetch
   await new Promise(resolve => setTimeout(resolve, 10))
   return {
     data: testItems,
@@ -60,11 +64,10 @@ async function testFetch() {
   }
 }
 
-const initialState = {
-  dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
+function failFetcher(request: any) {
+  // simulate failed fetch
+  throw new TypeError(`wrong item: ${request.item}`)
 }
-
-const reducers: Reducer = combineReducers({ dck: dckReducer })
 
 function* testSaga() {
   yield all([
@@ -72,6 +75,8 @@ function* testSaga() {
     takeLatest(isAction.Add(TestItem), failAddSaga),
   ])
 }
+
+// sagas
 
 function* loadItemsSaga() {
   const proc = new Process.Load(TestItem, {
@@ -95,12 +100,14 @@ function* failAddSaga(action: any) {
   })
   yield proc.start()
   try {
-    yield proc.fetch(action)
+    yield proc.fetch({ item: action.payload.data })
     yield proc.stop()
   } catch (e) {
     yield proc.fail(e)
   }
 }
+
+// tests
 
 describe('process helper', () => {
   it('should successfully execute loadItemsSaga', async () => {
