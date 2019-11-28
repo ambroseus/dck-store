@@ -19,7 +19,10 @@ export function removeItem(itemType: string, id: string | number): IAction {
   return composeAction(ActionTypes.removeItem)({ itemType, id })
 }
 
-export function setActiveItem(itemType: string, id: string | number): IAction {
+export function setActiveItem(
+  itemType: string,
+  id: string | number | undefined
+): IAction {
   return composeAction(ActionTypes.setActiveItem)({
     itemType,
     payload: id,
