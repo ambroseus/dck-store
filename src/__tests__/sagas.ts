@@ -11,20 +11,14 @@ import { TestItem, testItems } from './testData'
 import { IAction } from '../types'
 import { dckActions } from '..'
 
-Process.extendRequest = getSession
-
-function* getSession(request: any) {
-  return yield {
-    ...request,
-    token: 'SESSION_TOKEN',
-  }
-}
-
 export function* testSaga() {
   yield all([
     takeLatest(isAction.Load(TestItem), loadItemsSaga),
     takeLatest(isAction.Add(TestItem), addItemSaga),
     takeLatest(isAction.Delete(TestItem), deleteItemSaga),
+    takeLatest(isAction.Update(TestItem), batchSaga),
+    takeLatest(isAction.Import(TestItem), batchSaga),
+    takeLatest(isAction.Export(TestItem), batchSaga),
     takeLatest(isAction.Select(TestItem), failSelectSaga),
   ])
 }
@@ -66,8 +60,32 @@ function* deleteItemSaga(action: IAction) {
   yield proc.stop()
 }
 
+function* batchSaga() {
+  const procUpdate = new Process.Update(TestItem, { fetcher: () => {} })
+  const procImport = new Process.Import(TestItem)
+  const procExport = new Process.Export(TestItem)
+
+  const totalItems = (yield procUpdate.totalItems()) || 1
+  const totalPages = (yield procImport.totalPages()) || 2
+  const dummy = (yield procExport.itemProp('dummy')) || 3
+
+  yield procImport.start()
+  yield procExport.start()
+
+  yield procUpdate.start()
+  yield procImport.start()
+  yield procExport.start()
+
+  yield procUpdate.fetch()
+  yield procImport.fetch()
+  yield procExport.fetch()
+
+  yield procExport.setItemProp('status', `${totalItems}${totalPages}${dummy}`)
+  yield procExport.reset()
+}
+
 function* failSelectSaga(action: any) {
-  const proc = new Process('__select__', TestItem, {
+  const proc = new Process('__select__', undefined, {
     fetcher: failFetcher,
   })
   yield proc.start()

@@ -44,6 +44,35 @@ export const initialState = {
   dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
 }
 
+export const stateAfterBatchSagas = {
+  dck: {
+    items: {},
+    itemProps: {
+      testItem: {
+        status: '123',
+      },
+    },
+    filters: {},
+    sorting: {},
+    processes: {
+      testItem: {
+        Import: {
+          running: true,
+          error: false,
+        },
+        Export: {
+          running: false,
+          error: false,
+        },
+        Update: {
+          running: true,
+          error: false,
+        },
+      },
+    },
+  },
+}
+
 export const stateAfterLoadSaga = {
   dck: {
     items: {
@@ -162,7 +191,7 @@ export const stateAfterSelectSaga = {
     filters: {},
     sorting: {},
     processes: {
-      testItem: {
+      __internal__: {
         __select__: {
           running: false,
           error: true,
