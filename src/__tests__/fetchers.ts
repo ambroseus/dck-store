@@ -1,14 +1,7 @@
 import { Acts } from '../types'
-import {
-  TestItem,
-  testItems,
-  testLoadRequest,
-  testDeleteRequest,
-  testAddRequest,
-} from './testData'
+import { TestItem, testItems } from './testData'
 
 export function testLoadFetcher(request: any) {
-  expect(request).toEqual(testLoadRequest)
   if (request.itemType === TestItem && request.act === Acts.Load) {
     return testFetch({
       data: testItems,
@@ -19,14 +12,12 @@ export function testLoadFetcher(request: any) {
 }
 
 export function testAddFetcher(request: any) {
-  expect(request).toEqual(testAddRequest)
   if (request.itemType === TestItem && request.act === Acts.Add) {
     return testFetch({ id: 3, data: request.params })
   }
 }
 
 export function testDeleteFetcher(request: any) {
-  expect(request).toEqual(testDeleteRequest)
   if (request.itemType === TestItem && request.act === Acts.Delete) {
     return testFetch()
   }

@@ -1,5 +1,3 @@
-import { Acts } from '../types'
-
 export const TestItem = 'testItem'
 
 export const testItems = [
@@ -13,61 +11,21 @@ export const testItems = [
   },
 ]
 
-export const testLoadRequest = {
-  itemType: TestItem,
-  act: Acts.Load,
-  params: undefined,
-  pageble: {
-    currentPage: 3,
-    pageSize: 10,
-    filters: undefined,
-    sorting: undefined,
-  },
-  token: 'SESSION_TOKEN',
-}
-
-export const testAddRequest = {
-  itemType: TestItem,
-  act: Acts.Add,
-  params: { id: 3, data: 'testData3' },
-  token: 'SESSION_TOKEN',
-}
-
-export const testDeleteRequest = {
-  itemType: TestItem,
-  act: Acts.Delete,
-  params: { id: 1 },
-  token: 'SESSION_TOKEN',
-}
-
 export const initialState = {
   dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
 }
 
 export const stateAfterBatchSagas = {
   dck: {
-    items: {},
-    itemProps: {
-      testItem: {
-        status: '123',
-      },
-    },
+    items: { testItem: { items: [], itemIndex: {}, selectedItems: {} } },
+    itemProps: { testItem: { status: '123' } },
     filters: {},
     sorting: {},
     processes: {
       testItem: {
-        Import: {
-          running: true,
-          error: false,
-        },
-        Export: {
-          running: false,
-          error: false,
-        },
-        Update: {
-          running: true,
-          error: false,
-        },
+        Import: { running: true, error: false },
+        Export: { running: false, error: false },
+        Update: { running: true, error: false },
       },
     },
   },
