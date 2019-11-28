@@ -35,6 +35,10 @@ function testFetcher(request: any) {
   }
 }
 
+function failFetcher() {
+  throw new Error(`failed fetch`)
+}
+
 const testItems = [
   {
     id: '1',
@@ -60,61 +64,13 @@ const initialState = {
   dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
 }
 
-const stateAfter = {
-  dck: {
-    items: {
-      testItem: {
-        items: [
-          {
-            id: '1',
-            data: 'data1',
-          },
-          {
-            id: '2',
-            data: 'data2',
-          },
-        ],
-        itemIndex: {
-          '1': 0,
-          '2': 1,
-        },
-        selectedItems: {},
-        activeItemId: '2',
-      },
-    },
-    itemProps: {
-      testItem: {
-        currentPage: 0,
-        pageSize: 10,
-        totalItems: 5,
-        totalPages: 1,
-      },
-    },
-    filters: {},
-    sorting: {},
-    processes: {
-      testItem: {
-        Load: {
-          running: false,
-          error: false,
-          response: {
-            message: 'done',
-          },
-        },
-      },
-    },
-  },
-}
-
 const reducers: Reducer = combineReducers({ dck: dckReducer })
 
-const sagaTester = new SagaTester({
-  initialState,
-  reducers,
-})
-
 function* testSaga() {
-  yield all([takeLatest(isAction.Load(TestItem), loadItemsSaga)])
+  yield all([
+    takeLatest(isAction.Load(TestItem), loadItemsSaga),
+    takeLatest(isAction.Add(TestItem), failAddSaga),
+  ])
 }
 
 function* loadItemsSaga() {
@@ -133,13 +89,76 @@ function* loadItemsSaga() {
   yield proc.stop({ message: 'done' })
 }
 
+function* failAddSaga(action: any) {
+  const proc = new Process.Add(TestItem, {
+    fetcher: failFetcher,
+  })
+  yield proc.start()
+  try {
+    yield proc.fetch(action)
+    yield proc.stop()
+  } catch (e) {
+    yield proc.fail({ message: e.message })
+  }
+}
+
 describe('process helper', () => {
   it('should successfully execute loadItemsSaga', async () => {
+    const sagaTester = new SagaTester({
+      initialState,
+      reducers,
+    })
     sagaTester.start(testSaga)
     expect(sagaTester.getState()).toEqual(initialState)
 
     sagaTester.dispatch(dckActions.loadItems(TestItem))
     await sagaTester.waitFor(ActionTypes.processStop)
+
+    const stateAfter = {
+      dck: {
+        items: {
+          testItem: {
+            items: [
+              {
+                id: '1',
+                data: 'data1',
+              },
+              {
+                id: '2',
+                data: 'data2',
+              },
+            ],
+            itemIndex: {
+              '1': 0,
+              '2': 1,
+            },
+            selectedItems: {},
+            activeItemId: '2',
+          },
+        },
+        itemProps: {
+          testItem: {
+            currentPage: 0,
+            pageSize: 10,
+            totalItems: 5,
+            totalPages: 1,
+          },
+        },
+        filters: {},
+        sorting: {},
+        processes: {
+          testItem: {
+            Load: {
+              running: false,
+              error: false,
+              response: {
+                message: 'done',
+              },
+            },
+          },
+        },
+      },
+    }
 
     const state = sagaTester.getState()
     expect(state).toEqual(stateAfter)
@@ -159,5 +178,45 @@ describe('process helper', () => {
     expect(dckSelectors.getCurrentPage(state, TestItem)).toEqual(0)
     expect(dckSelectors.getTotalItems(state, TestItem)).toEqual(5)
     expect(dckSelectors.getTotalPages(state, TestItem)).toEqual(1)
+  })
+
+  it('should successfully execute failAddSaga', async () => {
+    const sagaTester = new SagaTester({
+      initialState,
+      reducers,
+    })
+    const action = dckActions.addItem(TestItem, {
+      field: 'fake',
+      data: 'fakeData',
+    })
+
+    sagaTester.start(testSaga)
+    sagaTester.dispatch(action)
+    await sagaTester.waitFor(ActionTypes.processFail)
+
+    const state = sagaTester.getState()
+    const stateAfter = {
+      dck: {
+        items: {},
+        itemProps: {},
+        filters: {},
+        sorting: {},
+        processes: {
+          testItem: {
+            Add: {
+              running: false,
+              error: true,
+              response: {
+                message: 'failed fetch',
+              },
+            },
+          },
+        },
+      },
+    }
+    expect(state).toEqual(stateAfter)
+    expect(dckSelectors.isProcessFailed(state, TestItem, Acts.Add)).toEqual(
+      true
+    )
   })
 })
