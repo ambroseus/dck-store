@@ -11,7 +11,8 @@
     "immer",
     "crud",
     "toolkit",
-    "ducks-pattern"
+    "ducks-pattern",
+    "dck"
   ],
   "publishConfig": {
     "access": "public"
