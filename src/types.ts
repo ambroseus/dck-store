@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 export { TProcess } from './helpers/processes'
 export type TFetcher = (request: any) => any
 

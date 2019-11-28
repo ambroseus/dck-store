@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 export * from '../items/selectors'
 export * from '../itemProps/selectors'
 export * from '../filters/selectors'

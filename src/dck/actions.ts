@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 export * from '../crud/actions'
 export * from '../items/actions'
 export * from '../itemProps/actions'
