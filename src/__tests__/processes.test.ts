@@ -7,17 +7,43 @@ import {
   TestItem,
   testItems,
   initialState,
+  stateAfterBatchSagas,
   stateAfterLoadSaga,
   stateAfterAddSaga,
   stateAfterDeleteSaga,
   stateAfterSelectSaga,
 } from './testData'
+import { Process } from '../helpers/processes'
 
 const reducers: Reducer = combineReducers({
   dck: dckReducer,
 })
 
-describe('process helper', () => {
+function* getSession(request: any) {
+  return yield {
+    ...request,
+    token: 'SESSION_TOKEN',
+  }
+}
+
+describe('process helpers', () => {
+  it('should successfully execute batch of sagas with defaults', async () => {
+    const sagaTester = new SagaTester({
+      initialState,
+      reducers,
+    })
+    sagaTester.start(testSaga)
+    sagaTester.dispatch(dckActions.updateItem(TestItem, '1', {}))
+    sagaTester.dispatch(dckActions.importItems(TestItem))
+    sagaTester.dispatch(dckActions.exportItems(TestItem))
+
+    await sagaTester.waitFor(ActionTypes.processReset)
+    const state = sagaTester.getState()
+    expect(state).toEqual(stateAfterBatchSagas)
+  })
+
+  Process.extendRequest = getSession
+
   it('should successfully execute loadItemsSaga', async () => {
     const sagaTester = new SagaTester({
       initialState,
