@@ -1,6 +1,6 @@
 {
   "name": "@ambroseus/dck-store",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Redux-based framework to get rid of CRUD-related boilerplate",
   "repository": "https://github.com/ambroseus/dck-store",
   "keywords": [
