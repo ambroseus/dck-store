@@ -1,9 +1,15 @@
-import { all, takeLatest } from 'redux-saga/effects'
+import { all, takeLatest, put } from 'redux-saga/effects'
 import { Process } from '../helpers/processes'
 import { isAction } from '../helpers/actions'
-import { testLoadFetcher, testAddFetcher, failFetcher } from './fetchers'
-import { TestItem } from './testData'
+import {
+  testLoadFetcher,
+  testAddFetcher,
+  testDeleteFetcher,
+  failFetcher,
+} from './fetchers'
+import { TestItem, testItems } from './testData'
 import { IAction } from '../types'
+import { dckActions } from '..'
 
 Process.extendRequest = getSession
 
@@ -18,6 +24,7 @@ export function* testSaga() {
   yield all([
     takeLatest(isAction.Load(TestItem), loadItemsSaga),
     takeLatest(isAction.Add(TestItem), addItemSaga),
+    takeLatest(isAction.Delete(TestItem), deleteItemSaga),
     takeLatest(isAction.Select(TestItem), failSelectSaga),
   ])
 }
@@ -45,6 +52,17 @@ function* addItemSaga(action: IAction) {
   yield proc.start()
   yield proc.fetch(action.payload)
   yield proc.setItem(proc.response.id, proc.data)
+  yield proc.stop()
+}
+
+function* deleteItemSaga(action: IAction) {
+  const proc = new Process.Delete(TestItem, {
+    fetcher: testDeleteFetcher,
+  })
+  yield proc.setItems(testItems)
+  yield proc.start()
+  yield proc.fetch({ id: action.meta.id })
+  yield put(dckActions.removeItem(TestItem, 1))
   yield proc.stop()
 }
 

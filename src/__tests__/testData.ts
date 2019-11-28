@@ -33,6 +33,13 @@ export const testAddRequest = {
   token: 'SESSION_TOKEN',
 }
 
+export const testDeleteRequest = {
+  itemType: TestItem,
+  act: Acts.Delete,
+  params: { id: 1 },
+  token: 'SESSION_TOKEN',
+}
+
 export const initialState = {
   dck: { items: {}, itemProps: {}, filters: {}, sorting: {}, processes: {} },
 }
@@ -104,6 +111,37 @@ export const stateAfterAddSaga = {
     processes: {
       testItem: {
         Add: {
+          running: false,
+          error: false,
+          response: {},
+        },
+      },
+    },
+  },
+}
+
+export const stateAfterDeleteSaga = {
+  dck: {
+    items: {
+      testItem: {
+        items: [
+          {
+            id: '2',
+            data: 'data2',
+          },
+        ],
+        itemIndex: {
+          '2': 1,
+        },
+        selectedItems: {},
+      },
+    },
+    itemProps: {},
+    filters: {},
+    sorting: {},
+    processes: {
+      testItem: {
+        Delete: {
           running: false,
           error: false,
           response: {},
