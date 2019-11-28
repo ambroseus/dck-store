@@ -12,7 +12,7 @@
 
 Redux-based framework to get rid of CRUD-related boilerplate
 
-inspired by [`dck-redux`](https://www.npmjs.com/package/dck-redux)
+inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisioncompany.github.io/dck/)
 
 toolset:
 
