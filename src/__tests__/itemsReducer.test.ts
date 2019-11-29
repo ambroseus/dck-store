@@ -1,9 +1,4 @@
-import {
-  setItems,
-  setItem,
-  setActiveItem,
-  setSelectedItem,
-} from '../items/actions'
+import { setItems, setItem, optItem, selectItem } from '../items/actions'
 import { itemsReducer } from '../items/reducer'
 import { IState } from '../types'
 
@@ -46,7 +41,7 @@ describe('itemsReducer', () => {
     })
   })
 
-  describe('for action [setActiveItem]', () => {
+  describe('for action [optItem]', () => {
     it('should immutable update state', () => {
       const stateBefore: IState = {
         item: {},
@@ -57,23 +52,20 @@ describe('itemsReducer', () => {
       const stateAfter: IState = {
         item: {},
         testItem: {
-          activeItemId: '1',
+          optedItemId: '1',
           items: [{ id: '1', data: 'testData' }],
         },
       }
 
-      let state: IState = itemsReducer(
-        stateBefore,
-        setActiveItem('testItem', '1')
-      )
+      let state: IState = itemsReducer(stateBefore, optItem('testItem', '1'))
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
       expect(state.item).toBe(stateBefore.item)
       expect(state.testItem).not.toBe(stateBefore.testItem)
       expect(state.testItem.items).toBe(stateBefore.testItem.items)
 
-      state = itemsReducer(stateBefore, setActiveItem('testItem', void 0))
-      expect(state.testItem.activeItemId).toEqual(void 0)
+      state = itemsReducer(stateBefore, optItem('testItem', void 0))
+      expect(state.testItem.optedItemId).toEqual(void 0)
     })
   })
 
@@ -159,7 +151,7 @@ describe('itemsReducer', () => {
     })
   })
 
-  describe('for action [setSelectedItem]', () => {
+  describe('for action [selectItem]', () => {
     it('should select item', () => {
       const stateBefore: IState = {
         testItem: {
@@ -186,20 +178,14 @@ describe('itemsReducer', () => {
 
       let state: IState = itemsReducer(
         stateBefore,
-        setSelectedItem('testItem', '1', true)
+        selectItem('testItem', '1', true)
       )
-      state = itemsReducer(
-        state,
-        setSelectedItem('testItem', 'testField', true)
-      )
+      state = itemsReducer(state, selectItem('testItem', 'testField', true))
       expect(state).toEqual(stateAfter)
       expect(state).not.toBe(stateBefore)
 
-      state = itemsReducer(state, setSelectedItem('testItem', '1', false))
-      state = itemsReducer(
-        state,
-        setSelectedItem('testItem', 'testField', false)
-      )
+      state = itemsReducer(state, selectItem('testItem', '1', false))
+      state = itemsReducer(state, selectItem('testItem', 'testField', false))
       expect(state).toEqual(stateBefore)
       expect(state).not.toBe(stateBefore)
       expect(state.testItem.selectedItems).toEqual({})

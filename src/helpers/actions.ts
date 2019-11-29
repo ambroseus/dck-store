@@ -34,6 +34,6 @@ export const isAction: any = {
   [Acts.Delete]: is(ActionTypes.deleteItem),
   [Acts.Import]: is(ActionTypes.importItems),
   [Acts.Export]: is(ActionTypes.exportItems),
-  [Acts.Active]: is(ActionTypes.setActiveItem),
-  [Acts.Select]: is(ActionTypes.setSelectedItem),
+  [Acts.Active]: is(ActionTypes.optItem),
+  [Acts.Select]: is(ActionTypes.selectItem),
 }

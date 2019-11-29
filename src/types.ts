@@ -20,8 +20,8 @@ export enum ActionTypes {
   setItems = 'dck/items/setItems',
   setItem = 'dck/items/setItem',
   removeItem = 'dck/items/removeItem',
-  setActiveItem = 'dck/items/setActiveItem',
-  setSelectedItem = 'dck/items/setSelectedItem',
+  optItem = 'dck/items/optItem',
+  selectItem = 'dck/items/selectItem',
   // crud items
   loadItems = 'dck/crud/loadItems',
   addItem = 'dck/crud/addItem',

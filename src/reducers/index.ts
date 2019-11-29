@@ -17,10 +17,10 @@ class MutativeReducers {
   setItemProp(state: IState, action: IAction) {
     state = updateItemByField(state, action, action.meta.field)
   }
-  setActiveItem(state: IState, action: IAction) {
-    state = updateItemByField(state, action, 'activeItemId')
+  optItem(state: IState, action: IAction) {
+    state = updateItemByField(state, action, 'optedItemId')
   }
-  setSelectedItem(state: IState, action: IAction) {
+  selectItem(state: IState, action: IAction) {
     state = selectOrUnselectItemByKey(state, action)
   }
 }

@@ -19,22 +19,22 @@ export function removeItem(itemType: string, id: string | number): IAction {
   return composeAction(ActionTypes.removeItem)({ itemType, id })
 }
 
-export function setActiveItem(
+export function optItem(
   itemType: string,
   id: string | number | undefined
 ): IAction {
-  return composeAction(ActionTypes.setActiveItem)({
+  return composeAction(ActionTypes.optItem)({
     itemType,
     payload: id,
   })
 }
 
-export function setSelectedItem(
+export function selectItem(
   itemType: string,
   id: string | number,
   select: boolean
 ): IAction {
-  return composeAction(ActionTypes.setSelectedItem)({
+  return composeAction(ActionTypes.selectItem)({
     itemType,
     id,
     payload: select,
