@@ -17,7 +17,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/dck-store.esm.js",
+  "main": "dist/index.js",
   "module": "dist/dck-store.esm.js",
   "types": "dist/index.d.ts",
   "author": "Eugene Samonenko <esamonenko@agilevision.io>",
@@ -45,7 +45,7 @@
     "redux-saga": "1.1.3"
   },
   "scripts": {
-    "build": "tsdx build --format esm --name dck-store",
+    "build": "tsdx build --format cjs,esm --name dck-store",
     "format": "prettier --write \"src/*.ts\" \"src/**/*.ts\" \"**/*.md\"",
     "format:check": "prettier --list-different \"src/*.ts\" \"src/**/*.ts\" \"**/*.md\"",
     "lint": "tsdx lint src && tsc --noEmit",
