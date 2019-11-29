@@ -1,6 +1,7 @@
 import { call, put, select, PutEffect, SelectEffect } from 'redux-saga/effects'
 import { Acts, TAct, TFetcher, IAction, ItemProps } from '../types'
-import { dckSelectors, dckActions } from '../index'
+import * as dckActions from '../dck/actions'
+import * as dckSelectors from '../dck/selectors'
 
 export type TProcess = typeof Process
 export type TProcessLoad = typeof ProcessLoad
