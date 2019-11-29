@@ -118,8 +118,8 @@ export class Process {
     return put(dckActions.processFail(this.itemType, this.act, response))
   }
 
-  setActiveItem = (id: string | number): PutEffect<IAction> =>
-    put(dckActions.setActiveItem(this.itemType, id))
+  optItem = (id: string | number): PutEffect<IAction> =>
+    put(dckActions.optItem(this.itemType, id))
 
   setItemProp = (prop: string, data: any): PutEffect<IAction> =>
     put(dckActions.setItemProp(this.itemType, prop, data))

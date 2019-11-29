@@ -4,8 +4,8 @@ import { IState } from '../types'
 
 type getItems = (state: IState, itemType: string) => any[]
 type getItem = (state: IState, itemType: string, id: string) => any
-type getActiveItemId = (state: IState, itemType: string) => any
-type getActiveItem = (state: IState, itemType: string) => any
+type getOptedItemId = (state: IState, itemType: string) => any
+type getOptedItem = (state: IState, itemType: string) => any
 
 type getItemState = (state: IState, itemType: string) => any
 type getIndexedItem = (itemState: IState, id: string) => any
@@ -39,14 +39,14 @@ export const getItem: getItem = createSelector(
   getIndexedItem
 )
 
-export const getActiveItemId: getActiveItemId = createSelector(
+export const getOptedItemId: getOptedItemId = createSelector(
   getItemState,
-  itemState => itemState.activeItemId
+  itemState => itemState.optedItemId
 )
 
-export const getActiveItem: getActiveItem = createSelector(
+export const getOptedItem: getOptedItem = createSelector(
   getItemState,
-  itemState => getIndexedItem(itemState, itemState.activeItemId)
+  itemState => getIndexedItem(itemState, itemState.optedItemId)
 )
 
 export function isItemSelected(

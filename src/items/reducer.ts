@@ -2,13 +2,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import { ActionTypes } from '../types'
 import { reducers } from '../reducers'
 
-const {
-  setItems,
-  setItem,
-  removeItem,
-  setActiveItem,
-  setSelectedItem,
-} = reducers
+const { setItems, setItem, removeItem, optItem, selectItem } = reducers
 
 export const itemsReducer = createReducer(
   {},
@@ -16,7 +10,7 @@ export const itemsReducer = createReducer(
     [ActionTypes.setItems]: setItems,
     [ActionTypes.setItem]: setItem,
     [ActionTypes.removeItem]: removeItem,
-    [ActionTypes.setActiveItem]: setActiveItem,
-    [ActionTypes.setSelectedItem]: setSelectedItem,
+    [ActionTypes.optItem]: optItem,
+    [ActionTypes.selectItem]: selectItem,
   }
 )

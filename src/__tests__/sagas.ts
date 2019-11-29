@@ -34,7 +34,7 @@ function* loadItemsSaga() {
 
   yield proc.fetch()
   yield proc.setItems(proc.data)
-  yield proc.setActiveItem(2)
+  yield proc.optItem(2)
 
   yield proc.stop({ message: 'done' })
 }

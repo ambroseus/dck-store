@@ -50,7 +50,7 @@ export const stateAfterLoadSaga = {
           '2': 1,
         },
         selectedItems: {},
-        activeItemId: 2,
+        optedItemId: 2,
       },
     },
     itemProps: {
