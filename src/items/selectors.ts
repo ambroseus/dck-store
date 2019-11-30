@@ -59,7 +59,7 @@ export function isItemSelected(
   return String(id) in selectedItems
 }
 
-export function getSelectedItemIds(state: IState, itemType: string): string[] {
+export function getSelectedItemIds(state: IState, itemType: string): any[] {
   const { selectedItems } = getItemState(state, itemType)
   if (!selectedItems) return []
   return Object.keys(selectedItems)

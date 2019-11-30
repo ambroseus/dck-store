@@ -7,7 +7,7 @@ afterEach(cleanup)
 
 describe('hooks', () => {
   describe('selector useItems', () => {
-    it('should successfully execute', async () => {
+    it('should successfully execute', () => {
       const { getByText } = testSelectorHook(() => useItems(TestItem))
       expect(
         getByText('[{"id":"1","data":"data1"},{"id":"2","data":"data2"}]')
