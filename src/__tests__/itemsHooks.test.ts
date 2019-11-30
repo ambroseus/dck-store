@@ -6,7 +6,7 @@ import { TestItem } from './testData'
 afterEach(cleanup)
 
 describe('items selectors hooks', () => {
-  describe('selector useItems', () => {
+  describe('useItems', () => {
     it('should successfully execute', () => {
       const { getByText } = testSelectorHook(() =>
         itemsHooks.useItems(TestItem)
@@ -17,7 +17,7 @@ describe('items selectors hooks', () => {
     })
   })
 
-  describe('selector useItem', () => {
+  describe('useItem', () => {
     it('should successfully execute', () => {
       const { getByText } = testSelectorHook(() =>
         itemsHooks.useItem(TestItem, 1)
@@ -26,7 +26,7 @@ describe('items selectors hooks', () => {
     })
   })
 
-  describe('selector useOptedItemId', () => {
+  describe('useOptedItemId', () => {
     it('should successfully execute', () => {
       const { getByText } = testSelectorHook(() =>
         itemsHooks.useOptedItemId(TestItem)
@@ -35,7 +35,7 @@ describe('items selectors hooks', () => {
     })
   })
 
-  describe('selector useOptedItem', () => {
+  describe('useOptedItem', () => {
     it('should successfully execute', () => {
       const { getByText } = testSelectorHook(() =>
         itemsHooks.useOptedItem(TestItem)
@@ -46,10 +46,54 @@ describe('items selectors hooks', () => {
 })
 
 describe('items dispatchers hooks', () => {
-  describe('dispatcher useSetItems', () => {
+  describe('useSetItems', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
         itemsHooks.useSetItems(TestItem, [])
+      )
+      fireEvent.click(getByTestId('testid'))
+      const el = await waitForElement(() => getByTestId('clicked'))
+      expect(el).toBeDefined()
+    })
+  })
+
+  describe('useSetItem', () => {
+    it('should successfully execute', async () => {
+      const { getByTestId } = testDispatcherHook(() =>
+        itemsHooks.useSetItem(TestItem, 1, [])
+      )
+      fireEvent.click(getByTestId('testid'))
+      const el = await waitForElement(() => getByTestId('clicked'))
+      expect(el).toBeDefined()
+    })
+  })
+
+  describe('useRemoveItem', () => {
+    it('should successfully execute', async () => {
+      const { getByTestId } = testDispatcherHook(() =>
+        itemsHooks.useRemoveItem(TestItem, 1)
+      )
+      fireEvent.click(getByTestId('testid'))
+      const el = await waitForElement(() => getByTestId('clicked'))
+      expect(el).toBeDefined()
+    })
+  })
+
+  describe('useOptItem', () => {
+    it('should successfully execute', async () => {
+      const { getByTestId } = testDispatcherHook(() =>
+        itemsHooks.useOptItem(TestItem, 1)
+      )
+      fireEvent.click(getByTestId('testid'))
+      const el = await waitForElement(() => getByTestId('clicked'))
+      expect(el).toBeDefined()
+    })
+  })
+
+  describe('useSelectItem', () => {
+    it('should successfully execute', async () => {
+      const { getByTestId } = testDispatcherHook(() =>
+        itemsHooks.useSelectItem(TestItem, 1, true)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
