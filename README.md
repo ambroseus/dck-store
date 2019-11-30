@@ -1,7 +1,8 @@
 # dck-store
 
 [![build](https://github.com/ambroseus/dck-store/workflows/build/badge.svg)](https://github.com/ambroseus/dck-store/actions?query=workflow%3Abuild)
-[![coverage](https://codecov.io/gh/ambroseus/dck-store/branch/master/graph/badge.svg)](https://codecov.io/gh/ambroseus/dck-store/branch/master)&nbsp;&nbsp;&nbsp;&nbsp;
+[![coverage](https://codecov.io/gh/ambroseus/dck-store/branch/master/graph/badge.svg)](https://codecov.io/gh/ambroseus/dck-store/branch/master)
+[![DeepScan grade](https://deepscan.io/api/teams/6331/projects/8291/branches/95993/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6331&pid=8291&bid=95993)&nbsp;&nbsp;&nbsp;&nbsp;
 [![publish](https://github.com/ambroseus/dck-store/workflows/publish/badge.svg)](https://github.com/ambroseus/dck-store/actions?query=workflow%3Apublish)
 [![npm latest](https://img.shields.io/npm/v/@ambroseus/dck-store/latest?label=npm&style=flat)](https://www.npmjs.com/package/@ambroseus/dck-store)
 [![npm downloads](https://img.shields.io/npm/dm/@ambroseus/dck-store.svg)](https://www.npmjs.com/package/@ambroseus/dck-store)
