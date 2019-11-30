@@ -219,10 +219,10 @@ export const stateForHooks = {
       testItem: {
         [Acts.Load]: {
           running: false,
-          error: false,
+          error: true,
           finished: true,
           response: {
-            message: 'done',
+            message: 'error',
           },
         },
         [Acts.Add]: {
@@ -231,24 +231,24 @@ export const stateForHooks = {
           finished: true,
         },
         [Acts.Update]: {
-          running: true,
-          error: false,
-          finished: false,
+          running: false,
+          error: true,
+          finished: true,
         },
         [Acts.Delete]: {
-          running: true,
-          error: false,
-          finished: false,
+          running: false,
+          error: true,
+          finished: true,
         },
         [Acts.Import]: {
-          running: true,
-          error: false,
-          finished: false,
+          running: false,
+          error: true,
+          finished: true,
         },
         [Acts.Export]: {
-          running: true,
-          error: false,
-          finished: false,
+          running: false,
+          error: true,
+          finished: true,
         },
       },
     },
