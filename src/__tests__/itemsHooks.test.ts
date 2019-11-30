@@ -26,21 +26,21 @@ describe('items selectors hooks', () => {
     })
   })
 
-  describe('selector useOptedItem', () => {
-    it('should successfully execute', () => {
-      const { getByText } = testSelectorHook(() =>
-        itemsHooks.useOptedItem(TestItem)
-      )
-      expect(getByText('{"id":"2","data":"data2"}')).toBeDefined()
-    })
-  })
-
   describe('selector useOptedItemId', () => {
     it('should successfully execute', () => {
       const { getByText } = testSelectorHook(() =>
         itemsHooks.useOptedItemId(TestItem)
       )
       expect(getByText('2')).toBeDefined()
+    })
+  })
+
+  describe('selector useOptedItem', () => {
+    it('should successfully execute', () => {
+      const { getByText } = testSelectorHook(() =>
+        itemsHooks.useOptedItem(TestItem)
+      )
+      expect(getByText('{"id":"2","data":"data2"}')).toBeDefined()
     })
   })
 })
