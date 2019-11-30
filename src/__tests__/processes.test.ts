@@ -99,7 +99,9 @@ describe('process helpers', () => {
 
     const state = sagaTester.getState()
     expect(state).toEqual(stateAfterAddSaga)
-    expect(dckSelectors.isProcessIdle(state, TestItem, Acts.Add)).toEqual(true)
+    expect(dckSelectors.isProcessFinished(state, TestItem, Acts.Add)).toEqual(
+      true
+    )
   })
 
   it('should successfully execute deleteItemSaga', async () => {

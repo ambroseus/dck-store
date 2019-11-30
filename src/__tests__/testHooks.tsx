@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 import { dckReducer } from '../dck/reducer'
-import { stateAfterLoadSaga as preloadedState } from './testData'
+import { stateForHooks as preloadedState } from './testData'
 
 const store = configureStore({
   reducer: combineReducers({
