@@ -11,7 +11,7 @@ import {
   getSelectedItems,
 } from './selectors'
 
-import { setItems, optItem } from './actions'
+import { setItems, setItem, removeItem, optItem, selectItem } from './actions'
 
 // selectors hooks
 
@@ -43,5 +43,20 @@ export const useSelectedItemsIds = (itemType: string): any[] =>
 export const useSetItems = (itemType: string, items: any[]): any =>
   dispatcher(useDispatch(), setItems(itemType, items))
 
+export const useSetItem = (
+  itemType: string,
+  id: string | number,
+  item: any
+): any => dispatcher(useDispatch(), setItem(itemType, id, item))
+
+export const useRemoveItem = (itemType: string, id: string | number): any =>
+  dispatcher(useDispatch(), removeItem(itemType, id))
+
 export const useOptItem = (itemType: string, id: string | number): any =>
   dispatcher(useDispatch(), optItem(itemType, id))
+
+export const useSelectItem = (
+  itemType: string,
+  id: string | number,
+  selected: boolean
+): any => dispatcher(useDispatch(), selectItem(itemType, id, selected))
