@@ -1,3 +1,5 @@
+import { Acts } from '../types'
+
 export const TestItem = 'testItem'
 
 export const testItems = [
@@ -23,9 +25,24 @@ export const stateAfterBatchSagas = {
     sorting: {},
     processes: {
       testItem: {
-        Import: { running: true, error: false },
-        Export: { running: false, error: false },
-        Update: { running: true, error: false },
+        Import: {
+          running: true,
+          error: false,
+          finished: false,
+          response: void 0,
+        },
+        Export: {
+          running: false,
+          error: false,
+          finished: false,
+          response: void 0,
+        },
+        Update: {
+          running: true,
+          error: false,
+          finished: false,
+          response: void 0,
+        },
       },
     },
   },
@@ -65,9 +82,10 @@ export const stateAfterLoadSaga = {
     sorting: {},
     processes: {
       testItem: {
-        Load: {
+        [Acts.Load]: {
           running: false,
           error: false,
+          finished: true,
           response: {
             message: 'done',
           },
@@ -97,10 +115,11 @@ export const stateAfterAddSaga = {
     sorting: {},
     processes: {
       testItem: {
-        Add: {
+        [Acts.Add]: {
           running: false,
           error: false,
-          response: {},
+          finished: true,
+          response: void 0,
         },
       },
     },
@@ -128,10 +147,11 @@ export const stateAfterDeleteSaga = {
     sorting: {},
     processes: {
       testItem: {
-        Delete: {
+        [Acts.Delete]: {
           running: false,
           error: false,
-          response: {},
+          finished: true,
+          response: void 0,
         },
       },
     },
@@ -153,9 +173,82 @@ export const stateAfterSelectSaga = {
         __select__: {
           running: false,
           error: true,
+          finished: true,
           response: {
             message: 'wrong item id: 1',
           },
+        },
+      },
+    },
+  },
+}
+
+export const stateForHooks = {
+  dck: {
+    items: {
+      testItem: {
+        items: [
+          {
+            id: '1',
+            data: 'data1',
+          },
+          {
+            id: '2',
+            data: 'data2',
+          },
+        ],
+        itemIndex: {
+          '1': 0,
+          '2': 1,
+        },
+        selectedItems: {},
+        optedItemId: 2,
+      },
+    },
+    itemProps: {
+      testItem: {
+        currentPage: 0,
+        pageSize: 10,
+        totalItems: 5,
+        totalPages: 1,
+      },
+    },
+    filters: {},
+    sorting: {},
+    processes: {
+      testItem: {
+        [Acts.Load]: {
+          running: false,
+          error: false,
+          finished: true,
+          response: {
+            message: 'done',
+          },
+        },
+        [Acts.Add]: {
+          running: false,
+          error: true,
+          finished: true,
+        },
+        [Acts.Update]: {
+          running: true,
+          error: false,
+          finished: false,
+        },
+        [Acts.Delete]: {
+          running: true,
+          error: false,
+          finished: false,
+        },
+        [Acts.Import]: {
+          running: true,
+          error: false,
+          finished: false,
+        },
+        [Acts.Export]: {
+          running: true,
+          error: false,
+          finished: false,
         },
       },
     },

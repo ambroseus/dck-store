@@ -10,6 +10,7 @@ export function processStart(itemType: string, process: TAct): IAction {
     payload: {
       running: true,
       error: false,
+      finished: false,
       response: void 0,
     },
   })
@@ -22,6 +23,7 @@ export function processReset(itemType: string, process: TAct): IAction {
     payload: {
       running: false,
       error: false,
+      finished: false,
       response: void 0,
     },
   })
@@ -38,7 +40,8 @@ export function processStop(
     payload: {
       running: false,
       error: false,
-      response: response || {},
+      finished: true,
+      response,
     },
   })
 }
@@ -54,7 +57,8 @@ export function processFail(
     payload: {
       running: false,
       error: true,
-      response: response || {},
+      finished: true,
+      response,
     },
   })
 }

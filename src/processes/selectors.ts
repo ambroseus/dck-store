@@ -34,19 +34,14 @@ export const isProcessRunning: getProcessStatus = createSelector(
   process => Boolean(process?.running)
 )
 
-export const isProcessIdle: getProcessStatus = createSelector(
-  isProcessRunning,
-  running => !running
-)
-
 export const isProcessFinished: getProcessStatus = createSelector(
-  [getProcess, isProcessIdle],
-  (process, idle) => idle && Boolean(process?.response)
+  getProcess,
+  process => Boolean(process?.finished)
 )
 
 export const isProcessSucceed: getProcessStatus = createSelector(
-  [getProcess, isProcessFinished],
-  (process, finished) => finished && !process?.error
+  [getProcess, isProcessRunning, isProcessFinished],
+  (process, running, finished) => finished && !running && !process?.error
 )
 
 export const isProcessFailed: getProcessStatus = createSelector(
