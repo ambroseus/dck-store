@@ -17,33 +17,33 @@ export interface IAction {
 
 export enum ActionTypes {
   // items
-  setItems = 'dck/items/setItems',
-  setItem = 'dck/items/setItem',
-  removeItem = 'dck/items/removeItem',
-  optItem = 'dck/items/optItem',
-  selectItem = 'dck/items/selectItem',
+  setItems = 'dck/setItems',
+  setItem = 'dck/setItem',
+  removeItem = 'dck/removeItem',
+  optItem = 'dck/optItem',
+  selectItem = 'dck/selectItem',
   // crud items
-  loadItems = 'dck/crud/loadItems',
-  addItem = 'dck/crud/addItem',
-  updateItem = 'dck/crud/updateItem',
-  deleteItem = 'dck/crud/deleteItem',
-  importItems = 'dck/crud/importItems',
-  exportItems = 'dck/crud/exportItems',
+  loadItems = 'dck/loadItems',
+  addItem = 'dck/addItem',
+  updateItem = 'dck/updateItem',
+  deleteItem = 'dck/deleteItem',
+  importItems = 'dck/importItems',
+  exportItems = 'dck/exportItems',
   // itemProps
-  setItemProp = 'dck/itemProps/setItemProp',
+  setItemProp = 'dck/setItemProp',
   // filters
-  setFilters = 'dck/filters/setFilters',
-  setFilter = 'dck/filters/setFilter',
-  removeFilter = 'dck/filters/removeFilter',
+  setFilters = 'dck/setFilters',
+  setFilter = 'dck/setFilter',
+  removeFilter = 'dck/removeFilter',
   // sorting
-  setSortFields = 'dck/sorting/setSortFields',
-  setSortField = 'dck/sorting/setSortField',
-  removeSortField = 'dck/sorting/removeSortField',
+  setSortFields = 'dck/setSortFields',
+  setSortField = 'dck/setSortField',
+  removeSortField = 'dck/removeSortField',
   // processes
-  processStart = 'dck/processes/processStart',
-  processStop = 'dck/processes/processStop',
-  processFail = 'dck/processes/processFail',
-  processReset = 'dck/processes/processRestart',
+  processStart = 'dck/processStart',
+  processStop = 'dck/processStop',
+  processFail = 'dck/processFail',
+  processReset = 'dck/processRestart',
 }
 
 export enum ItemProps {
@@ -60,7 +60,7 @@ export enum Acts {
   Delete = 'Delete',
   Import = 'Import',
   Export = 'Export',
-  Active = 'Active',
+  Opt = 'Opt',
   Select = 'Select',
 }
 

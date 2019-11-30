@@ -33,10 +33,10 @@ describe('process helpers', () => {
       reducers,
     })
     expect(
-      dckSelectors.isProcessRunning(initialState, TestItem, Acts.Active)
+      dckSelectors.isProcessRunning(initialState, TestItem, Acts.Opt)
     ).toEqual(false)
     expect(
-      dckSelectors.isProcessFinished(initialState, TestItem, Acts.Active)
+      dckSelectors.isProcessFinished(initialState, TestItem, Acts.Opt)
     ).toEqual(false)
 
     sagaTester.start(testSaga)
