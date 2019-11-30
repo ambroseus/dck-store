@@ -12,7 +12,9 @@
     "crud",
     "toolkit",
     "ducks-pattern",
-    "dck"
+    "dck",
+    "react-redux",
+    "react-hooks-redux"
   ],
   "publishConfig": {
     "access": "public"
