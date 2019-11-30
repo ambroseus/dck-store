@@ -24,9 +24,9 @@ const getProcessState: getProcessState = createSelector(
   processState => processState
 )
 
-const getProcess: getProcess = createSelector(
+export const getProcess: getProcess = createSelector(
   [getProcessState, get3rdParam],
-  (processState, process) => processState[process]
+  (processState, act) => processState[act]
 )
 
 export const isProcessRunning: getProcessStatus = createSelector(
