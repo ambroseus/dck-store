@@ -30,7 +30,7 @@ inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisionco
 
 [codesandbox](https://codesandbox.io/s/test-dck-store-fr3ym)
 
-#### component
+#### components
 
 ```tsx
 import React from 'react'
@@ -42,14 +42,12 @@ import {
   useSetItems,
 } from '@ambroseus/dck-store'
 
-import { TestItem } from '../items'
-
-export const Items: React.FC = () => {
-  const items: any[] = useItems(TestItem)
-  const loading = useLoading(TestItem)
-  const load = useLoadItems(TestItem)
-  const setItems = useSetItems(TestItem)
-  const optedItem = useOptedItem(TestItem)
+const Items: React.FC<{ itemType: string }> = ({ itemType }) => {
+  const items: any[] = useItems(itemType)
+  const loading = useLoading(itemType)
+  const load = useLoadItems(itemType)
+  const setItems = useSetItems(itemType)
+  const optedItem = useOptedItem(itemType)
 
   return (
     <>
@@ -57,26 +55,41 @@ export const Items: React.FC = () => {
         {loading ? 'loading...' : 'load items'}
       </button>{' '}
       <button onClick={() => setItems([])}>clear items</button>
+      <div></div>
       <pre>items: {JSON.stringify(items, null, 2)}</pre>
       <pre>opted item: {JSON.stringify(optedItem, null, 2)}</pre>
     </>
   )
 }
+
+...
+
+import React from 'react'
+import { Provider } from 'react-redux'
+import { store } from './store'
+import { Items } from './components/Items'
+import { TestItem } from './items'
+
+export const App: React.FC = () => (
+  <Provider store={store}>
+    <Items itemType={TestItem} />
+  </Provider>
+)
 ```
 
-#### saga
+#### sagas
 
 ```ts
 import { all, takeLatest } from 'redux-saga/effects'
 import { Process, isAction } from '@ambroseus/dck-store'
-import { testLoadFetcher } from '../fetchers'
-import { TestItem } from '../items'
+import { testLoadFetcher } from './fetchers'
+import { TestItem } from './items'
 
 export function* rootSaga() {
-  yield all([takeLatest(isAction.Load(TestItem), loadItemsSaga)])
+  yield all([takeLatest(isAction.Load(TestItem), loadTestItemsSaga)])
 }
 
-function* loadItemsSaga(action: any) {
+function* loadTestItemsSaga(action: any) {
   const proc = new Process.Load(TestItem)
   yield proc.start()
   try {
