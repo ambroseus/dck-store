@@ -1,4 +1,3 @@
-export { TProcess } from './helpers/processes'
 export type TFetcher = (request: any) => any
 
 export interface IState {

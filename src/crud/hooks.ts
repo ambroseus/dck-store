@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { dispatcher } from '../helpers/hooks'
 
@@ -13,32 +12,26 @@ import {
 
 // dispatchers hooks
 
-export const useLoadItems = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, loadItems, itemType), [dispatch])
-}
+type TLoadItems = (options?: any) => any
+export const useLoadItems = (itemType: string): TLoadItems =>
+  dispatcher(useDispatch(), loadItems, itemType)
 
-export const useAddItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, addItem, itemType), [dispatch])
-}
+type TAddItem = (options?: any) => any
+export const useAddItem = (itemType: string): TAddItem =>
+  dispatcher(useDispatch(), addItem, itemType)
 
-export const useUpdateItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, updateItem, itemType), [dispatch])
-}
+type TUpdateItem = (options?: any) => any
+export const useUpdateItem = (itemType: string): TUpdateItem =>
+  dispatcher(useDispatch(), updateItem, itemType)
 
-export const useDeleteItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, deleteItem, itemType), [dispatch])
-}
+type TDeleteItem = (options?: any) => any
+export const useDeleteItem = (itemType: string): TDeleteItem =>
+  dispatcher(useDispatch(), deleteItem, itemType)
 
-export const useImportItems = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, importItems, itemType), [dispatch])
-}
+type TImportItems = (options?: any) => any
+export const useImportItems = (itemType: string): TImportItems =>
+  dispatcher(useDispatch(), importItems, itemType)
 
-export const useExportItems = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, exportItems, itemType), [dispatch])
-}
+type TExportItems = (options?: any) => any
+export const useExportItems = (itemType: string): TExportItems =>
+  dispatcher(useDispatch(), exportItems, itemType)

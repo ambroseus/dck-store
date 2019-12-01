@@ -1,5 +1,4 @@
 import { useSelector, useDispatch, shallowEqual as shallow } from 'react-redux'
-import { useCallback } from 'react'
 import { select, dispatcher } from '../helpers/hooks'
 
 import {
@@ -25,7 +24,7 @@ export const useItem = (itemType: string, id: string | number): any[] =>
 export const useOptedItem = (itemType: string): any =>
   useSelector(select(getOptedItem, itemType), shallow)
 
-export const useOptedItemId = (itemType: string): any =>
+export const useOptedItemId = (itemType: string): string | number =>
   useSelector(select(getOptedItemId, itemType), shallow)
 
 export const useItemSelected = (
@@ -41,27 +40,22 @@ export const useSelectedItemsIds = (itemType: string): any[] =>
 
 // dispatchers hooks
 
-export const useSetItems = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, setItems, itemType), [dispatch])
-}
+type TSetItems = (items: any[]) => any
+export const useSetItems = (itemType: string): TSetItems =>
+  dispatcher(useDispatch(), setItems, itemType)
 
-export const useSetItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, setItem, itemType), [dispatch])
-}
+type TSetItem = (id: string | number, item: any) => any
+export const useSetItem = (itemType: string): TSetItem =>
+  dispatcher(useDispatch(), setItem, itemType)
 
-export const useRemoveItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, removeItem, itemType), [dispatch])
-}
+type TRemoveItem = (id: string | number) => any
+export const useRemoveItem = (itemType: string): TRemoveItem =>
+  dispatcher(useDispatch(), removeItem, itemType)
 
-export const useOptItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, optItem, itemType), [dispatch])
-}
+type TOptItem = (id: string | number | undefined) => any
+export const useOptItem = (itemType: string): TOptItem =>
+  dispatcher(useDispatch(), optItem, itemType)
 
-export const useSelectItem = (itemType: string): any => {
-  const dispatch = useDispatch()
-  return useCallback(dispatcher(dispatch, selectItem, itemType), [dispatch])
-}
+type TSelectItem = (id: string | number, selected: boolean) => any
+export const useSelectItem = (itemType: string): TSelectItem =>
+  dispatcher(useDispatch(), selectItem, itemType)
