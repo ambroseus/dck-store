@@ -14,23 +14,23 @@ Redux-based framework to get rid of CRUD-related boilerplate
 
 inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisioncompany.github.io/dck/)
 
-## toolset
+### toolset
 
 - TypeScript 3.7 [(with optional chaining & nullish coalescing)](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html)
 - [`redux`](https://redux.js.org) [`redux-toolkit`](https://redux-toolkit.js.org) [`react-redux hooks`](https://react-redux.js.org/next/api/hooks) [`immer`](https://immerjs.github.io/immer) [`redux-saga`](https://redux-saga.js.org) [`redux-saga-tester`](https://github.com/wix/redux-saga-tester) [`tsdx`](https://github.com/jaredpalmer/tsdx)
 - CI: [github actions](https://github.com/features/actions)
 
-## complementary projects
+### complementary projects
 
 [`dck-ui`](https://github.com/ambroseus/dck-ui) [`dck-test-app`](https://github.com/ambroseus/dck-test-app)
 
-## usage example
+### usage example
 
-### demo
+#### demo
 
 [codesandbox](https://codesandbox.io/s/test-dck-store-fr3ym)
 
-### component
+#### component
 
 ```tsx
 import React from 'react'
@@ -64,7 +64,7 @@ export const Items: React.FC = () => {
 }
 ```
 
-### saga
+#### saga
 
 ```ts
 import { all, takeLatest } from 'redux-saga/effects'
@@ -90,7 +90,7 @@ function* loadItemsSaga(action: any) {
 }
 ```
 
-### store
+#### store
 
 ```ts
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
