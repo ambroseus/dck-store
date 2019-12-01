@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { getDckState, get3rdParam } from '../helpers/selectors'
-import { IState } from '../types'
+import { IState, IProcess } from '../types'
 
 type getProcessStatus = (
   state: IState,
@@ -14,7 +14,7 @@ type getProcessResponse = (
   process: string
 ) => any
 
-type getProcess = (state: IState, itemType: string, process: string) => any
+type getProcess = (state: IState, itemType: string, process: string) => IProcess
 type getProcessState = (state: IState, itemType: string) => any
 
 const _getProcessState = getDckState('processes')
@@ -31,17 +31,18 @@ export const getProcess: getProcess = createSelector(
 
 export const isProcessRunning: getProcessStatus = createSelector(
   getProcess,
-  process => Boolean(process?.running)
+  (process: IProcess) => Boolean(process?.running)
 )
 
 export const isProcessFinished: getProcessStatus = createSelector(
   getProcess,
-  process => Boolean(process?.finished)
+  (process: IProcess) => Boolean(process?.finished)
 )
 
 export const isProcessSucceed: getProcessStatus = createSelector(
   [getProcess, isProcessRunning, isProcessFinished],
-  (process, running, finished) => finished && !running && !process?.error
+  (process: IProcess, running, finished) =>
+    finished && !running && !process?.error
 )
 
 export const isProcessFailed: getProcessStatus = createSelector(
@@ -51,5 +52,5 @@ export const isProcessFailed: getProcessStatus = createSelector(
 
 export const getProcessResponse: getProcessResponse = createSelector(
   getProcess,
-  process => process?.response
+  (process: IProcess) => process?.response
 )
