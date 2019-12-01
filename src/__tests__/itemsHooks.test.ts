@@ -5,6 +5,8 @@ import { TestItem } from './testData'
 
 afterEach(cleanup)
 
+// selectors hooks
+
 describe('items selectors hooks', () => {
   describe('useItems', () => {
     it('should successfully execute', () => {
@@ -45,11 +47,13 @@ describe('items selectors hooks', () => {
   })
 })
 
+// dispatchers hooks
+
 describe('items dispatchers hooks', () => {
   describe('useSetItems', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        itemsHooks.useSetItems(TestItem, [])
+        itemsHooks.useSetItems(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
@@ -60,7 +64,7 @@ describe('items dispatchers hooks', () => {
   describe('useSetItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        itemsHooks.useSetItem(TestItem, 1, [])
+        itemsHooks.useSetItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
@@ -71,7 +75,7 @@ describe('items dispatchers hooks', () => {
   describe('useRemoveItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        itemsHooks.useRemoveItem(TestItem, 1)
+        itemsHooks.useRemoveItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
@@ -82,7 +86,7 @@ describe('items dispatchers hooks', () => {
   describe('useOptItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        itemsHooks.useOptItem(TestItem, 1)
+        itemsHooks.useOptItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
@@ -93,7 +97,7 @@ describe('items dispatchers hooks', () => {
   describe('useSelectItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        itemsHooks.useSelectItem(TestItem, 1, true)
+        itemsHooks.useSelectItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))

@@ -11,6 +11,7 @@ export interface IAction {
     itemType: string
     id: string | number
     field: string
+    options?: any
   }
   payload: any
 }

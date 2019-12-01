@@ -3,8 +3,8 @@ import { IAction, ActionTypes, Acts } from '../types'
 
 export const composeAction = (actionType: string): any => {
   return createAction(actionType, params => {
-    const { itemType, id, field, payload } = params
-    return { meta: { itemType, id, field }, payload }
+    const { itemType, id, field, options, payload } = params
+    return { meta: { itemType, id, field, options }, payload }
   })
 }
 
