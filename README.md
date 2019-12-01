@@ -42,7 +42,10 @@ import {
   useSetItems,
 } from '@ambroseus/dck-store'
 
-const Items: React.FC<{ itemType: string }> = ({ itemType }) => {
+export const Items: React.FC<{ itemType: string; optedItemId?: number }> = ({
+  itemType,
+  optedItemId,
+}) => {
   const items: any[] = useItems(itemType)
   const loading = useLoading(itemType)
   const load = useLoadItems(itemType)
@@ -51,11 +54,11 @@ const Items: React.FC<{ itemType: string }> = ({ itemType }) => {
 
   return (
     <>
-      <button onClick={() => load({ optedItemId: 3 })} disabled={loading}>
+      <button onClick={() => load({ optedItemId })} disabled={loading}>
         {loading ? 'loading...' : 'load items'}
       </button>{' '}
       <button onClick={() => setItems([])}>clear items</button>
-      <div></div>
+      <div />
       <pre>items: {JSON.stringify(items, null, 2)}</pre>
       <pre>opted item: {JSON.stringify(optedItem, null, 2)}</pre>
     </>
@@ -72,7 +75,7 @@ import { TestItem } from './items'
 
 export const App: React.FC = () => (
   <Provider store={store}>
-    <Items itemType={TestItem} />
+    <Items itemType={TestItem} optedItemId={3} />
   </Provider>
 )
 ```
