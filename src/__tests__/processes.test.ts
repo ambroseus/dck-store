@@ -59,7 +59,7 @@ describe('process helpers', () => {
     sagaTester.start(testSaga)
     expect(sagaTester.getState()).toEqual(initialState)
 
-    sagaTester.dispatch(dckActions.loadItems(TestItem))
+    sagaTester.dispatch(dckActions.loadItems(TestItem, { optedItemId: 2 }))
     await sagaTester.waitFor(ActionTypes.processStop)
     const state = sagaTester.getState()
     expect(state).toEqual(stateAfterLoadSaga)

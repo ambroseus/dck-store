@@ -20,7 +20,7 @@ describe('crud dispatchers hooks', () => {
   describe('useAddItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        crudHooks.useAddItem(TestItem, {})
+        crudHooks.useAddItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
@@ -31,7 +31,7 @@ describe('crud dispatchers hooks', () => {
   describe('useUpdateItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        crudHooks.useUpdateItem(TestItem, 1, {})
+        crudHooks.useUpdateItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))
@@ -42,7 +42,7 @@ describe('crud dispatchers hooks', () => {
   describe('useDeleteItem', () => {
     it('should successfully execute', async () => {
       const { getByTestId } = testDispatcherHook(() =>
-        crudHooks.useDeleteItem(TestItem, 1)
+        crudHooks.useDeleteItem(TestItem)
       )
       fireEvent.click(getByTestId('testid'))
       const el = await waitForElement(() => getByTestId('clicked'))

@@ -23,7 +23,7 @@ export function* testSaga() {
   ])
 }
 
-function* loadItemsSaga() {
+function* loadItemsSaga(action: IAction) {
   const proc = new Process.Load(TestItem, {
     fetcher: testLoadFetcher,
     pageble: true,
@@ -34,7 +34,7 @@ function* loadItemsSaga() {
 
   yield proc.fetch()
   yield proc.setItems(proc.data)
-  yield proc.optItem(2)
+  yield proc.optItem(action.meta.options.optedItemId)
 
   yield proc.stop({ message: 'done' })
 }
