@@ -15,6 +15,13 @@ export interface IAction {
   payload: any
 }
 
+export interface IProcess {
+  running: boolean
+  error: boolean
+  finished: boolean
+  response?: any
+}
+
 export enum ActionTypes {
   // items
   setItems = 'dck/setItems',
