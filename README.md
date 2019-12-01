@@ -106,19 +106,16 @@ function* loadTestItemsSaga(action: any) {
 #### store
 
 ```ts
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-import { combineReducers } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import { dckReducer } from '@ambroseus/dck-store'
 import { rootSaga } from './rootSaga'
 
 const sagaMiddleware = createSagaMiddleware()
-const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware]
-const reducer = combineReducers({ dck: dckReducer })
 
 export const store = configureStore({
-  reducer,
-  middleware,
+  reducer: { dck: dckReducer },
+  middleware: [sagaMiddleware],
   preloadedState: {},
 })
 
