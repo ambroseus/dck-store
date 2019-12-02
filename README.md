@@ -17,8 +17,9 @@ inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisionco
 ### toolset
 
 - TypeScript 3.7 [(with optional chaining & nullish coalescing)](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html)
-- [`redux`](https://redux.js.org) [`redux-toolkit`](https://redux-toolkit.js.org) [`react-redux hooks`](https://react-redux.js.org/next/api/hooks) [`immer`](https://immerjs.github.io/immer) [`redux-saga`](https://redux-saga.js.org) [`redux-saga-tester`](https://github.com/wix/redux-saga-tester) [`tsdx`](https://github.com/jaredpalmer/tsdx)
-- CI: [github actions](https://github.com/features/actions)
+- [`redux`](https://redux.js.org) [`redux-toolkit`](https://redux-toolkit.js.org) [`react-redux hooks`](https://react-redux.js.org/next/api/hooks) [`immer`](https://immerjs.github.io/immer) [`redux-saga`](https://redux-saga.js.org) [`redux-saga-tester`](https://github.com/wix/redux-saga-tester) [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro)
+- Zero-config CLI for TypeScript package development [`tsdx`](https://github.com/jaredpalmer/tsdx)
+- CI [github actions](https://github.com/features/actions)
 
 ### complementary projects
 
