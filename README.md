@@ -14,6 +14,10 @@ Redux-based framework to get rid of CRUD-related boilerplate
 
 inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisioncompany.github.io/dck/)
 
+### complementary projects
+
+[dashboard](https://github.com/users/ambroseus/projects/1) [`dck-ui`](https://github.com/ambroseus/dck-ui) [`dck-test-app`](https://github.com/ambroseus/dck-test-app)
+
 ### toolset
 
 - TypeScript 3.7 [(with optional chaining & nullish coalescing)](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html)
@@ -21,10 +25,6 @@ inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisionco
 - Testing tools [`jest`](https://jestjs.io) [`redux-saga-tester`](https://github.com/wix/redux-saga-tester) [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro)
 - Zero-config CLI for TypeScript package development [`tsdx`](https://github.com/jaredpalmer/tsdx)
 - CI [github actions](https://github.com/features/actions)
-
-### complementary projects
-
-[dashboard](https://github.com/users/ambroseus/projects/1) [`dck-ui`](https://github.com/ambroseus/dck-ui) [`dck-test-app`](https://github.com/ambroseus/dck-test-app)
 
 ### usage example
 
