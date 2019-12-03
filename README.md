@@ -16,7 +16,7 @@ inspired by [DCK (**D**ashboard **C**onstruction **K**it)](https://agilevisionco
 
 ## complementary projects
 
-[dashboard](https://github.com/users/ambroseus/projects/1) [`dck-ui`](https://github.com/ambroseus/dck-ui) [`dck-test-app`](https://github.com/ambroseus/dck-test-app)
+[[board]](https://github.com/users/ambroseus/projects/1) [`dck-ui`](https://github.com/ambroseus/dck-ui) [`dck-test-app`](https://github.com/ambroseus/dck-test-app)
 
 ## toolset
 
