@@ -1,4 +1,4 @@
-import { useSelector, shallowEqual as shallow } from 'react-redux'
+import { useSelector, shallowEqual } from 'react-redux'
 import { select } from '../helpers/hooks'
 import { TAct, Acts, IProcess } from '../types'
 
@@ -12,43 +12,43 @@ import {
 // selectors hooks
 
 export const useProcess = (itemType: string, act: TAct): IProcess =>
-  useSelector(select(getProcess, itemType, act), shallow)
+  useSelector(select(getProcess, itemType, act), shallowEqual)
 
 export const useResponse = (itemType: string, act: TAct): any =>
-  useSelector(select(getProcessResponse, itemType, act), shallow)
+  useSelector(select(getProcessResponse, itemType, act), shallowEqual)
 
 export const useLoading = (itemType: string): boolean =>
-  useSelector(select(isProcessRunning, itemType, Acts.Load), shallow)
+  useSelector(select(isProcessRunning, itemType, Acts.Load))
 
 export const useAdding = (itemType: string): boolean =>
-  useSelector(select(isProcessRunning, itemType, Acts.Add), shallow)
+  useSelector(select(isProcessRunning, itemType, Acts.Add))
 
 export const useUpdating = (itemType: string): boolean =>
-  useSelector(select(isProcessRunning, itemType, Acts.Update), shallow)
+  useSelector(select(isProcessRunning, itemType, Acts.Update))
 
 export const useDeleting = (itemType: string): boolean =>
-  useSelector(select(isProcessRunning, itemType, Acts.Delete), shallow)
+  useSelector(select(isProcessRunning, itemType, Acts.Delete))
 
 export const useImporting = (itemType: string): boolean =>
-  useSelector(select(isProcessRunning, itemType, Acts.Import), shallow)
+  useSelector(select(isProcessRunning, itemType, Acts.Import))
 
 export const useExporting = (itemType: string): boolean =>
-  useSelector(select(isProcessRunning, itemType, Acts.Export), shallow)
+  useSelector(select(isProcessRunning, itemType, Acts.Export))
 
 export const useLoadFailed = (itemType: string): boolean =>
-  useSelector(select(isProcessFailed, itemType, Acts.Load), shallow)
+  useSelector(select(isProcessFailed, itemType, Acts.Load))
 
 export const useAddFailed = (itemType: string): boolean =>
-  useSelector(select(isProcessFailed, itemType, Acts.Add), shallow)
+  useSelector(select(isProcessFailed, itemType, Acts.Add))
 
 export const useUpdateFailed = (itemType: string): boolean =>
-  useSelector(select(isProcessFailed, itemType, Acts.Update), shallow)
+  useSelector(select(isProcessFailed, itemType, Acts.Update))
 
 export const useDeleteFailed = (itemType: string): boolean =>
-  useSelector(select(isProcessFailed, itemType, Acts.Delete), shallow)
+  useSelector(select(isProcessFailed, itemType, Acts.Delete))
 
 export const useImportFailed = (itemType: string): boolean =>
-  useSelector(select(isProcessFailed, itemType, Acts.Import), shallow)
+  useSelector(select(isProcessFailed, itemType, Acts.Import))
 
 export const useExportFailed = (itemType: string): boolean =>
-  useSelector(select(isProcessFailed, itemType, Acts.Export), shallow)
+  useSelector(select(isProcessFailed, itemType, Acts.Export))
