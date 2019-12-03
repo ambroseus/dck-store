@@ -1,4 +1,4 @@
-import { useSelector, useDispatch, shallowEqual as shallow } from 'react-redux'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { select, dispatcher } from '../helpers/hooks'
 
 import {
@@ -16,27 +16,27 @@ import { setItems, setItem, removeItem, optItem, selectItem } from './actions'
 // selectors hooks
 
 export const useItems = (itemType: string): any[] =>
-  useSelector(select(getItems, itemType), shallow)
+  useSelector(select(getItems, itemType))
 
 export const useItem = (itemType: string, id: string | number): any[] =>
-  useSelector(select(getItem, itemType, id), shallow)
+  useSelector(select(getItem, itemType, id), shallowEqual)
 
 export const useOptedItem = (itemType: string): any =>
-  useSelector(select(getOptedItem, itemType), shallow)
+  useSelector(select(getOptedItem, itemType), shallowEqual)
 
 export const useOptedItemId = (itemType: string): string | number =>
-  useSelector(select(getOptedItemId, itemType), shallow)
+  useSelector(select(getOptedItemId, itemType))
 
 export const useItemSelected = (
   itemType: string,
   id: string | number
-): boolean => useSelector(select(isItemSelected, itemType, id), shallow)
+): boolean => useSelector(select(isItemSelected, itemType, id))
 
 export const useSelectedItems = (itemType: string): any[] =>
-  useSelector(select(getSelectedItems, itemType), shallow)
+  useSelector(select(getSelectedItems, itemType))
 
 export const useSelectedItemsIds = (itemType: string): any[] =>
-  useSelector(select(getSelectedItemIds, itemType), shallow)
+  useSelector(select(getSelectedItemIds, itemType))
 
 // dispatchers hooks
 
